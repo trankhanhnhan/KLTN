@@ -1,0 +1,114 @@
+.fa-home--active {
+	list-style: none;
+  padding-left: 0;
+  height: 100%;
+	width: 100%;
+	line-height: 50px;
+	text-align: center;
+	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+	inset -4px -4px 6px -1px rgba(255,255,255,1),
+	-0.5px -0.5px 0 rgba(255,255,255,1),
+	1px 1px 0 rgba(0,0,0,0.05),
+	0px 12px 10px -10px rgba(0,0,0,0.05);
+	border: 1px solid rgba(0,0,0,0.01);
+	border-radius: 10px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+*{
+  font-family: 'Orbitron', sans-serif;
+  transition: all 0.4s ease;
+}
+
+section{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #ebf3f7;
+	padding: 0 20px;
+	margin-top: 90px;
+}
+			
+.body__clock{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  max-width: 560px;
+  width: 100%;
+  background: #ebf3fa;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.time{
+  display: flex;
+  align-items: center;
+}
+.time-colon{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.time-text{
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0,0,0,1);
+  box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+			  inset -4px -4px 6px -1px rgba(255,255,255,1),
+			  -0.5px -0.5px 0 rgba(255,255,255,1),
+			  1px 1px 0 rgba(0,0,0,0.05),
+			  0px 12px 10px -10px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.01);
+  border-radius: 10px;
+}
+
+.time-text,
+.colon{
+	font-size: 35px;
+	font-weight: 600;
+	margin-top: 30px;
+}
+
+.colon{
+	font-size: 40px;
+	margin: 0 10px;
+}
+
+.text{
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 2px;
+	margin-top: 10px;
+}
+
+.am_pm{
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: 0;
+  right: -50px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  align-items: center;
+  background: #e3edf7;
+  color: rgba(0,0,0,1);
+  box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+			  inset -4px -4px 6px -1px rgba(255,255,255,1),
+			  -0.5px -0.5px 0 rgba(255,255,255,1),
+			  1px 1px 0 rgba(0,0,0,0.05),
+			  0px 12px 10px -10px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.01);
+  border-radius: 10px;
+  padding-top: 12px;
+  padding-left: 4px;
+}
