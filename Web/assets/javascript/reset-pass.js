@@ -104,7 +104,7 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
         return;
     }
 
-    // Kiểm tra xem email có tồn tại trong hệ thống hay không
+     // Kiểm tra xem email có tồn tại trong hệ thống hay không
     firebase.auth().fetchSignInMethodsForEmail(email)
         .then((signInMethods) => {
             if (signInMethods.length === 0) {
@@ -116,6 +116,8 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
                 if (user) {
                     user.updatePassword(password).then(() => {
                         showSuccessToast();
+                        sessionStorage.setItem('resetPasswordEmail', email);
+                        sessionStorage.setItem('resetPasswordPassword', password);
                         setTimeout(() => {
                             window.location.href = './login.html'; // Chuyển hướng sau khi đổi mật khẩu thành công
                         }, 3000); // Đợi 3 giây trước khi chuyển hướng
@@ -128,15 +130,6 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
                         .then(() => {
                             const user = firebase.auth().currentUser;
                             return user.updatePassword(password);
-                        })
-                        .then(() => {
-                            showSuccessToast();
-                            // Lưu email và mật khẩu vào sessionStorage
-                        sessionStorage.setItem('resetPasswordEmail', email);
-                        sessionStorage.setItem('resetPasswordPassword', password);
-                        setTimeout(() => {
-                            window.location.href = './login.html'; // Chuyển hướng sau khi đổi mật khẩu thành công
-                        }, 3000); // Đợi 3 giây trước khi chuyển hướng
                         })
                         .catch((error) => {
                             console.error("Lỗi đăng nhập và cập nhật mật khẩu mới:", error);
