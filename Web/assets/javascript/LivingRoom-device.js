@@ -31,53 +31,68 @@ const firebaseConfig = {
       console.log("khí gas: " + gas);
     });
     
-    // Kết nối với Firebase Realtime Database và theo dõi trạng thái của light
-    firebase.database().ref("/LivingRoom").on("value", function(snapshot) {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          var lightStatus = snapshot.val().light;
-          var lightInput = document.getElementById("light");
-          if (lightInput) {
-            lightInput.checked = (lightStatus === "OFF") ? false : true;
-          }
-        } else {
-          console.log("No data available!");
-        }
-      });
-      
-      // Điều khiển trạng thái của light từ trang web
-      var lightInput = document.getElementById('light');
-      if (lightInput) {
-        lightInput.addEventListener('change', function() {
-          var lightState = this.checked ? "ON" : "OFF";
-          firebase.database().ref("/LivingRoom").update({
-            "light": lightState
-          });
-        });
-      }
-      
-  
-  // Kết nối với Firebase Realtime Database và theo dõi trạng thái của fan
-  firebase.database().ref("/LivingRoom").on("value", function(snapshot) {
-    if (snapshot.exists()) {
+// Kết nối với Firebase Realtime Database và theo dõi trạng thái của light
+firebase.database().ref("/LivingRoom/light").on("value", function(snapshot) {
+  if (snapshot.exists()) {
       console.log(snapshot.val());
-      var fanStatus = snapshot.val().fan;
-      var fanInput = document.getElementById("fan");
-      if (fanInput) {
-        fanInput.checked = (fanStatus === "OFF") ? false : true;
+      var lightStatus = snapshot.val();
+      var lightInput = document.getElementById("light");
+      var textLight = document.getElementById("textlight");
+
+      if (lightInput && textLight) {
+          lightInput.checked = (lightStatus === "ON");
+          textLight.textContent = lightStatus;
       }
-    } else {
-      console.log("No data available!");
-    }
+  } else {
+      console.log("No data available for light!");
+  }
+});
+
+// Điều khiển trạng thái của light từ trang web
+var lightInput = document.getElementById('light');
+if (lightInput) {
+  lightInput.addEventListener('change', function() {
+      var lightState = this.checked ? "ON" : "OFF";
+      firebase.database().ref("/LivingRoom").update({
+          "light": lightState
+      });
+      // Cập nhật chữ ON, OFF ngay lập tức khi người dùng thay đổi trạng thái
+      var textLight = document.getElementById("textlight");
+      if (textLight) {
+          textLight.textContent = lightState;
+      }
   });
-  
-  // Điều khiển trạng thái của fan từ trang web
-  var fanInput = document.getElementById('fan');
-  if (fanInput) {
-    fanInput.addEventListener('change', function() {
+}
+
+// Kết nối với Firebase Realtime Database và theo dõi trạng thái của fan
+firebase.database().ref("/LivingRoom/fan").on("value", function(snapshot) {
+  if (snapshot.exists()) {
+      console.log(snapshot.val());
+      var fanStatus = snapshot.val();
+      var fanInput = document.getElementById("fan");
+      var textFan = document.getElementById("textfan");
+
+      if (fanInput && textFan) {
+          fanInput.checked = (fanStatus === "ON");
+          textFan.textContent = fanStatus;
+      }
+  } else {
+      console.log("No data available for fan!");
+  }
+});
+
+// Điều khiển trạng thái của fan từ trang web
+var fanInput = document.getElementById('fan');
+if (fanInput) {
+  fanInput.addEventListener('change', function() {
       var fanState = this.checked ? "ON" : "OFF";
       firebase.database().ref("/LivingRoom").update({
-        "fan": fanState
+          "fan": fanState
       });
-    });
-  }             
+      // Cập nhật chữ ON, OFF ngay lập tức khi người dùng thay đổi trạng thái
+      var textFan = document.getElementById("textfan");
+      if (textFan) {
+          textFan.textContent = fanState;
+      }
+  });
+}
