@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/Home.css">
+    <link rel="stylesheet" href="./assets/css/General.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.5.2-web/css/all.css">
+    <title>KLTN</title>
+</head>
+<body>
+    <header class="header">
+        <div class="grid"> 
+            <div class="header__navbar">
+                <div class="header__navbar-list">
+                    <li class="fa-home--active">
+                        <a href="./Home.html" class="header__navbar-btn">
+                            <i class="fa fa-home"></i>
+                        </a>              
+                    </li>
+                </div>              
+                <div class="header__navbar-title">Smart Home</div>
+                <div class="header__navbar-list">
+                  <div class="log-out">
+                    <a href="javascript:void(0);" class="header__navbar-btn" id="menu-icon">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="./login.html">Log out</a>
+                        <a href="#">Option 2</a>
+                        <a href="#">Option 3</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="header__btn">
+                <nav class="room">
+                    <ul class="room__list">
+                        <li class="room-item">
+                            <a href="./LivingRoom-device.html" class="room-item__link">Living Room</a>
+                        </li>
+                        <li class="room-item">
+                            <a href="./Garden-device.html" class="room-item__link">Garden</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section>
+        <div class="body__clock">
+          <div class="time">
+            <div class="time-colon">
+              <div class="time-text">
+                <span class="num hour_num">08</span>
+                <span class="text">Hours</span>
+              </div>
+              <span class="colon">:</span>
+            </div>
+            <div class="time-colon">
+              <div class="time-text">
+                <span class="num min_num">45</span>
+                <span class="text">Minutes</span>
+              </div>
+              <span class="colon">:</span>
+            </div>
+            <div class="time-colon">
+              <div class="time-text">
+                <span class="num sec_num">06</span>
+                <span class="text">Seconds</span>
+              </div>
+              <span class="am_pm">AM</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        document.getElementById('menu-icon').addEventListener('click', function() {
+    var dropdownMenu = document.getElementById('dropdown-menu');
+    if (dropdownMenu.style.display === 'block') {
+        dropdownMenu.style.display = 'none';
+    } else {
+        dropdownMenu.style.display = 'block';
+    }
+});
+
+    </script>
+
+      <script>
+
+      // creating a function and calling it in every seconds
+      setInterval(()=>{
+        let date = new Date(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+        let d;
+        d = hour < 12 ? "AM" : "PM"; //if hour is smaller than 12, than its value will be AM else its value will be pm
+        hour = hour > 12 ? hour - 12 : hour; //if hour value is greater than 12 than 12 will subtracted ( by doing this we will get value till 12 not 13,14 or 24 )
+        hour = hour == 0 ? hour = 12 : hour; // if hour value is  0 than it value will be 12
+        // adding 0 to the front of all the value if they will less than 10
+        hour = hour < 10 ? "0" + hour : hour;
+        min = min < 10 ? "0" + min : min;
+        sec = sec < 10 ? "0" + sec : sec;
+        document.querySelector(".hour_num").innerText = hour;
+        document.querySelector(".min_num").innerText = min;
+        document.querySelector(".sec_num").innerText = sec;
+        document.querySelector(".am_pm").innerText = d;
+      }, 1000); // 1000 milliseconds = 1s
+      </script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <script src="./assets/javascript/General.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/General.css">
+    <link rel="stylesheet" href="./assets/css/Garden-device.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.5.2-web/css/all.css">
+    <title>Garden</title>
+</head>
+<body>
+    <header class="header">
+        <div class="grid"> 
+            <div class="header__navbar">
+                <div class="header__navbar-list">
+                    <a href="./Home.html" class="header__navbar-btn">
+                        <i class="fa fa-home"></i>
+                    </a>             
+                </div>              
+                <div class="header__navbar-title">Smart Home</div>
+                    <div class="header__navbar-list">
+                        <a href="javascript:void(0);" class="header__navbar-btn" id="menu-icon">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <div class="dropdown-menu" id="dropdown-menu">
+                            <a href="./login.html">Log out</a>
+                            <a href="#">Option 2</a>
+                            <a href="#">Option 3</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header__btn">
+                <nav class="room">
+                    <ul class="room__list">
+                        <li class="room-item">
+                            <a href="./LivingRoom-device.html" class="room-item__link">Living Room</a>
+                        </li>
+                        <li class="room-item room-item--active">
+                            <a href="./Garden-device.html" class="room-item__link">Garden</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="app__container">
+        <div class="grid">
+            <div class="grid__row">
+                <div class="grid__column-2">
+                    <nav class="category">
+                        <h3 class="category__heading">Danh mục</h3>
+                        <ul class="category-list">
+                            <li class="category-item category-item--active">
+                                <a href="./Garden-device.html" class="category-item__link ">Device</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="./Garden-chart.html" class="category-item__link">Chart</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-item__link">Xem thêm</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+    
+                <div class="grid__column-10">
+                    <nav class="device__body">
+                        <ul class="device-list">
+                            <li>
+                                <span>
+                                    <i class="fa-regular fa-droplet"></i>
+                                    <span class="device_name">Hummidity</span>
+                                    <span class="device_status">
+                                        Value<span style="color: blue;" id="doamdat"></span>
+                                    </span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>
+                                    <i class="fa-regular fa-temperature-three-quarters"></i>
+                                    <span class="device_name">Temperature</span>
+                                    <span class="device_status">
+                                        Value<span style="color: red;" id="nhietdokk"></span>
+                                    </span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-center">
+                                    <i class="fa fa-lightbulb"></i>
+                                    <span class="device_name">Garden Light</span>
+                                    <span class="device_status">Status : ON</span>
+                                    <div id="wrapper">
+                                        <label class="switch">
+                                          <input type="checkbox" id="gardenlight">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="text-center">
+                                    <i class="fa fa-archive"></i>
+                                    <span class="device_name">Garden Fan</span>
+                                    <span class="device_status">Status : ON</span>
+                                    <div id="wrapper">
+                                        <label class="switch">
+                                          <input type="checkbox" id="gardenfan">
+                                          <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </span>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('menu-icon').addEventListener('click', function() {
+    var dropdownMenu = document.getElementById('dropdown-menu');
+    if (dropdownMenu.style.display === 'block') {
+        dropdownMenu.style.display = 'none';
+    } else {
+        dropdownMenu.style.display = 'block';
+    }
+});
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+    <script src="./assets/javascript/Garden-device.js"></script>
+
+</body>
+</html>
