@@ -85,12 +85,6 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
         return;
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-        emailErrorMessage.textContent = 'Định dạng email không đúng.';
-        return;
-    }
-
     if (!email) {
         emailErrorMessage.textContent = "Vui lòng nhập email.";
         isValid = false;
