@@ -88,7 +88,7 @@
       function showErrorToast(errorMessage) {
           toast({
               title: "Thất bại!",
-              message:"Đây là tính năng. Bấm thêm lần nữa nha!",
+              message: errorMessage ||"Đây là tính năng. Bấm thêm lần nữa nha!",
               type: "error",
               duration: 5000
           });
