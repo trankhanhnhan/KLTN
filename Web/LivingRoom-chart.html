@@ -10,9 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.5.2-web/css/all.css">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <title>KLTN</title>
+    <title>LivingRoom Chart</title>
 </head>
 <body>
+    <!---------------------------------HEADER------------------------------------>
     <header class="header">
         <div class="grid"> 
             <div class="header__navbar">
@@ -26,7 +27,7 @@
                         <a href="javascript:void(0);" class="header__navbar-btn" id="menu-icon">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <div class="dropdown-menu" id="dropdown-menu">
+                        <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
                             <a href="./login.html">Log out</a>
                             <a href="#">Option 2</a>
                             <a href="#">Option 3</a>
@@ -49,13 +50,13 @@
             </div>
         </div>
     </header>
-
+    <!---------------------------------CATEGORY------------------------------------>
     <div class="app__container">
         <div class="grid">
             <div class="grid__row">
                 <div class="grid__column-2">
                     <nav class="category">
-                        <h3 class="category__heading">Danh mục</h3>
+                        <h3 class="category__heading">Category</h3>
                         <ul class="category-list">
                             <li class="category-item">
                                 <a href="./LivingRoom-device.html" class="category-item__link ">Device</a>
@@ -64,32 +65,32 @@
                                 <a href="./LivingRoom-chart.html" class="category-item__link">Chart</a>
                             </li>
                             <li class="category-item">
-                                <a href="#" class="category-item__link">Xem thêm</a>
+                                <a href="#" class="category-item__link">More...</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
-        
+        <!---------------------------------DEVICE__SENSOR------------------------------------>
                 <div class="grid__column-10">
                     <div class="container__chart">
                             <div class="grid-container">
                                 <div class="grid-item">
                                     <div class="boxdata">
-                                        <p class="sensor">Nhiệt độ: <span class="data" id="nhietdo">None</span></p>
+                                        <p class="sensor">Temperature: <span class="data" id="nhietdo">None</span></p>
                                         <canvas id="nhietdo_Chart" class="chart"></canvas>
                                     </div>
                                 </div>
 
                                 <div class="grid-item">
                                     <div class="boxdata">
-                                        <p class="sensor">Độ ẩm: <span class="data" id="doamkk">None</span></p>
+                                        <p class="sensor">Humidity: <span class="data" id="doamkk">None</span></p>
                                         <canvas id="doamkk_Chart" class="chart"></canvas>
                                     </div>
                                 </div>
 
                             <div class="grid-item">
                                 <div class="boxdata">
-                                    <p class="sensor">Khí gas: <span class="data" id="khigas">None</span></p>
+                                    <p class="sensor">Gas: <span class="data" id="khigas">None</span></p>
                                     <canvas id="gas_Chart" class="chart"></canvas>
                                 </div>
                             </div>
@@ -101,8 +102,8 @@
             </div>
         </div>
     </div>
+    <!---------------------------------CHART------------------------------------>
     <script>
-        // Get the canvas element
         const temperatureChartCanvas = document.getElementById('nhietdo_Chart').getContext('2d');
         const humidityChartCanvas = document.getElementById('doamkk_Chart').getContext('2d');
         const gasChartCanvas = document.getElementById('gas_Chart').getContext('2d');
@@ -113,13 +114,13 @@
             let time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
             timeLabels.push(time);
         }
-        // Create the line chart
+        // --------------------------CREAT THE LINE CHARTS-----------------------------------------------
         new Chart(temperatureChartCanvas, {
             type: 'line',
             data: {
                 labels: timeLabels,
                 datasets: [{
-                    label: 'Nhiệt độ',
+                    label: 'Temperature',
                     data: nhietdo,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -132,14 +133,14 @@
                     x: {
                         ticks: {
                             font: {
-                                size: 10 // adjust this value to change the font size
+                                size: 10
                             }
                         }
                     },
                     y: {
                         ticks: {
                             font: {
-                                size: 10 // adjust this value to change the font size
+                                size: 10
                             }
                         }
                     }
@@ -151,7 +152,7 @@
             data: {
                 labels: timeLabels,
                 datasets: [{
-                    label: 'Độ ẩm',
+                    label: 'Humidity',
                     data: doamkk,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -164,14 +165,14 @@
                     x: {
                         ticks: {
                             font: {
-                                size: 10 // adjust this value to change the font size
+                                size: 10
                             }
                         }
                     },
                     y: {
                         ticks: {
                             font: {
-                                size: 10 // adjust this value to change the font size
+                                size: 10
                             }
                         }
                     }
@@ -184,7 +185,7 @@
             data: {
                 labels: timeLabels,
                 datasets: [{
-                    label: 'Khí gas',
+                    label: 'Gas',
                     data: khigas,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -197,14 +198,14 @@
                     x: {
                         ticks: {
                             font: {
-                                size: 10 // adjust this value to change the font size
+                                size: 10
                             }
                         }
                     },
                     y: {
                         ticks: {
                             font: {
-                                size: 10 // adjust this value to change the font size
+                                size: 10
                             }
                         }
                     }
@@ -213,6 +214,7 @@
         });
 
     </script>
+    <!---------------------------------MENU PLUS------------------------------------>
     <script>
         document.getElementById('menu-icon').addEventListener('click', function() {
         var dropdownMenu = document.getElementById('dropdown-menu');
