@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./assets/css/signup.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/Loader.css">
+    <title>Sign up</title>
 </head>
 <body>
+    <!---------------------------------DOTS__LOADER------------------------------------>
+    <div id="loader" class="dots-container" style="display: none;">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+      </div>
+    <!---------------------------------SIGN UP FORM------------------------------------>
+      <div id="load">
     <div class="content">
         <div class="box">
             <div class="text">Sign up</div>
@@ -20,7 +29,6 @@
                         </svg>
                     </span>
                     <label class="label">Email</label>
-                    <!-- Thêm phần tử cho thông báo lỗi email -->
                     <div id="email-error-message" class="error-message"></div>
                 </div>
                 <div class="field">
@@ -46,7 +54,6 @@
                         <i class="fas fa-eye" id="toggleIcon2"></i>
                     </div>
                      <label class="label">Confirm password</label>
-                     <!-- Thêm phần tử cho thông báo lỗi password -->
                      <div id="password-error-message" class="error-message"></div>
                   </div>
                 <button type="submit" id="register-btn" class="button">Sign up</button>
@@ -54,19 +61,19 @@
                     Have an account?
                     <a href="./login.html">Log in</a>
                 </div>
-                <!-- Thêm phần tử cho thông báo thành công -->
                 <div id="success-message" class="success-message"></div>
             </form>
         </div>
     </div>
-
+</div>
+    <!---------------------------------TOAST__MESSAGE------------------------------------>
     <div id="toast"></div>
     
     <script>
         function showSuccessToast() {
             toast({
-                title: "Thành công!",
-                message: "Bạn đã đăng ký thành công tài khoản.",
+                title: "Success!",
+                message: "Successful login.",
                 type: "success",
                 duration: 5000
             });
@@ -74,8 +81,8 @@
 
         function showErrorToast(errorMessage) {
             toast({
-                title: "Thất bại!",
-                message: errorMessage || "Có lỗi xảy ra, vui lòng liên hệ quản trị viên.",
+                title: "Failure!",
+                message: errorMessage || "An error occurred, please contact the administrator.",
                 type: "error",
                 duration: 5000
             });
@@ -89,5 +96,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
     <script src="./assets/javascript/signup.js"></script>
+    <script src="./assets/javascript/Loader.js"></script>
 </body>
 </html>
