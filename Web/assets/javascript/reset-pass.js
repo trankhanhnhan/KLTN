@@ -1,4 +1,3 @@
-// Cấu hình Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyD5pqDw2o4AyjiARrFEP8nBwG4g2kmRStQ",
     authDomain: "nhan-3660d.firebaseapp.com",
@@ -9,22 +8,18 @@ const firebaseConfig = {
     appId: "1:1054276103106:web:428ec651a347fa0b39045b",
     measurementId: "G-27TGW7MZDB"
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Hàm hiển thị toast thông báo
+//-----------------TOAST MESSAGE----------------------
 function toast({ title = "", message = "", type = "success", duration = 3000 }) {
     const main = document.getElementById("toast");
     if (main) {
         const toast = document.createElement("div");
 
-        // Tự động xóa toast
         const autoRemoveId = setTimeout(function () {
             main.removeChild(toast);
         }, duration + 1000);
 
-        // Xóa toast khi được click
         toast.onclick = function (e) {
             if (e.target.closest(".toast__close")) {
                 main.removeChild(toast);
@@ -32,7 +27,6 @@ function toast({ title = "", message = "", type = "success", duration = 3000 }) 
             }
         };
 
-        // Biểu tượng của toast
         const icons = {
             success: "fas fa-check-circle",
             info: "fas fa-info-circle",
@@ -42,7 +36,6 @@ function toast({ title = "", message = "", type = "success", duration = 3000 }) 
         const icon = icons[type];
         const delay = (duration / 1000).toFixed(2);
 
-        // Thiết lập nội dung của toast
         toast.classList.add("toast", `toast--${type}`);
         toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
 
@@ -62,7 +55,7 @@ function toast({ title = "", message = "", type = "success", duration = 3000 }) 
     }
 }
 
-// Xử lý sự kiện khi submit form đổi mật khẩu
+//--------Handle the event when submitting the password change form----------
 document.getElementById('reset-password-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -78,12 +71,6 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
     passwordErrorMessage.textContent = '';
 
     let isValid = true;
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-        emailErrorMessage.textContent = 'Định dạng email không đúng.';
-        return;
-    }
 
     if (!email) {
         emailErrorMessage.textContent = "Vui lòng nhập email.";
@@ -104,13 +91,12 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
         return;
     }
 
-     // Kiểm tra xem email có tồn tại trong hệ thống hay không
+//-------Check if the email exists in the system or not------
     firebase.auth().fetchSignInMethodsForEmail(email)
         .then((signInMethods) => {
             if (signInMethods.length === 0) {
                 showErrorEmailToast();
             } else {
-                // Email tồn tại, tiến hành cập nhật mật khẩu
                 const user = firebase.auth().currentUser;
 
                 if (user) {
@@ -119,8 +105,8 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
                         sessionStorage.setItem('resetPasswordEmail', email);
                         sessionStorage.setItem('resetPasswordPassword', password);
                         setTimeout(() => {
-                            window.location.href = './login.html'; // Chuyển hướng sau khi đổi mật khẩu thành công
-                        }, 3000); // Đợi 3 giây trước khi chuyển hướng
+                            window.location.href = './login.html';
+                        }, 3000);
                     }).catch((error) => {
                         console.error("Lỗi cập nhật mật khẩu mới:", error);
                         showErrorToast(error.message);
@@ -143,8 +129,7 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
             showErrorToast(error.message);
         });
 });
-
-// Kiểm tra nếu có email và mật khẩu được lưu trong sessionStorage
+//-----------------AUTO-FILL----------------------
 window.onload = function() {
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
@@ -158,7 +143,7 @@ window.onload = function() {
     }
 };
 
-// Hiển thị mật khẩu khi nhấn vào biểu tượng con mắt
+//-----------------EYE PASSWORD----------------------
 const togglePassword1 = document.getElementById('toggleIcon1');
 const togglePassword2 = document.getElementById('toggleIcon2');
 const passwordInput = document.getElementById('password');
@@ -167,15 +152,14 @@ const comfirmpasswordInput = document.getElementById('confirm-password');
 togglePassword1.addEventListener('click', function () {
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
-    
-    // Toggle eye icon
+    this.classList.toggle('fa-eye');
     this.classList.toggle('fa-eye-slash');
 
   });
 togglePassword2.addEventListener('click', function () {
   const type = comfirmpasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
   comfirmpasswordInput.setAttribute('type', type);
-  
-  // Toggle eye icon
+
+  this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
   });
