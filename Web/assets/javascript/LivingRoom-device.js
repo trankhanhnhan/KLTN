@@ -8,11 +8,9 @@ const firebaseConfig = {
     appId: "1:1054276103106:web:428ec651a347fa0b39045b",
     measurementId: "G-27TGW7MZDB"
   };
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     
-    
-    // Auto load Temperature-------------------------
+  //-------------------AUTO LOAD SENSOR-------------------------
     firebase.database().ref("/LivingRoom/nhietdo").on("value",function(snapshot){
       var nd = snapshot.val();  
       document.getElementById("nhietdo").innerHTML = nd;
@@ -31,7 +29,7 @@ const firebaseConfig = {
       console.log("khí gas: " + gas);
     });
     
-// Kết nối với Firebase Realtime Database và theo dõi trạng thái của light
+ //----------------CONNECT LIGHT TO FIREBASE-----------------
 firebase.database().ref("/LivingRoom/light").on("value", function(snapshot) {
   if (snapshot.exists()) {
       console.log(snapshot.val());
@@ -48,7 +46,7 @@ firebase.database().ref("/LivingRoom/light").on("value", function(snapshot) {
   }
 });
 
-// Điều khiển trạng thái của light từ trang web
+//-----------------CONTROL LIGHT FROM THE WEB----------------------
 var lightInput = document.getElementById('light');
 if (lightInput) {
   lightInput.addEventListener('change', function() {
@@ -56,7 +54,6 @@ if (lightInput) {
       firebase.database().ref("/LivingRoom").update({
           "light": lightState
       });
-      // Cập nhật chữ ON, OFF ngay lập tức khi người dùng thay đổi trạng thái
       var textLight = document.getElementById("textlight");
       if (textLight) {
           textLight.textContent = lightState;
@@ -64,7 +61,7 @@ if (lightInput) {
   });
 }
 
-// Kết nối với Firebase Realtime Database và theo dõi trạng thái của fan
+//----------------CONNECT FAN TO FIREBASE-----------------
 firebase.database().ref("/LivingRoom/fan").on("value", function(snapshot) {
   if (snapshot.exists()) {
       console.log(snapshot.val());
@@ -81,7 +78,7 @@ firebase.database().ref("/LivingRoom/fan").on("value", function(snapshot) {
   }
 });
 
-// Điều khiển trạng thái của fan từ trang web
+//-----------------CONTROL FAN FROM THE WEB----------------------
 var fanInput = document.getElementById('fan');
 if (fanInput) {
   fanInput.addEventListener('change', function() {
@@ -89,7 +86,6 @@ if (fanInput) {
       firebase.database().ref("/LivingRoom").update({
           "fan": fanState
       });
-      // Cập nhật chữ ON, OFF ngay lập tức khi người dùng thay đổi trạng thái
       var textFan = document.getElementById("textfan");
       if (textFan) {
           textFan.textContent = fanState;
