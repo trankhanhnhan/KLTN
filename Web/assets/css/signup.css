@@ -16,6 +16,11 @@ html {
     box-sizing: border-box;
 }
 
+#load{
+  display: flex;
+  justify-content: center;
+}
+
 .content {
     position: relative;
     top: 80px;
