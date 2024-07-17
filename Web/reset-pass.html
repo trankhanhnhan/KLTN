@@ -8,6 +8,7 @@
     <title>Reset Password</title>
 </head>
 <body>
+     <!---------------------------------RESET FORM------------------------------------>
     <div class="form-container">
         <div class="box">
             <div class="logo-container">
@@ -23,7 +24,6 @@
                         </svg>
                     </span>
                     <label class="label">Email</label>
-                    <!-- Thêm phần tử cho thông báo lỗi email -->
                     <div id="email-error-message" class="error-message"></div>
                 </div>
     
@@ -50,12 +50,10 @@
                     <i class="fas fa-eye" id="toggleIcon2"></i>
                 </div>
                  <label class="label">Confirm new password</label>
-                 <!-- Thêm phần tử cho thông báo lỗi password -->
                  <div id="password-error-message" class="error-message"></div>
               </div>
         
               <button class="form-submit-btn" type="submit">Change password</button>
-                              <!-- Thêm phần tử cho thông báo lỗi -->
                               <div id="error-message" class="error-message"></div>
                               <div class="sign-up">
                                 Don't have an account?
@@ -64,13 +62,14 @@
             </form>
         </div>
         </div>
-    
+
+    <!---------------------------------TOAST MESSAGE------------------------------------>
     <div id="toast"></div>
     <script>
       function showSuccessToast() {
           toast({
-              title: "Thành công!",
-              message: "Bạn đã đổi mật khẩu thành công.",
+              title: "Success!",
+              message: "You have successfully changed your password.",
               type: "success",
               duration: 5000
           });
@@ -78,8 +77,8 @@
 
       function showErrorEmailToast(emailErrorMessage) {
           toast({
-              title: "Thất bại!",
-              message:"Không tìm thấy người dùng với địa chỉ email này.",
+              title: "Failure!",
+              message:"No users were found with this email address.",
               type: "errorEmail",
               duration: 5000
           });
@@ -87,7 +86,7 @@
 
       function showErrorToast(errorMessage) {
           toast({
-              title: "Thất bại!",
+              title: "Failure!",
               message: errorMessage ||"Đây là tính năng. Bấm thêm lần nữa nha!",
               type: "error",
               duration: 5000
