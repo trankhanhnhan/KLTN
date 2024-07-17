@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
     apiKey: "AIzaSyD5pqDw2o4AyjiARrFEP8nBwG4g2kmRStQ",
     authDomain: "nhan-3660d.firebaseapp.com",
@@ -9,22 +8,20 @@ const firebaseConfig = {
     appId: "1:1054276103106:web:428ec651a347fa0b39045b",
     measurementId: "G-27TGW7MZDB"
   };
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+//-----------------TOAST MESSAGE----------------------
 const toastContainer = document.getElementById('toast');
 
 function toast({ title = "", message = "", type = "success", duration = 3000 }) {
     const main = document.getElementById("toast");
     if (main) {
       const toast = document.createElement("div");
-  
-      // Auto remove toast
+
       const autoRemoveId = setTimeout(function () {
         main.removeChild(toast);
       }, duration + 1000);
   
-      // Remove toast when clicked
       toast.onclick = function (e) {
         if (e.target.closest(".toast__close")) {
           main.removeChild(toast);
@@ -60,7 +57,7 @@ function toast({ title = "", message = "", type = "success", duration = 3000 }) 
     }
   }
 
-// Đã sửa: Gọi showSuccessToast() khi form được submit
+//--------Handle the event when submitting the password change form----------
 const signupForm = document.getElementById('signup-form');
 signupForm.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -99,15 +96,15 @@ signupForm.addEventListener('submit', function(event) {
         return;
     }
 
-    // Thực hiện đăng ký người dùng bằng Firebase Authentication
+    //--------Register users using Firebase Authentication-------
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
             showSuccessToast();
             localStorage.setItem('registeredEmail', email);
             localStorage.setItem('registeredPassword', password);
             setTimeout(() => {
-                 window.location.href = './login.html'; // Chuyển hướng sau khi đổi mật khẩu thành công
-             }, 3000); // Đợi 3 giây trước khi chuyển hướng
+                 window.location.href = './login.html';
+             }, 3000);
         })
         .catch(error => {
             const errorCode = error.code;
@@ -122,7 +119,7 @@ signupForm.addEventListener('submit', function(event) {
         });
 });
 
-// Hiển thị mật khẩu khi nhấn vào biểu tượng con mắt
+//-----------------EYE PASSWORD----------------------
 const togglePassword1 = document.getElementById('toggleIcon1');
 const togglePassword2 = document.getElementById('toggleIcon2');
 const passwordInput = document.getElementById('password');
@@ -131,15 +128,13 @@ const comfirmpasswordInput = document.getElementById('confirm-password');
 togglePassword1.addEventListener('click', function () {
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
-    
-    // Toggle eye icon
+    this.classList.toggle('fa-eye');
     this.classList.toggle('fa-eye-slash');
 
   });
 togglePassword2.addEventListener('click', function () {
   const type = comfirmpasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
   comfirmpasswordInput.setAttribute('type', type);
-  
-  // Toggle eye icon
+  this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
   });
