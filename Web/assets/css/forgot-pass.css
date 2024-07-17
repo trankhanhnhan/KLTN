@@ -46,6 +46,12 @@ html {
     position: relative;
   }
   
+  .field:nth-child(1) {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+  }
+
   .field:nth-child(2) {
     position: absolute;
     height: 50px;
