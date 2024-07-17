@@ -8,24 +8,18 @@ const firebaseConfig = {
   appId: "1:1054276103106:web:428ec651a347fa0b39045b",
   measurementId: "G-27TGW7MZDB"
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 var nhietdo = [];
 var doamkk = [];
 var khigas = [];
-
-
-// Store the previous values to check for changes
 var previousNhietDo = null;
 var previousDoAmKK = null;
 var previousKhiGas = null;
-
-// Variable to store the interval ID
 var updateInterval = null;
 
 const initialLabels = ['Initial'];
+//-----------------CREATE CHARTS-----------------------------
 const tempchart = new Chart(temperatureChartCanvas, {
   type: 'line',
   data: {
@@ -44,16 +38,16 @@ const tempchart = new Chart(temperatureChartCanvas, {
       x: {
         ticks: {
           font: {
-            size: 14 // adjust this value to change the font size for x-axis
+            size: 14
           }
         }
       },
       y: {
         ticks: {
           font: {
-            size: 14 // adjust this value to change the font size for y-axis
+            size: 14
           },
-          maxTicksLimit: 6, // limit the number of ticks on the y-axis to 6
+          maxTicksLimit: 6,
           stepSize: 20
         }
       }
@@ -79,16 +73,16 @@ let humichart = new Chart(humidityChartCanvas, {
       x: {
         ticks: {
           font: {
-            size: 14 // adjust this value to change the font size for x-axis
+            size: 14
           }
         }
       },
       y: {
         ticks: {
           font: {
-            size: 14 // adjust this value to change the font size for y-axis
+            size: 14
           },
-          maxTicksLimit: 6, // limit the number of ticks on the y-axis to 6
+          maxTicksLimit: 6,
           stepSize: 1
         }
       }
@@ -114,16 +108,16 @@ let gaschart = new Chart(gasChartCanvas, {
       x: {
         ticks: {
           font: {
-            size: 14 // adjust this value to change the font size for x-axis
+            size: 14
           }
         }
       },
       y: {
         ticks: {
           font: {
-            size: 14 // adjust this value to change the font size for y-axis
+            size: 14
           },
-          maxTicksLimit: 6, // limit the number of ticks on the y-axis to 6
+          maxTicksLimit: 6,
           stepSize: 1
         }
       }
@@ -131,33 +125,29 @@ let gaschart = new Chart(gasChartCanvas, {
   }
 });
 
-// Lưu dữ liệu vào Local Storage
+//---------------LOCAL STORAGE------------------
 function saveDataToLocalStorage() {
   localStorage.setItem('nhietdo_history', JSON.stringify(nhietdo));
   localStorage.setItem('doamkk_history', JSON.stringify(doamkk));
   localStorage.setItem('khigas_history', JSON.stringify(khigas));
 }
 
-// Lấy dữ liệu từ Local Storage khi trang web được tải lại
 function getDataFromLocalStorage() {
   nhietdo = JSON.parse(localStorage.getItem('nhietdo_history')) || [];
   doamkk = JSON.parse(localStorage.getItem('doamkk_history')) || [];
   khigas = JSON.parse(localStorage.getItem('khigas_history')) || [];
 }
 
-// Gọi hàm để lưu dữ liệu khi có sự thay đổi
 function updateDataAndSaveToLocalStorage() {
   saveDataToLocalStorage();
 }
 
-// Gọi hàm để khôi phục dữ liệu từ Local Storage khi trang web được tải lại
 getDataFromLocalStorage();
 
-// Auto load Temperature-------------------------
+//-------------------AUTO LOAD SENSOR-------------------------
 firebase.database().ref("/LivingRoom/nhietdo").on("value", function(snapshot) {
   var nd = snapshot.val();
   if (nd !== null) {
-    // Kiểm tra và xóa dữ liệu cũ trước khi thêm dữ liệu mới
     if (nhietdo.length > 0 && nhietdo[nhietdo.length - 1].value === nd) {
       console.log("Duplicate data, skipping update.");
       return;
@@ -172,11 +162,9 @@ firebase.database().ref("/LivingRoom/nhietdo").on("value", function(snapshot) {
   }
 });
 
-// Auto load Humidity-------------------------
 firebase.database().ref("/LivingRoom/doamkk").on("value", function(snapshot) {
   var da = snapshot.val();
   if (da !== null) {
-    // Kiểm tra và xóa dữ liệu cũ trước khi thêm dữ liệu mới
     if (doamkk.length > 0 && doamkk[doamkk.length - 1].value === da) {
       console.log("Duplicate data, skipping update.");
       return;
@@ -191,11 +179,9 @@ firebase.database().ref("/LivingRoom/doamkk").on("value", function(snapshot) {
   }
 });
 
-// Auto load Gas-------------------------
 firebase.database().ref("/LivingRoom/khigas").on("value", function(snapshot) {
   var gas = snapshot.val();
   if (gas !== null) {
-    // Kiểm tra và xóa dữ liệu cũ trước khi thêm dữ liệu mới
     if (khigas.length > 0 && khigas[khigas.length - 1].value === gas) {
       console.log("Duplicate data, skipping update.");
       return;
@@ -210,7 +196,7 @@ firebase.database().ref("/LivingRoom/khigas").on("value", function(snapshot) {
   }
 });
 
-// Hàm tạo nhãn thời gian
+//-----------CREATE TIMESTAMP--------------------
 function generateLabels(data) {
   return data.map(item => {
     let time = new Date(item.timestamp);
@@ -218,7 +204,6 @@ function generateLabels(data) {
   });
 }
 
-// Khởi động cập nhật dữ liệu ban đầu
 function initializeData() {
   firebase.database().ref("/LivingRoom/nhietdo").once("value", function(snapshot) {
     var nd = snapshot.val();
@@ -260,5 +245,4 @@ function initializeData() {
   });
 }
 
-// Khởi động cập nhật dữ liệu ban đầu khi tải trang
 initializeData();   
