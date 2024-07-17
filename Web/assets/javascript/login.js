@@ -8,10 +8,9 @@ const firebaseConfig = {
   appId: "1:1054276103106:web:428ec651a347fa0b39045b",
   measurementId: "G-27TGW7MZDB"
 };
-
-// Khởi tạo Firebase
 firebase.initializeApp(firebaseConfig);
 
+//-----------------TOAST MESSAGE----------------------
 const toastContainer = document.getElementById('toast');
 
 function toast({ title = "", message = "", type = "success", duration = 3000 }) {
@@ -19,12 +18,10 @@ function toast({ title = "", message = "", type = "success", duration = 3000 }) 
   if (main) {
       const toast = document.createElement("div");
 
-      // Auto remove toast
       const autoRemoveId = setTimeout(function () {
           main.removeChild(toast);
       }, duration + 1000);
 
-      // Remove toast when clicked
       toast.onclick = function (e) {
           if (e.target.closest(".toast__close")) {
               main.removeChild(toast);
@@ -59,7 +56,7 @@ function toast({ title = "", message = "", type = "success", duration = 3000 }) 
       main.appendChild(toast);
   }
 }
-
+//-----------------BUTTON LOGIN----------------------
 const loginForm = document.getElementById('login-form');
 loginForm.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -73,6 +70,7 @@ loginForm.addEventListener('submit', function (event) {
 
   errorMessage.textContent = '';
 
+  //-----------------ADD TIME LOGIN TO FIREBASE----------------------
   firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
           const now = new Date();
@@ -81,7 +79,7 @@ loginForm.addEventListener('submit', function (event) {
 
           console.log('Chuẩn bị thêm thời gian đăng nhập vào Realtime Database');
 
-          firebase.database().ref("/KLTN/logins/" + uid).set({
+          firebase.database().ref("/KLTN/logins/user/" + uid).set({
               loginTime: loginTime
           }).then(() => {
               showSuccessToast();
@@ -98,23 +96,21 @@ loginForm.addEventListener('submit', function (event) {
     });
 });
 
+//-----------------AUTO-FILL----------------------
 document.addEventListener('DOMContentLoaded', function () {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
 
-  // Lấy email đã đăng ký từ LocalStorage
   const registeredEmail = localStorage.getItem('registeredEmail');
   const registeredPassword = localStorage.getItem('registeredPassword');
   if (registeredEmail && registeredPassword) {
       emailInput.value = registeredEmail;
       passwordInput.value = registeredPassword;
-      // Xóa email đã đăng ký khỏi LocalStorage sau khi điền vào ô nhập
       localStorage.removeItem('registeredEmail');
       localStorage.removeItem('registeredPassword');
   }
 });
 
-// Kiểm tra nếu có email và mật khẩu được lưu trong sessionStorage
 window.onload = function() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -128,14 +124,13 @@ window.onload = function() {
   }
 };
 
-// Hiển thị mật khẩu khi nhấn vào biểu tượng con mắt
+//-----------------EYE PASSWORD----------------------
 const togglePassword = document.getElementById('toggleIcon');
 const passwordInput = document.getElementById('password');
 
 togglePassword.addEventListener('click', function () {
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
-    
-    // Toggle eye icon
+    this.classList.toggle('fa-eye');
     this.classList.toggle('fa-eye-slash');
 });
