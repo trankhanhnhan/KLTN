@@ -12,6 +12,7 @@
     <title>Garden</title>
 </head>
 <body>
+    <!---------------------------------HEADER------------------------------------>
     <header class="header">
         <div class="grid"> 
             <div class="header__navbar">
@@ -25,7 +26,7 @@
                         <a href="javascript:void(0);" class="header__navbar-btn" id="menu-icon">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <div class="dropdown-menu" id="dropdown-menu">
+                        <div class="dropdown-menu" id="dropdown-menu" style="display: none;">
                             <a href="./login.html">Log out</a>
                             <a href="#">Option 2</a>
                             <a href="#">Option 3</a>
@@ -48,13 +49,13 @@
             </div>
         </div>
     </header>
-
+    <!---------------------------------CATEGORY------------------------------------>
     <div class="app__container">
         <div class="grid">
             <div class="grid__row">
                 <div class="grid__column-2">
                     <nav class="category">
-                        <h3 class="category__heading">Danh mục</h3>
+                        <h3 class="category__heading">Category</h3>
                         <ul class="category-list">
                             <li class="category-item category-item--active">
                                 <a href="./Garden-device.html" class="category-item__link ">Device</a>
@@ -63,12 +64,12 @@
                                 <a href="./Garden-chart.html" class="category-item__link">Chart</a>
                             </li>
                             <li class="category-item">
-                                <a href="#" class="category-item__link">Xem thêm</a>
+                                <a href="#" class="category-item__link">More</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
-    
+    <!---------------------------------DEVICE__SENSOR------------------------------------>
                 <div class="grid__column-10">
                     <nav class="device__body">
                         <ul class="device-list">
@@ -77,7 +78,7 @@
                                     <i class="fa-regular fa-droplet"></i>
                                     <span class="device_name">Hummidity</span>
                                     <span class="device_status">
-                                        Value<span style="color: blue;" id="doamdat"></span>
+                                        Value<span style="color: blue;" id="doamdat">None</span>
                                     </span>
                                 </span>
                             </li>
@@ -87,7 +88,7 @@
                                     <i class="fa-regular fa-temperature-three-quarters"></i>
                                     <span class="device_name">Temperature</span>
                                     <span class="device_status">
-                                        Value<span style="color: red;" id="nhietdokk"></span>
+                                        Value<span style="color: red;" id="nhietdokk">None</span>
                                     </span>
                                 </span>
                             </li>
@@ -97,13 +98,24 @@
                                     <i class="fa fa-lightbulb"></i>
                                     <span class="device_name">Garden Light</span>
                                     <span class="device_status">Status: 
-                                        <span id="textGlight">ON</span>
+                                        <span id="textGlight">None</span>
                                     </span>
                                     <div id="wrapper">
-                                        <label class="switch">
-                                          <input type="checkbox" id="gardenlight">
-                                          <span class="slider round"></span>
-                                        </label>
+                                        <div class="switch">
+                                            <input type="checkbox" name="toggle" id="gardenlight" checked>
+                                            <label for="toggle">
+                                              <div class="bulb">
+                                                <span class="bulb-center"></span>
+                                                </span>
+                                                <span class="sparks">
+                                                  <i class="spark1"></i>
+                                                  <i class="spark2"></i>
+                                                  <i class="spark3"></i>
+                                                  <i class="spark4"></i>
+                                                </span>
+                                            </div>
+                                            </label>
+                                          </div>
                                     </div>
                                 </span>
                             </li>
@@ -112,13 +124,24 @@
                                     <i class="fa fa-archive"></i>
                                     <span class="device_name">Garden Fan</span>
                                     <span class="device_status">Status:
-                                        <span id="textGfan">ON</span>
+                                        <span id="textGfan">None</span>
                                     </span>
                                     <div id="wrapper">
-                                        <label class="switch">
-                                          <input type="checkbox" id="gardenfan">
-                                          <span class="slider round"></span>
-                                        </label>
+                                        <div class="switch">
+                                            <input type="checkbox" name="toggle" id="gardenfan" checked>
+                                            <label for="toggle">
+                                              <div class="bulb">
+                                                <span class="bulb-center"></span>
+                                                </span>
+                                                <span class="sparks">
+                                                  <i class="spark1"></i>
+                                                  <i class="spark2"></i>
+                                                  <i class="spark3"></i>
+                                                  <i class="spark4"></i>
+                                                </span>
+                                            </div>
+                                            </label>
+                                          </div>
                                     </div>
                                 </span>
                             </li>
@@ -128,7 +151,7 @@
             </div>
         </div>
     </div>
-
+    <!---------------------------------MENU PLUS------------------------------------>
     <script>
         document.getElementById('menu-icon').addEventListener('click', function() {
     var dropdownMenu = document.getElementById('dropdown-menu');
