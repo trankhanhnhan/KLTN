@@ -14,12 +14,6 @@
 	border-radius: 10px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
-*{
-  font-family: 'Orbitron', sans-serif;
-  transition: all 0.4s ease;
-}
-
 section{
 	width: 100%;
 	display: flex;
@@ -111,4 +105,31 @@ section{
   border-radius: 10px;
   padding-top: 12px;
   padding-left: 4px;
+}
+
+.sidebar_text{
+  font-family: 'Rubik', sans-serif;
+  font-size: 2.5vw;
+  text-align: center;
+  padding: 10px;
+}
+.sidebar_img{
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+  margin-top: 3px;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: auto;
+  max-width: fit-content;
+  max-height: fit-content;
+  width: 19%;
+  background-color: #333;
+  padding: 5px;
+  color: #fff;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
