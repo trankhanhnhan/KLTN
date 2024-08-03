@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/device.css">
+    <link rel="stylesheet" href="./css/General.css">    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <link rel="stylesheet" href="./font/fontawesome-free-6.5.2-web/css/all.css">
+    <title>Device</title>
+</head>
+<body>
+    <!---------------------------------CATEGORY------------------------------------>
+    <div class="app__container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="./img/UTE.jpg"></span>
+                        <span class="title" style="font-size: 1.5em;font-weight: 500;">ĐH SPKT</span>
+                    </a>
+                </li>
+                <li class="hovered">
+                    <a href="./Home.html">
+                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./Device.html">
+                        <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
+                        <span class="title">Device</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./Chart.html">
+                        <span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
+                        <span class="title">DashBoard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
+                        <span class="title">Help</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./reset-pass.html">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <span class="title">Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./login.html">
+                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+         <!-- main -->
+		<div class="main">
+			<div class="topbar">
+				<div class="toggle">
+					<ion-icon name="menu-outline"></ion-icon>
+				</div>
+
+				<!-- userImg -->
+				<div class="user">
+					<img src="./img/nhan.jpg">
+				</div>
+			</div>
+        
+    <!---------------------------------DEVICE__SENSOR------------------------------------>
+    <!----------------- CONTENT 1 -------------->
+                    <nav class="device__body" id="content1">
+                        <div class="Title">
+                            <div class="header__navbar-title">Living Room</div>
+                        </div>
+                        <ul class="device-list">
+                            <li>
+                                <span>
+                                    <i class="fa-regular fa-droplet"></i>
+                                    <span class="device_name">Humidity</span>
+                                        <span class="device_status">
+                                            Value<span style="color: blue;" id="doamkk">None</span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>
+                                    <i class="fa-regular fa-temperature-three-quarters"></i>
+                                    <span class="device_name">Temperature</span>
+                                    <span class="device_status">
+                                        Value<span style="color: red;" id="nhietdo">None</span>
+                                    </span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-center">
+                                    <i class="fa fa-lightbulb"></i>
+                                    <span class="device_name">Main Light</span>
+                                    <span class="device_status">Status: 
+                                        <span id="textlight">None</span>
+                                    </span>
+                                    <div id="wrapper">
+                                        <div class="switch">
+                                            <input type="checkbox" name="toggle" id="light" checked>
+                                            <label for="toggle">
+                                              <div class="bulb">
+                                                <span class="bulb-center"></span>
+                              
+                                                <span class="sparks">
+                                                  <i class="spark1"></i>
+                                                  <i class="spark2"></i>
+                                                  <i class="spark3"></i>
+                                                  <i class="spark4"></i>
+                                                </span>
+                                            </div>
+                                            </label>
+                                          </div>
+                                    </div>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-center">
+                                    <i class="fa-regular fa-fan"></i>
+                                    <span class="device_name">Fan</span>
+                                    <span class="device_status">Status:
+                                        <span id="textfan">None</span>
+                                    </span>
+                                    <div id="wrapper">
+                                        <div class="switch">
+                                            <input type="checkbox" name="toggle" id="fan" checked>
+                                            <label for="toggle">
+                                              <div class="bulb">
+                                                <span class="bulb-center"></span>
+                                        
+                                                <span class="sparks">
+                                                  <i class="spark1"></i>
+                                                  <i class="spark2"></i>
+                                                  <i class="spark3"></i>
+                                                  <i class="spark4"></i>
+                                                </span>
+                                            </div>
+                                            </label>
+                                          </div>
+                                    </div>
+                                </span>
+                            </li>
+                        </ul>
+                    </nav>  
+                    
+    <!--------------------- CONTENT 2 ----------------->
+                    <nav class="device__body" id="content2" style="display: none;">
+                        <div class="Title">
+                            <div class="header__navbar-title">Garden</div>
+                        </div>
+                        <ul class="device-list">
+                            <li>
+                                <span>
+                                    <i class="fa-regular fa-droplet"></i>
+                                    <span class="device_name">Humidity</span>
+                                    <span class="device_status">
+                                        Value<span style="color: blue;" id="doamdat">None</span>
+                                    </span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>
+                                    <i class="fa-regular fa-temperature-three-quarters"></i>
+                                    <span class="device_name">Temperature</span>
+                                    <span class="device_status">
+                                        Value<span style="color: red;" id="nhietdokk">None</span>
+                                    </span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-center">
+                                    <i class="fa fa-lightbulb"></i>
+                                    <span class="device_name">Garden Light</span>
+                                    <span class="device_status">Status: 
+                                        <span id="textGlight">None</span>
+                                    </span>
+                                    <div id="wrapper">
+                                        <div class="switch">
+                                            <input type="checkbox" name="toggle" id="gardenlight" checked>
+                                            <label for="gardenlight">
+                                            <div class="bulb">
+                                                <span class="bulb-center"></span>
+                                            </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="text-center">
+                                    <i class="fa fa-archive"></i>
+                                    <span class="device_name">Garden Fan</span>
+                                    <span class="device_status">Status:
+                                        <span id="textGfan">None</span>
+                                    </span>
+                                    <div id="wrapper">
+                                        <div class="switch">
+                                            <input type="checkbox" name="toggle" id="gardenfan" checked>
+                                            <label for="gardenfan">
+                                            <div class="bulb">
+                                                <span class="bulb-center"></span>
+                                            </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </span>
+                            </li>
+                        </ul>
+                    </nav>
+
+                <button onclick="toggleContent()">
+                    Next
+                    <div class="arrow-wrapper">
+                        <div class="arrow"></div>
+                    </div>
+                </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent() {
+            var content1 = document.getElementById('content1');
+            var content2 = document.getElementById('content2');
+            if (content1.style.display === 'none') {
+                content1.style.display = 'block';
+                content2.style.display = 'none';
+            } else {
+                content1.style.display = 'none';
+                content2.style.display = 'block';
+            }
+        }
+    </script>
+    <!---------------------------------MENU TOOGLE------------------------------------>
+    <script>
+		// MenuToggle
+		let toggle = document.querySelector('.toggle');
+		let navigation = document.querySelector('.navigation');
+		let main = document.querySelector('.main');
+
+		toggle.onclick = function(){
+			navigation.classList.toggle('active');
+			main.classList.toggle('active');
+		}
+
+		// add hovered class in selected list item
+		let list = document.querySelectorAll('.navigation li');
+		function activeLink(){
+			list.forEach((item) =>
+			item.classList.remove('hovered'));
+			this.classList.add('hovered');
+		}
+		list.forEach((item) => 
+		item.addEventListener('mouseover',activeLink));
+	</script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <script src="./javascript/Device.js"></script>
+</body>
+</html>

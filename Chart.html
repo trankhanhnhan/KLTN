@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/Chart.css">
+    <link rel="stylesheet" href="./css/General.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.5.2-web/css/all.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <title>DashBoard</title>
+</head>
+<body>
+    <!---------------------------------CATEGORY------------------------------------>
+    <div class="app__container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="./img/UTE.jpg" alt="UTE"></span>
+                        <span class="title" style="font-size: 1.5em;font-weight: 500;">ĐH SPKT</span>
+                    </a>
+                </li>
+                <li class="hovered">
+                    <a href="./Home.html">
+                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./Device.html">
+                        <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
+                        <span class="title">Device</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./Chart.html">
+                        <span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
+                        <span class="title">DashBoard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
+                        <span class="title">Help</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./reset-pass.html">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <span class="title">Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./login.html">
+                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- main -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <!-- userImg -->
+                <div class="user">
+                    <img src="./img/nhan.jpg" alt="User">
+                </div>
+            </div>
+        
+            <!---------------------------------DEVICE__SENSOR------------------------------------>
+            <!----------------- Chart Living Room ------->
+            <div class="grid-container" id="content1">
+                <div class="Title">
+                    <div class="header__navbar-title">Living Room</div>
+                </div>
+                <div class="grid-item">
+                    <div class="boxdata">
+                        <p class="sensor">Temperature: <span class="data" id="nhietdo">None</span></p>
+                        <canvas id="nhietdo_Chart" class="chart"></canvas>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="boxdata">
+                        <p class="sensor">Humidity: <span class="data" id="doamkk">None</span></p>
+                        <canvas id="doamkk_Chart" class="chart"></canvas>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="boxdata">
+                        <p class="sensor">Gas: <span class="data" id="khigas">None</span></p>
+                        <canvas id="gas_Chart" class="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!---------------------- Chart Garden ----------------->
+            <div class="grid-container" id="content2" style="display: none;">
+                <div class="Title">
+                    <div class="header__navbar-title">Garden</div>
+                </div>
+                <div class="grid-item">
+                    <div class="boxdata">
+                        <p class="sensor">Temperature: <span class="data" id="nhietdokk">None</span></p>
+                        <canvas id="nhietdokk_Chart" class="chart"></canvas>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="boxdata">
+                        <p class="sensor">Humidity: <span class="data" id="doamdat">None</span></p>
+                        <canvas id="doamdat_Chart" class="chart"></canvas>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="boxdata">
+                        <p class="sensor">Gas: <span class="data" id="khigas2">None</span></p>
+                        <canvas id="gas2_Chart" class="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="toggleContent()">
+                Next
+                <div class="arrow-wrapper">
+                    <div class="arrow"></div>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent() {
+            var content1 = document.getElementById('content1');
+            var content2 = document.getElementById('content2');
+            if (content1.style.display === 'none') {
+                content1.style.display = 'block';
+                content2.style.display = 'none';
+            } else {
+                content1.style.display = 'none';
+                content2.style.display = 'block';
+            }
+        }
+    </script>
+    <!---------------------------------CHART------------------------------------>
+    <script>
+		// MenuToggle
+		let toggle = document.querySelector('.toggle');
+		let navigation = document.querySelector('.navigation');
+		let main = document.querySelector('.main');
+
+		toggle.onclick = function(){
+			navigation.classList.toggle('active');
+			main.classList.toggle('active');
+		}
+
+		// add hovered class in selected list item
+		let list = document.querySelectorAll('.navigation li');
+		function activeLink(){
+			list.forEach((item) =>
+			item.classList.remove('hovered'));
+			this.classList.add('hovered');
+		}
+		list.forEach((item) => 
+		item.addEventListener('mouseover',activeLink));
+	</script>
+
+<script>
+    const temperatureChartCanvas = document.getElementById('nhietdo_Chart').getContext('2d');
+    const humidityChartCanvas = document.getElementById('doamkk_Chart').getContext('2d');
+    const gasChartCanvas = document.getElementById('gas_Chart').getContext('2d');
+    const temperatureChartCanvas2 = document.getElementById('nhietdokk_Chart').getContext('2d');
+    const humidityChartCanvas2 = document.getElementById('doamdat_Chart').getContext('2d');
+    const gasChartCanvas2 = document.getElementById('gas2_Chart').getContext('2d');
+    // --------------------------TIME LABLES-----------------------------------------------
+    const timeLabels = [];
+    for (let i = 0; i < 10; i++) {
+        let now = new Date();
+        let time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+        timeLabels.push(time);
+    }
+    // --------------------------CREAT THE LINE CHARTS LIVING ROOM-----------------------------------------------
+    new Chart(temperatureChartCanvas, {
+        type: 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                label: 'Temperature',
+                data: nhietdo,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    });
+    new Chart(humidityChartCanvas, {
+        type: 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                label: 'Humidity',
+                data: doamkk,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(gasChartCanvas, {
+        type: 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                label: 'Gas',
+                data: khigas,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+// --------------------------CREAT A LINE CHART GARDEN-----------------------------------------------
+new Chart(temperatureChartCanvas2, {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Temperature',
+                    data: nhietdokk,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 30
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 30
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        new Chart(humidityChartCanvas2, {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Humidity',
+                    data: doamdat,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(gasChartCanvas2, {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Gas',
+                    data: khigas2,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+</script>
+
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
+    <script src="./javascript/Chart.js"></script>
+</body>
+</html>
