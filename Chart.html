@@ -6,19 +6,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/Chart.css">
     <link rel="stylesheet" href="./css/General.css">
+    <link rel="stylesheet" href="./css/base.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.5.2-web/css/all.css">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <title>DashBoard</title>
 </head>
 <body>
+    <audio id="alarmSound" src="./img/Alarm.mp3" loop></audio>
     <!---------------------------------CATEGORY------------------------------------>
+    <div class="grid">
+        <div class="grid__row">
+            <div class="grid__column-2">
     <div class="app__container">
         <div class="navigation">
             <ul>
                 <li>
                     <a href="#">
-                        <span class="icon"><img src="./img/UTE.jpg" alt="UTE"></span>
+                        <span class="icon"><img src="./img/UTE.jpg"></span>
                         <span class="title" style="font-size: 1.5em;font-weight: 500;">ĐH SPKT</span>
                     </a>
                 </li>
@@ -28,14 +33,14 @@
                         <span class="title">Home</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./Device.html">
+                <li class="category-item--active">
+                    <a href="./Device.html" class="category-item__link">
                         <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
                         <span class="title">Device</span>
                     </a>
                 </li>
-                <li class="category-item--active">
-                    <a href="./Chart.html" class="category-item__link">
+                <li>
+                    <a href="./Chart.html">
                         <span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
                         <span class="title">DashBoard</span>
                     </a>
@@ -66,25 +71,46 @@
                 </li>
             </ul>
         </div>
+    </div>
+</div>
 
-        <!-- main -->
-        <div class="main">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </div>
-                <!-- userImg -->
-                <div class="user">
-                    <img src="./img/nhan.jpg" alt="User">
-                </div>
-            </div>
+         <!-- main -->
+		<div class="main">
+            <div class="grid__column-10">
+			<div class="topbar">
+				<div class="toggle">
+					<ion-icon name="menu-outline"></ion-icon>
+				</div>
+
+				<!-- userImg -->
+				<div class="user">
+					<img src="./img/nhan.jpg">
+				</div>
+			</div>
         
             <!---------------------------------DEVICE__SENSOR------------------------------------>
             <!----------------- Chart Living Room ------->
-            <div class="grid-container" id="content1">
+            <div class="device__body" id="content1">
                 <div class="Title">
                     <div class="header__navbar-title">Living Room</div>
                 </div>
+                    <ul class="device-list">
+                        <ul class="status">
+                            <li class="status__list">
+                                <span class="Sensor">
+                                    <img id="firesensor_node1_id" src="./img/fire.png" alt="img"
+                                        class="data_img">
+                                    <p>Fire: <span class="data" id="fire_node1">None</span></p>
+                                </span>
+                            </li>
+                            <li class="status__list">
+                                <span class="Sensor">
+                                    <img id="smoke_node1_id" src="./img/smoke.png" alt="img" class="data_img">
+                                    <p>Gas: <span class="data" id="smoke_node1">None</span></p>
+                                </span>
+                            </li>
+                        </ul
+            <div class="grid-container">
                 <div class="grid-item">
                     <div class="boxdata">
                         <p class="sensor">Temperature: <span class="data" id="nhietdo">None</span></p>
@@ -103,6 +129,8 @@
                         <canvas id="gas_Chart" class="chart"></canvas>
                     </div>
                 </div>
+            </div>
+                </ul>
             </div>
 
             <!---------------------- Chart Garden ----------------->
@@ -138,6 +166,8 @@
             </button>
         </div>
     </div>
+</div>
+</div>
 
     <script>
         function toggleContent() {
