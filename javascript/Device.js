@@ -94,7 +94,7 @@ function closeToast() {
                          console.log("Fire alarm activated!");
                          shouldToggleFireAlarm = true;
                          document.getElementById("fireAlarm").checked = true;
-                         firebase.database().ref("/LivingRoom/fireAlarm").set("ON");
+                         firebase.database().ref("/LivingRoom1/fireAlarm").set("ON");
                          overlay.classList.remove('show');
                      }
                  });
@@ -109,13 +109,13 @@ document.getElementById("fireAlarm").addEventListener("change", function(event) 
  
  if (shouldToggleFireAlarm) {
      shouldToggleFireAlarm = false;
-     firebase.database().ref("/LivingRoom/fireAlarm").set(fireAlarmInput.checked ? "ON" : "OFF");
+     firebase.database().ref("/LivingRoom1/fireAlarm").set(fireAlarmInput.checked ? "ON" : "OFF");
  } else if (fireAlarmInput.checked) {
      event.preventDefault();
      fireAlarmInput.checked = false;
      closeToast();
  } else {
-     firebase.database().ref("/LivingRoom/fireAlarm").set("OFF");
+     firebase.database().ref("/LivingRoom1/fireAlarm").set("OFF");
  }
 });
 
@@ -123,7 +123,7 @@ var fireStatus = "OFF";
 var smokeStatus = "OFF";
 var fireAlarmStatus = "OFF";
 
-firebase.database().ref("/LivingRoom/fireAlarm").on("value", function(snapshot) {
+firebase.database().ref("/LivingRoom1/fireAlarm").on("value", function(snapshot) {
  if (snapshot.exists()) {
      fireAlarmStatus = snapshot.val();
      var fireAlarmInput = document.getElementById("fireAlarm");
@@ -144,7 +144,7 @@ firebase.database().ref("/LivingRoom/fireAlarm").on("value", function(snapshot) 
 });
  
 window.addEventListener('load', function() {
-firebase.database().ref("/LivingRoom/fireAlarm").once('value').then(function(snapshot) {
+firebase.database().ref("/LivingRoom1/fireAlarm").once('value').then(function(snapshot) {
 if (snapshot.exists()) {
    fireAlarmStatus = snapshot.val();
    checkFireAndSmokeStatus();
@@ -164,7 +164,7 @@ function checkFireAndSmokeStatus() {
  alarmSound.currentTime = 0;
 }
 }
-firebase.database().ref("/LivingRoom/smoke").on("value", function(snapshot) {
+firebase.database().ref("/LivingRoom1/smoke").on("value", function(snapshot) {
  smokeStatus = snapshot.val();
  var smokeStatusElem = document.getElementById("smoke_node1");
  var smokeNode1 = document.getElementById("smoke_node1_id");
@@ -183,7 +183,7 @@ console.log("khói: " + smokeStatus);
 checkFireAndSmokeStatus();
 });
 
-firebase.database().ref("/LivingRoom/fire").on("value", function(snapshot) {
+firebase.database().ref("/LivingRoom1/fire").on("value", function(snapshot) {
 fireStatus = snapshot.val();
 var fireStatusElem = document.getElementById("fire_node1");
 var fireNode1 = document.getElementById("firesensor_node1_id");
@@ -223,35 +223,38 @@ firebase.database().ref("/Garden/khigas").on("value",function(snapshot){
 
 
   //-------------------AUTO LOAD SENSOR LIVING ROOM-------------------------
-    firebase.database().ref("/LivingRoom/nhietdo").on("value",function(snapshot){
+    firebase.database().ref("/LivingRoom1/nhietdo").on("value",function(snapshot){
       var nd = snapshot.val();  
       document.getElementById("nhietdo").innerHTML = nd;
       console.log("nhiệt độ: " + nd);
     });
     
-    firebase.database().ref("/LivingRoom/doamkk").on("value",function(snapshot){
+    firebase.database().ref("/LivingRoom1/doamkk").on("value",function(snapshot){
       var da = snapshot.val();  
       document.getElementById("doamkk").innerHTML = da;
       console.log("độ ẩm: " + da);
     });
   
-    firebase.database().ref("/LivingRoom/khigas").on("value",function(snapshot){
+    firebase.database().ref("/LivingRoom1/khigas").on("value",function(snapshot){
       var gas = snapshot.val();  
       document.getElementById("khigas").innerHTML = gas;
       console.log("khí gas: " + gas);
     });
     
  //----------------CONNECT LIGHT TO FIREBASE-----------------
-firebase.database().ref("/LivingRoom/light").on("value", function(snapshot) {
+firebase.database().ref("/LivingRoom1/light").on("value", function(snapshot) {
   if (snapshot.exists()) {
       console.log(snapshot.val());
       var lightStatus = snapshot.val();
       var lightInput = document.getElementById("light");
       var textLight = document.getElementById("textlight");
+      var theLight = document.getElementById("thelight");
 
       if (lightInput && textLight) {
           lightInput.checked = (lightStatus === "ON");
           textLight.textContent = lightStatus;
+          textLight.style.color = (lightStatus === "ON") ? "red" : "black";
+          theLight.style.color = (lightStatus === "ON") ? "#dbdb0bed" : "#6a7076";
       }
   } else {
       console.log("No data available for light!");
@@ -263,7 +266,7 @@ var lightInput = document.getElementById('light');
 if (lightInput) {
   lightInput.addEventListener('change', function() {
       var lightState = this.checked ? "ON" : "OFF";
-      firebase.database().ref("/LivingRoom").update({
+      firebase.database().ref("/LivingRoom1").update({
           "light": lightState
       });
       var textLight = document.getElementById("textlight");
@@ -274,7 +277,7 @@ if (lightInput) {
 }
 
 //----------------CONNECT FAN TO FIREBASE-----------------
-firebase.database().ref("/LivingRoom/fan").on("value", function(snapshot) {
+firebase.database().ref("/LivingRoom1/fan").on("value", function(snapshot) {
   if (snapshot.exists()) {
       console.log(snapshot.val());
       var fanStatus = snapshot.val();
@@ -295,7 +298,7 @@ var fanInput = document.getElementById('fan');
 if (fanInput) {
   fanInput.addEventListener('change', function() {
       var fanState = this.checked ? "ON" : "OFF";
-      firebase.database().ref("/LivingRoom").update({
+      firebase.database().ref("/LivingRoom1").update({
           "fan": fanState
       });
       var textFan = document.getElementById("textfan");

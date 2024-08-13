@@ -12,6 +12,7 @@
     <title>Device</title>
 </head>
 <body>
+    <audio id="alarmSound" src="./img/Alarm.mp3" loop></audio>
     <!---------------------------------CATEGORY------------------------------------>
     <div class="grid">
         <div class="grid__row">
@@ -208,7 +209,7 @@
                         <section>
                             <li>
                                 <span>
-                                    <i class="fa-regular fa-droplet"></i>
+                                    <i class="fa-regular fa-droplet" style="color: blue;"></i>
                                     <span class="device_name">Humidity</span>
                                     <span class="device_status">
                                         Value<span style="color: blue;" id="doamdat">None</span>
@@ -218,7 +219,7 @@
 
                             <li>
                                 <span>
-                                    <i class="fa-regular fa-temperature-three-quarters"></i>
+                                    <i class="fa-regular fa-temperature-three-quarters" style="color: red;"></i>
                                     <span class="device_name">Temperature</span>
                                     <span class="device_status">
                                         Value<span style="color: red;" id="nhietdokk">None</span>
@@ -289,7 +290,9 @@
             </div>
         </div>
     </div>
+    <div id="toast2"></div>
 </div>
+<div id="overlay" class="overlay"></div>
     <script>
         function toggleContent() {
             var content1 = document.getElementById('content1');
