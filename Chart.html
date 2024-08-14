@@ -33,14 +33,14 @@
                         <span class="title">Home</span>
                     </a>
                 </li>
-                <li class="category-item--active">
+                <li>
                     <a href="./Device.html" class="category-item__link">
                         <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
                         <span class="title">Device</span>
                     </a>
                 </li>
-                <li>
-                    <a href="./Chart.html">
+                <li class="category-item--active">
+                    <a href="./Chart.html" class="category-item__link">
                         <span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
                         <span class="title">DashBoard</span>
                     </a>
@@ -109,7 +109,7 @@
                                     <p>Gas: <span class="data" id="smoke_node1">None</span></p>
                                 </span>
                             </li>
-                        </ul
+                        </ul>
             <div class="grid-container">
                 <div class="grid-item">
                     <div class="boxdata">
@@ -134,10 +134,27 @@
             </div>
 
             <!---------------------- Chart Garden ----------------->
-            <div class="grid-container" id="content2" style="display: none;">
+            <div class="device__body" id="content2" style="display: none;">
                 <div class="Title">
                     <div class="header__navbar-title">Garden</div>
                 </div>
+                <ul class="device-list">
+                    <ul class="status">
+                        <li class="status__list">
+                            <span class="Sensor">
+                                <img id="firesensor_node1_id" src="./img/fire.png" alt="img"
+                                    class="data_img">
+                                <p>Fire: <span class="data" id="fire_node1">None</span></p>
+                            </span>
+                        </li>
+                        <li class="status__list">
+                            <span class="Sensor">
+                                <img id="smoke_node1_id" src="./img/smoke.png" alt="img" class="data_img">
+                                <p>Gas: <span class="data" id="smoke_node1">None</span></p>
+                            </span>
+                        </li>
+                    </ul>
+                <div class="grid-container">
                 <div class="grid-item">
                     <div class="boxdata">
                         <p class="sensor">Temperature: <span class="data" id="nhietdokk">None</span></p>
@@ -157,6 +174,8 @@
                     </div>
                 </div>
             </div>
+        </ul>
+    </div>
 
             <button onclick="toggleContent()">
                 Next
