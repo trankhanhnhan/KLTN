@@ -1,16 +1,5 @@
-// Đảm bảo trình duyệt hỗ trợ getUserMedia
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    // Yêu cầu truy cập video
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-            // Lấy phần tử video
-            var video = document.getElementById('stream');
-            // Đặt nguồn video là stream từ camera
-            video.srcObject = stream;
-        })
-        .catch(function (error) {
-            console.error('Lỗi khi truy cập camera: ', error);
-        });
-} else {
-    alert('Trình duyệt không hỗ trợ getUserMedia.');
-}
+// URL của video stream từ camera ESP32
+const streamURL = 'http://<ESP32_IP>:<PORT>/stream';
+
+// Gán URL video stream cho phần tử <img>
+document.getElementById('stream').src = streamURL;
