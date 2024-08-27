@@ -8,5 +8,18 @@
 <body>
     <h1>ESP32 Camera Stream nè</h1>
     <img id="stream" src="{{ url_for('video_feed') }}" alt="ESP32-CAM Stream">
+    <script>
+        // Check if the browser supports getUserMedia
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+                var video = document.getElementById('stream');
+                video.srcObject = stream;
+            }).catch(function (error) {
+                console.error('Error accessing camera: ', error);
+            });
+        } else {
+            alert('getUserMedia not supported on this browser.');
+        }
+    </script>
 </body>
 </html>
