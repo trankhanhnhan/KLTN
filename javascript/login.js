@@ -2,7 +2,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyD5pqDw2o4AyjiARrFEP8nBwG4g2kmRStQ",
   authDomain: "nhan-3660d.firebaseapp.com",
   databaseURL: "https://nhan-3660d-default-rtdb.firebaseio.com",
-  projectId: "nhan-3660d",
+  projectId: "-nhan3660d",
   storageBucket: "nhan-3660d.appspot.com",
   messagingSenderId: "1054276103106",
   appId: "1:1054276103106:web:428ec651a347fa0b39045b",
