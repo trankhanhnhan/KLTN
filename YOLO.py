@@ -1,76 +1,73 @@
+from flask import Flask, render_template, Response
 import cv2
+import requests
 import numpy as np
+from ultralytics import YOLO
 
-class YoloDetect:
-    def __init__(self, detect_class="person", frame_width=1280, frame_height=720):
-        # Parameters
-        self.classnames_file = "model/yolov3.txt"
-        self.config_file = "model/yolov3.cfg"
-        self.conf_threshold = 0.5
-        self.nms_threshold = 0.4
-        self.detect_class = detect_class
-        self.frame_width = frame_width
-        self.frame_height = frame_height
-        self.scale = 1 / 255
-        self.classes = None
-        self.output_layers = None
-        self.read_class_file()
-        self.get_output_layers()
-        self.last_alert = None
-        self.alert_telegram_each = 15  # seconds
+app = Flask(__name__)
+model = YOLO('best.pt')  # Tải mô hình
 
-    def read_class_file(self):
-        with open(self.classnames_file, 'r') as f:
-            self.classes = [line.strip() for line in f.readlines()]
+# Kết nối đến camera ESP32
+ESP32_IP = "192.168.1.8"
 
-    def get_output_layers(self):
-        layer_names = self.model.getLayerNames()
-        self.output_layers = [layer_names[i - 1] for i in self.model.getUnconnectedOutLayers()]
+def generate_frames():
+    while True:
+        try:
+            # Fetch the image from the ESP32 camera
+            img_resp = requests.get(f'http://{ESP32_IP}/capture')
+            img_resp.raise_for_status()
 
-    def draw_prediction(self, img, class_id, x, y, x_plus_w, y_plus_h):
-        label = str(self.classes[class_id])
-        color = (0, 255, 0)
-        cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), color, 2)
-        cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            # Decode the image
+            frame = cv2.imdecode(np.frombuffer(img_resp.content, np.uint8), cv2.IMREAD_COLOR)
 
-    def detect(self, frame):
-        blob = cv2.dnn.blobFromImage(frame, self.scale, (416, 416), (0, 0, 0), True, crop=False)
-        self.model.setInput(blob)
-        outs = self.model.forward(self.output_layers)
+            # Object detection
+            results = model(frame)
 
-        # Loc cac object trong khung hinh
-        class_ids = []
-        confidences = []
-        boxes = []
+            # Draw bounding boxes
+            if results:
+                for result in results:
+                    # Ensure the boxes exist
+                    if hasattr(result, 'boxes') and result.boxes is not None:
+                        boxes = result.boxes.xyxy.cpu().numpy()  # Convert to numpy array
+                        confidences = result.boxes.conf.cpu().numpy()  # Get confidences
+                        class_ids = result.boxes.cls.cpu().numpy()  # Get class IDs
 
-        for out in outs:
-            for detection in out:
-                for obj in detection:
-                    scores = obj[5:]
-                    class_id = np.argmax(scores)
-                    confidence = scores[class_id]
-                    if confidence >= self.conf_threshold and self.classes[class_id] == self.detect_class:
-                        center_x = int(obj[0] * self.frame_width)
-                        center_y = int(obj[1] * self.frame_height)
-                        w = int(obj[2] * self.frame_width)
-                        h = int(obj[3] * self.frame_height)
-                        x = int(center_x - w / 2)
-                        y = int(center_y - h / 2)
-                        class_ids.append(class_id)
-                        confidences.append(float(confidence))
-                        boxes.append([x, y, w, h])
+                        for box, conf, cls in zip(boxes, confidences, class_ids):
+                            x1, y1, x2, y2 = box.astype(int)
 
-        indices = cv2.dnn.NMSBoxes(boxes, confidences, self.conf_threshold, self.nms_threshold)
+                            # Draw bounding box
+                            if cls == 0:  # Class for fire
+                                label = f"Fire: {conf:.2f}"
+                                color = (0, 255, 0)  # Green for fire
+                            elif cls == 1:  # Class for smoke
+                                label = f"Smoke: {conf:.2f}"
+                                color = (0, 0, 255)  # Red for smoke
+                            else:
+                                continue  # Skip other classes
 
-        if len(indices) > 0:
-            indices = indices.flatten()  # Flatten to handle single dimension
+                            # Draw rectangle and label
+                            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-            for i in indices:
-                box = boxes[i]
-                x = box[0]
-                y = box[1]
-                w = box[2]
-                h = box[3]
-                self.draw_prediction(frame, class_ids[i], x, y, x + w, y + h)
+            # Encode the frame to JPEG
+            _, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
 
-        return cv2.imencode('.jpg', frame)[1].tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching video stream: {e}")
+            break
+
+
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/')
+def index():
+    return render_template('cam.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 class Webcam:
-    def __init__(self, ip="192.168.1.29"):
+    def __init__(self, ip="192.168.1.8"):
         self.url = f"http://{ip}/" 
 
     def get_frame(self):
