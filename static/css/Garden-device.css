@@ -1,0 +1,153 @@
+.device__body {
+    padding-left: 15px;
+	padding-right: 15px;
+	width: 100%;
+	height: 100%;
+}
+
+.device-list {
+	position: relative;
+    padding: 0;
+    margin: 20px;
+	width: 100%;
+	height: 100%;
+}
+
+.device-list li {
+    display: block;
+    text-align: center;
+    list-style: none;
+	background: var(--primary-background-item-color);
+	box-shadow: 4px 4px 6px -1px rgba(0,0,0,0.15),
+    -4px -4px 6px -1px rgba(255,255,255,1);
+	border-radius: 5px;
+}
+
+.device-list li span {
+	background: var(--primary-background-item-color);
+}
+
+.device-list li:nth-child(1) {
+    position: absolute;
+    right: 25%;
+    width: 30%;
+}
+
+.device-list li:nth-child(2) {
+    position: absolute;
+    width: 30%;
+}
+
+.device-list li:nth-child(3) {
+    position: absolute;
+    right: 25%;
+    width: 30%;
+	top: 90%;
+
+}
+
+.device-list li:nth-child(4) {
+    position: absolute;
+    width: 30%;
+	top: 90%;
+}
+
+.device-list li span {
+    display: block;
+}
+
+.device-list li i {
+    display: block;
+	height: 40px;
+	width: 40px;
+	line-height: 40px;
+	text-align: center;
+	margin-left: 50%;
+	transform: translate(-50%, 30%);
+	color: rgba(0,0,0,0.5);
+	font-size: 25px;
+	font-weight: 800;
+	box-shadow: 4px 4px 6px -1px rgba(0,0,0,0.15),
+				-4px -4px 6px -1px rgba(255,255,255,1);
+	border-radius: 50%;
+	margin-bottom: 15px;
+    
+}
+
+.device_name{
+	font-size: 20px;
+	font-weight: 600;
+	color: rgba(0,0,0,1);
+    margin-top: 30px;
+}
+
+.device_status{
+	position: relative;
+	font-size: 17px;
+	font-weight: 500;
+	color: rgba(0,0,0,0.4);
+    padding-top: 10px;
+	width: 100%;
+	height: 100px;
+	background: none;
+}
+
+.device_status:nth-last-child(2) {
+	padding-right: 15px;
+}
+/*---------------DEVICE__SENSOR ID------------------------*/
+#textGlight {
+	position: absolute;
+    bottom: 73.8%;
+    left: 60%;
+	color: red;
+}
+
+#textGfan {
+	position: absolute;
+    bottom: 73.8%;
+    left: 60%;
+	color: red;
+}
+
+#nhietdokk {
+	position: relative;
+	left: 30%;
+	top: 5px;
+	font-size: 30px;
+	list-style: none;
+    padding-left: 0;
+	width: 40%;
+	line-height: 50px;
+	text-align: center;
+	background: var(--primary-background-item-color);
+	color: rgba(0,0,0,0.5);
+	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+				inset -4px -4px 6px -1px rgba(255,255,255,1),
+				-0.5px -0.5px 0 rgba(255,255,255,1),
+				1px 1px 0 rgba(0,0,0,0.05),
+				0px 12px 10px -10px rgba(0,0,0,0.05);
+	border: 1px solid rgba(0,0,0,0.01);
+	border-radius: 10px;
+}
+
+#doamdat {
+	position: relative;
+	left: 30%;
+	top: 5px;
+	font-size: 30px;
+	list-style: none;
+    padding-left: 0;
+	width: 40%;
+	line-height: 50px;
+	text-align: center;
+	background: var(--primary-background-item-color);
+	color: rgba(0,0,0,0.5);
+	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+				inset -4px -4px 6px -1px rgba(255,255,255,1),
+				-0.5px -0.5px 0 rgba(255,255,255,1),
+				1px 1px 0 rgba(0,0,0,0.05),
+				0px 12px 10px -10px rgba(0,0,0,0.05);
+	border: 1px solid rgba(0,0,0,0.01);
+	border-radius: 10px;
+}

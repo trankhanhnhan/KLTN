@@ -1,0 +1,52 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+}
+
+/* Tối ưu hiển thị trên các thiết bị */
+.grid {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0;
+}
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -12px;
+    margin-right: -12px;
+}
+
+.grid__column-2 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 26%;
+}
+
+.grid__column-10 {
+    padding-left: 50px;
+    padding-right: 12px;
+    width: 100%;
+    height: 648px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
