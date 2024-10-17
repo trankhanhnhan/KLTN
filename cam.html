@@ -181,8 +181,8 @@
     </script>
 
     <script>
-        const videoElement = document.querySelector('iframe');  // Lấy phần tử iframe
-        let videoPaused = true;  // Mặc định camera sẽ tắt khi bắt đầu
+        const videoElement = document.querySelector('iframe');
+        let videoPaused = true;
 
         function toggleVideo() {
             const button1 = document.getElementById('webcam_enabler');
@@ -190,11 +190,11 @@
             if (videoPaused) {
                 videoElement.src = "http://127.0.0.1:5000/video_feed";
                 button1.innerHTML = "Pause";
-                dot.style.visibility = 'visible';  // Hiển thị dot khi video đang chạy
+                dot.style.visibility = 'visible';
             } else {
                 videoElement.src = "";
                 button1.innerHTML = "Play";
-                dot.style.visibility = 'hidden';  // Ẩn dot khi video bị tạm dừng
+                dot.style.visibility = 'hidden';
             }
             videoPaused = !videoPaused;
         }
