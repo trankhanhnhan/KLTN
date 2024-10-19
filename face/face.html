@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <title>Face Detection Information</title>
+    <style>
+        /* Your CSS styles here */
+        @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1, h2 {
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            background-color: lightgrey;
+            color: black;
+            padding: 1rem;
+        }
+
+        .cards {
+            width: 640px;
+            height: 480px;
+            margin: 0 auto;
+            display: grid;
+            grid-gap: 1rem;
+        }
+
+        .button1 {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-right: 90px;
+            margin-top: 30px;
+        }
+
+        .dot {
+            height: 25px;
+            width: 25px;
+            background-color: #f44336;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="device__body" id="content1">
+        <div class="Title">
+            <div class="header__navbar-title">ESP32-CAM LIVE STREAM</div>
+        </div>
+        <ul class="device-list">
+            <div class="cards">
+                <div class="card">
+                    <iframe src="http://127.0.0.1:5000/video_feed" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+                    <h2>
+                        <b>ESP32-CAM Live 
+                            <span class="dot" id="webcam_red_dot" style="visibility: hidden;"></span>
+                        </b>
+                    </h2>
+                </div>
+            </div>
+        </ul>
+    </div>
+</body>
+</html>

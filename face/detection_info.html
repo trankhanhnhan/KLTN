@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection Results nè</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* CSS để tạo kiểu cho bảng */
+        table {
+            width: 100%; /* Chiều rộng của bảng chiếm 100% */
+            border-collapse: collapse; /* Xóa khoảng cách giữa các ô */
+        }
+        th, td {
+            border: 1px solid #ddd; /* Đường viền cho các ô */
+            padding: 8px; /* Khoảng cách bên trong ô */
+            text-align: center; /* Căn giữa văn bản */
+        }
+        th {
+            background-color: #f2f2f2; /* Màu nền cho hàng tiêu đề */
+        }
+        img {
+            width: 150px; /* Kích thước ảnh hiển thị */
+            height: auto;
+        }
+        /* Đặt kích thước tối thiểu cho ảnh trong cột hình ảnh toàn cảnh */
+        .full-image img {
+            min-width: 200px; /* Đặt kích thước tối thiểu là 200px */
+            width: auto; /* Đảm bảo hình ảnh tự động điều chỉnh chiều rộng */
+            height: auto; /* Tự động điều chỉnh chiều cao */
+        }
+    </style>
+</head>
+<body>
+    <h1>Face Detection Results</h1>
+    <table id="results">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Timestamp</th>
+                <th>Detected Face</th>
+                <th class="full-image">Full Image</th> <!-- Thêm lớp để áp dụng CSS -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dữ liệu sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to read the CSV file
+        function loadCSVFile() {
+            fetch('detection_info.csv')
+                .then(response => response.text()) // Get the CSV file as text
+                .then(csvText => {
+                    const rows = csvText.split('\n'); // Split by newlines to get rows
+                    const tbody = document.querySelector('#results tbody');
+
+                    // Iterate through the rows (skipping the header)
+                    rows.slice(1).forEach(row => {
+                        const columns = row.split(','); // Split by commas to get columns
+                        if (columns.length < 4) return; // Skip rows that don't have đủ cột
+
+                        const name = columns[1];             // Tên người
+                        const timestamp = columns[2];         // Dấu thời gian
+                        const imageFileName = columns[0];     // Tên file ảnh khuôn mặt
+                        const fullImageFileName = columns[3]; // Tên file ảnh toàn cảnh
+
+                        // Create a new row for the table
+                        const tableRow = document.createElement('tr');
+
+                        // Name column
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = name;
+                        tableRow.appendChild(nameCell);
+
+                        // Timestamp column
+                        const timestampCell = document.createElement('td');
+                        timestampCell.textContent = timestamp;
+                        tableRow.appendChild(timestampCell);
+
+                        // Detected Face column
+                        const imgCell = document.createElement('td');
+                        const img = document.createElement('img');
+                        img.src = `static/images/${imageFileName}`;  // Assuming images are in 'static/images/'
+                        img.alt = `Detected face of ${name}`;
+                        imgCell.appendChild(img);
+                        tableRow.appendChild(imgCell);
+
+                        // Full Image column
+                        const fullImgCell = document.createElement('td');
+                        fullImgCell.className = "full-image"; // Add the class for styling
+                        const fullImg = document.createElement('img');
+                        fullImg.src = `static/images/${fullImageFileName}`; // Assuming full images are in 'static/images/'
+                        fullImg.alt = `Full image of ${name}`;
+                        fullImgCell.appendChild(fullImg);
+                        tableRow.appendChild(fullImgCell);
+
+                        // Append the row to the table body
+                        tbody.appendChild(tableRow);
+                    });
+                })
+                .catch(error => console.error('Error loading CSV file:', error));
+        }
+
+        // Load the CSV file when the page loads
+        window.onload = loadCSVFile;
+    </script>
+</body>
+</html>

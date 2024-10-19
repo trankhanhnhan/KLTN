@@ -1,0 +1,21 @@
+Dataset/FaceData/processed\KhanhNhan\image.png 622 791 1763 2231
+Dataset/FaceData/processed\KhanhNhan\image copy 5.png 408 815 1554 2274
+Dataset/FaceData/processed\KhanhNhan\image copy 2.png 346 892 1469 2345
+Dataset/FaceData/processed\KhanhNhan\image copy 4.png 453 713 1613 2242
+Dataset/FaceData/processed\KhanhNhan\image copy 3.png 686 852 1872 2347
+Dataset/FaceData/processed\KhanhNhan\image copy.png 389 803 1468 2212
+Dataset/FaceData/processed\KhanhNhan\image copy 9.png 493 701 1666 2173
+Dataset/FaceData/processed\KhanhNhan\image copy 7.png 323 739 1483 2262
+Dataset/FaceData/processed\KhanhNhan\image copy 8.png 384 828 1686 2498
+Dataset/FaceData/processed\KhanhNhan\image copy 6.png 344 784 1580 2277
+Dataset/FaceData/processed\ElonMusk\image copy 6.png 143 22 444 419
+Dataset/FaceData/processed\ElonMusk\image copy 5.png 297 44 547 377
+Dataset/FaceData/processed\ElonMusk\image copy 4.png 182 41 296 187
+Dataset/FaceData/processed\ElonMusk\image.png 245 179 526 558
+Dataset/FaceData/processed\ElonMusk\image copy 8.png 384 101 671 484
+Dataset/FaceData/processed\ElonMusk\image copy 7.png 95 0 218 150
+Dataset/FaceData/processed\ElonMusk\image copy 3.png 274 112 583 491
+Dataset/FaceData/processed\ElonMusk\image copy 2.png 96 68 349 406
+Dataset/FaceData/processed\ElonMusk\image copy.png 267 104 536 465
+Dataset/FaceData/processed\ElonMusk\image copy 9.png 106 13 203 138
+Dataset/FaceData/processed\ElonMusk\image copy 10.png 281 69 409 225
