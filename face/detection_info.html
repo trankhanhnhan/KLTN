@@ -139,24 +139,90 @@
             updatePagination();
         }
 
-        // Function to update the pagination
         function updatePagination() {
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = ''; // Xóa dữ liệu cũ
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = ''; // Xóa phân trang cũ
 
-            const totalPages = Math.ceil(resultsData.length / rowsPerPage); // Tính tổng số trang
+    const totalPages = Math.ceil(resultsData.length / rowsPerPage); // Tổng số trang
+    const maxPagesToShow = 5; // Số trang hiển thị xung quanh trang hiện tại
+    const pageLinks = [];
 
-            for (let i = 1; i <= totalPages; i++) {
-                const pageLink = document.createElement('span');
-                pageLink.textContent = i;
-                pageLink.className = 'page-link' + (i === currentPage ? ' active' : '');
-                pageLink.onclick = () => {
-                    currentPage = i;
-                    displayPage(currentPage); // Hiển thị trang mới
-                };
-                pagination.appendChild(pageLink);
-            }
+    if (currentPage > 1) {
+        const prevLink = document.createElement('span');
+        prevLink.textContent = '←';
+        prevLink.className = 'page-link';
+        prevLink.onclick = () => {
+            currentPage--;
+            displayPage(currentPage);
+        };
+        pageLinks.push(prevLink);
+    }
+
+    if (currentPage > 3) {
+        const firstPage = document.createElement('span');
+        firstPage.textContent = '1';
+        firstPage.className = 'page-link';
+        firstPage.onclick = () => {
+            currentPage = 1;
+            displayPage(currentPage);
+        };
+        pageLinks.push(firstPage);
+
+        if (currentPage > 4) {
+            const dots = document.createElement('span');
+            dots.textContent = '..';
+            dots.className = 'page-link';
+            pageLinks.push(dots);
         }
+    }
+
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageLink = document.createElement('span');
+        pageLink.textContent = i;
+        pageLink.className = 'page-link' + (i === currentPage ? ' active' : '');
+        pageLink.onclick = () => {
+            currentPage = i;
+            displayPage(currentPage);
+        };
+        pageLinks.push(pageLink);
+    }
+
+    if (currentPage < totalPages - 2) {
+        if (currentPage < totalPages - 3) {
+            const dots = document.createElement('span');
+            dots.textContent = '..';
+            dots.className = 'page-link';
+            pageLinks.push(dots);
+        }
+
+        const lastPage = document.createElement('span');
+        lastPage.textContent = totalPages;
+        lastPage.className = 'page-link';
+        lastPage.onclick = () => {
+            currentPage = totalPages;
+            displayPage(currentPage);
+        };
+        pageLinks.push(lastPage);
+    }
+
+    if (currentPage < totalPages) {
+        const nextLink = document.createElement('span');
+        nextLink.textContent = '→';
+        nextLink.className = 'page-link';
+        nextLink.onclick = () => {
+            currentPage++;
+            displayPage(currentPage);
+        };
+        pageLinks.push(nextLink);
+    }
+
+    // Append tất cả các phần tử phân trang vào `pagination`
+    pageLinks.forEach(link => pagination.appendChild(link));
+}
+
 
         // Load the CSV file when the page loads
         window.onload = loadCSVFile;
