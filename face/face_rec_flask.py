@@ -175,6 +175,7 @@ def detect_and_save_faces(frame, bounding_boxes):
 def generate_frames():
     global previous_faces  # Biến toàn cục để theo dõi trạng thái phát hiện
     cap = VideoStream(src=0, backend=cv2.CAP_DSHOW).start()
+   
 
     # Định nghĩa tọa độ cho vùng nhận diện
     global zone_x1, zone_y1, zone_x2, zone_y2  # Đảm bảo rằng các biến này được định nghĩa ở đây

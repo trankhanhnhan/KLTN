@@ -29,6 +29,22 @@
             width: auto; /* Đảm bảo hình ảnh tự động điều chỉnh chiều rộng */
             height: auto; /* Tự động điều chỉnh chiều cao */
         }
+        #pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .page-link {
+            margin: 0 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .page-link.active {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -47,60 +63,99 @@
         </tbody>
     </table>
 
+    <div id="pagination"></div> <!-- Chỗ cho phân trang -->
+
     <script>
+        const rowsPerPage = 5; // Số hàng mỗi trang
+        let currentPage = 1; // Trang hiện tại
+        let resultsData = []; // Mảng để lưu trữ dữ liệu kết quả
+
         // Function to read the CSV file
         function loadCSVFile() {
             fetch('detection_info.csv')
                 .then(response => response.text()) // Get the CSV file as text
                 .then(csvText => {
                     const rows = csvText.split('\n'); // Split by newlines to get rows
-                    const tbody = document.querySelector('#results tbody');
 
                     // Iterate through the rows (skipping the header)
                     rows.slice(1).forEach(row => {
                         const columns = row.split(','); // Split by commas to get columns
                         if (columns.length < 4) return; // Skip rows that don't have đủ cột
-
-                        const name = columns[1];             // Tên người
-                        const timestamp = columns[2];         // Dấu thời gian
-                        const imageFileName = columns[0];     // Tên file ảnh khuôn mặt
-                        const fullImageFileName = columns[3]; // Tên file ảnh toàn cảnh
-
-                        // Create a new row for the table
-                        const tableRow = document.createElement('tr');
-
-                        // Name column
-                        const nameCell = document.createElement('td');
-                        nameCell.textContent = name;
-                        tableRow.appendChild(nameCell);
-
-                        // Timestamp column
-                        const timestampCell = document.createElement('td');
-                        timestampCell.textContent = timestamp;
-                        tableRow.appendChild(timestampCell);
-
-                        // Detected Face column
-                        const imgCell = document.createElement('td');
-                        const img = document.createElement('img');
-                        img.src = `static/images/${imageFileName}`;  // Assuming images are in 'static/images/'
-                        img.alt = `Detected face of ${name}`;
-                        imgCell.appendChild(img);
-                        tableRow.appendChild(imgCell);
-
-                        // Full Image column
-                        const fullImgCell = document.createElement('td');
-                        fullImgCell.className = "full-image"; // Add the class for styling
-                        const fullImg = document.createElement('img');
-                        fullImg.src = `static/images/${fullImageFileName}`; // Assuming full images are in 'static/images/'
-                        fullImg.alt = `Full image of ${name}`;
-                        fullImgCell.appendChild(fullImg);
-                        tableRow.appendChild(fullImgCell);
-
-                        // Append the row to the table body
-                        tbody.appendChild(tableRow);
+                        resultsData.push(columns); // Thêm hàng vào mảng dữ liệu
                     });
+
+                    // Hiển thị trang đầu tiên
+                    displayPage(currentPage);
                 })
                 .catch(error => console.error('Error loading CSV file:', error));
+        }
+
+        // Function to display a specific page
+        function displayPage(page) {
+            const tbody = document.querySelector('#results tbody');
+            tbody.innerHTML = ''; // Xóa dữ liệu cũ
+
+            // Tính chỉ số bắt đầu và kết thúc của hàng
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = resultsData.slice(start, end); // Lấy dữ liệu cho trang hiện tại
+
+            // Tạo hàng cho bảng
+            pageData.forEach(columns => {
+                const tableRow = document.createElement('tr');
+
+                // Name column
+                const nameCell = document.createElement('td');
+                nameCell.textContent = columns[1]; // Tên người
+                tableRow.appendChild(nameCell);
+
+                // Timestamp column
+                const timestampCell = document.createElement('td');
+                timestampCell.textContent = columns[2]; // Dấu thời gian
+                tableRow.appendChild(timestampCell);
+
+                // Detected Face column
+                const imgCell = document.createElement('td');
+                const img = document.createElement('img');
+                img.src = `static/images/${columns[0]}`;  // Tên file ảnh khuôn mặt
+                img.alt = `Detected face of ${columns[1]}`;
+                imgCell.appendChild(img);
+                tableRow.appendChild(imgCell);
+
+                // Full Image column
+                const fullImgCell = document.createElement('td');
+                fullImgCell.className = "full-image"; // Add the class for styling
+                const fullImg = document.createElement('img');
+                fullImg.src = `static/images/${columns[3]}`; // Tên file ảnh toàn cảnh
+                fullImg.alt = `Full image of ${columns[1]}`;
+                fullImgCell.appendChild(fullImg);
+                tableRow.appendChild(fullImgCell);
+
+                // Append the row to the table body
+                tbody.appendChild(tableRow);
+            });
+
+            // Cập nhật phân trang
+            updatePagination();
+        }
+
+        // Function to update the pagination
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = ''; // Xóa dữ liệu cũ
+
+            const totalPages = Math.ceil(resultsData.length / rowsPerPage); // Tính tổng số trang
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('span');
+                pageLink.textContent = i;
+                pageLink.className = 'page-link' + (i === currentPage ? ' active' : '');
+                pageLink.onclick = () => {
+                    currentPage = i;
+                    displayPage(currentPage); // Hiển thị trang mới
+                };
+                pagination.appendChild(pageLink);
+            }
         }
 
         // Load the CSV file when the page loads

@@ -5,7 +5,9 @@ import torch
 from ultralytics import YOLO
 
 app = Flask(__name__)
-model = YOLO('best.pt').to('cuda' if torch.cuda.is_available() else 'cpu')
+#model = YOLO('best.pt').to('cuda' if torch.cuda.is_available() else 'cpu') # Chuyển mô hình về GPU
+model = YOLO('best.pt')# Chuyển mô hình về CPU
+model.to('cpu')
 
 # Initialize webcam (0 for the default webcam)
 camera = cv2.VideoCapture(0)
