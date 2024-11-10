@@ -2,6 +2,7 @@ from flask import Flask, send_file, Response
 import cv2
 import numpy as np
 import torch
+import os
 from ultralytics import YOLO
 
 app = Flask(__name__)
@@ -66,5 +67,6 @@ def video_feed():
 def index():
     return send_file('cam.html')
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
