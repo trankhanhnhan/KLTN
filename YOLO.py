@@ -65,7 +65,7 @@ def video_feed():
 
 @app.route('/')
 def index():
-    return "Trang chủ của ứng dụng đang hoạt động!"
+    return send_file('cam.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
