@@ -1,4 +1,5 @@
 from flask import Flask, send_file, Response
+from flask_socketio import SocketIO, emit
 import cv2
 import numpy as np
 import torch
@@ -7,6 +8,7 @@ import requests
 from ultralytics import YOLO
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 # Load model YOLO
 model = YOLO('best.pt')  # Chuyển mô hình về CPU (hoặc GPU nếu có)
 model.to('cpu')
@@ -73,6 +75,14 @@ def video_feed():
 def index():
     return send_file('cam.html')
 
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Lấy cổng từ biến môi trường
-    app.run(host="0.0.0.0", port=port)  # Chạy Flask trên cổng này
+    socketio.start_background_task(generate_frames)
+    socketio.run(app, host='0.0.0.0', port=5000)
