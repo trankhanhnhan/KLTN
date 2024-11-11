@@ -64,8 +64,8 @@ def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
-def index():
-    return send_file('cam.html')
+def home():
+    return "Trang chủ của ứng dụng đang hoạt động!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
