@@ -12,7 +12,7 @@ model = YOLO('best.pt')  # Chuyển mô hình về CPU (hoặc GPU nếu có)
 model.to('cpu')
 
 # Địa chỉ IP của ESP32-CAM
-ESP32_IP = "https://132c-171-252-188-156.ngrok-free.app"  # Địa chỉ IP của ESP32-CAM
+ESP32_IP = "https://540e-171-252-188-156.ngrok-free.app/"  # Địa chỉ IP của ESP32-CAM
 
 def generate_frames():
     while True:
