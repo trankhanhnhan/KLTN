@@ -63,7 +63,7 @@ def generate_frames():
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/video')
+@app.route('/')
 def index():
     return send_file('cam.html')
 
