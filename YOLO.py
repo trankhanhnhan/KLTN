@@ -64,7 +64,7 @@ def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
-def home():
+def index():
     return "Trang chủ của ứng dụng đang hoạt động!"
 
 if __name__ == "__main__":
