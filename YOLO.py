@@ -74,5 +74,5 @@ def index():
     return send_file('cam.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
+    port = int(os.environ.get("PORT", 5000))  # Lấy cổng từ biến môi trường
+    app.run(host="0.0.0.0", port=port)  # Chạy Flask trên cổng này
