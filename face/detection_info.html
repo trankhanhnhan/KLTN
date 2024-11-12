@@ -6,28 +6,26 @@
     <title>Face Detection Results nè</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* CSS để tạo kiểu cho bảng */
         table {
-            width: 100%; /* Chiều rộng của bảng chiếm 100% */
-            border-collapse: collapse; /* Xóa khoảng cách giữa các ô */
+            width: 100%;
+            border-collapse: collapse;
         }
         th, td {
-            border: 1px solid #ddd; /* Đường viền cho các ô */
-            padding: 8px; /* Khoảng cách bên trong ô */
-            text-align: center; /* Căn giữa văn bản */
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
         }
         th {
-            background-color: #f2f2f2; /* Màu nền cho hàng tiêu đề */
+            background-color: #f2f2f2;
         }
         img {
-            width: 150px; /* Kích thước ảnh hiển thị */
+            width: 150px;
             height: auto;
         }
-        /* Đặt kích thước tối thiểu cho ảnh trong cột hình ảnh toàn cảnh */
         .full-image img {
-            min-width: 200px; /* Đặt kích thước tối thiểu là 200px */
-            width: auto; /* Đảm bảo hình ảnh tự động điều chỉnh chiều rộng */
-            height: auto; /* Tự động điều chỉnh chiều cao */
+            min-width: 200px;
+            width: auto;
+            height: auto;
         }
         #pagination {
             margin-top: 20px;
@@ -55,96 +53,83 @@
                 <th>Name</th>
                 <th>Timestamp</th>
                 <th>Detected Face</th>
-                <th class="full-image">Full Image</th> <!-- Thêm lớp để áp dụng CSS -->
+                <th class="full-image">Full Image</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Dữ liệu sẽ được thêm vào đây -->
         </tbody>
     </table>
 
-    <div id="pagination"></div> <!-- Chỗ cho phân trang -->
+    <div id="pagination"></div>
 
     <script>
-        const rowsPerPage = 5; // Số hàng mỗi trang
-        let currentPage = 1; // Trang hiện tại
-        let resultsData = []; // Mảng để lưu trữ dữ liệu kết quả
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        let resultsData = [];
 
-        // Function to read the CSV file
         function loadCSVFile() {
             fetch('detection_info.csv')
-                .then(response => response.text()) // Get the CSV file as text
+                .then(response => response.text())
                 .then(csvText => {
-                    const rows = csvText.split('\n'); // Split by newlines to get rows
+                    const rows = csvText.split('\n');
 
-                    // Iterate through the rows (skipping the header)
                     rows.slice(1).forEach(row => {
-                        const columns = row.split(','); // Split by commas to get columns
-                        if (columns.length < 4) return; // Skip rows that don't have đủ cột
-                        resultsData.push(columns); // Thêm hàng vào mảng dữ liệu
+                        const columns = row.split(',');
+                        if (columns.length < 4) return;
+                        resultsData.push(columns);
                     });
 
-                    // Hiển thị trang đầu tiên
                     displayPage(currentPage);
                 })
                 .catch(error => console.error('Error loading CSV file:', error));
         }
 
-        // Function to display a specific page
         function displayPage(page) {
             const tbody = document.querySelector('#results tbody');
-            tbody.innerHTML = ''; // Xóa dữ liệu cũ
+            tbody.innerHTML = '';
 
-            // Tính chỉ số bắt đầu và kết thúc của hàng
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
-            const pageData = resultsData.slice(start, end); // Lấy dữ liệu cho trang hiện tại
+            const pageData = resultsData.slice(start, end);
 
-            // Tạo hàng cho bảng
             pageData.forEach(columns => {
                 const tableRow = document.createElement('tr');
 
-                // Name column
                 const nameCell = document.createElement('td');
-                nameCell.textContent = columns[1]; // Tên người
+                nameCell.textContent = columns[1]; 
                 tableRow.appendChild(nameCell);
 
-                // Timestamp column
                 const timestampCell = document.createElement('td');
-                timestampCell.textContent = columns[2]; // Dấu thời gian
+                timestampCell.textContent = columns[2];
                 tableRow.appendChild(timestampCell);
 
-                // Detected Face column
                 const imgCell = document.createElement('td');
                 const img = document.createElement('img');
-                img.src = `static/images/${columns[0]}`;  // Tên file ảnh khuôn mặt
+                img.src = `static/images/${columns[0]}`;
                 img.alt = `Detected face of ${columns[1]}`;
                 imgCell.appendChild(img);
                 tableRow.appendChild(imgCell);
 
-                // Full Image column
                 const fullImgCell = document.createElement('td');
-                fullImgCell.className = "full-image"; // Add the class for styling
+                fullImgCell.className = "full-image";
                 const fullImg = document.createElement('img');
-                fullImg.src = `static/images/${columns[3]}`; // Tên file ảnh toàn cảnh
+                fullImg.src = `static/images/${columns[3]}`;
                 fullImg.alt = `Full image of ${columns[1]}`;
                 fullImgCell.appendChild(fullImg);
                 tableRow.appendChild(fullImgCell);
 
-                // Append the row to the table body
                 tbody.appendChild(tableRow);
             });
 
-            // Cập nhật phân trang
             updatePagination();
         }
 
         function updatePagination() {
     const pagination = document.getElementById('pagination');
-    pagination.innerHTML = ''; // Xóa phân trang cũ
+    pagination.innerHTML = '';
 
-    const totalPages = Math.ceil(resultsData.length / rowsPerPage); // Tổng số trang
-    const maxPagesToShow = 5; // Số trang hiển thị xung quanh trang hiện tại
+    const totalPages = Math.ceil(resultsData.length / rowsPerPage);
+    const maxPagesToShow = 5;
     const pageLinks = [];
 
     if (currentPage > 1) {
@@ -219,12 +204,8 @@
         pageLinks.push(nextLink);
     }
 
-    // Append tất cả các phần tử phân trang vào `pagination`
     pageLinks.forEach(link => pagination.appendChild(link));
 }
-
-
-        // Load the CSV file when the page loads
         window.onload = loadCSVFile;
     </script>
 </body>
