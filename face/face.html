@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./static/css/device.css">
+    <link rel="stylesheet" href="./static/css/General.css">    
+    <link rel="stylesheet" href="./static/css/base.css">    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
-    <title>Face Detection Information</title>
+    <link rel="stylesheet" href="./font/fontawesome-free-6.5.2-web/css/all.css">
+    <title>Face Detection Informations</title>
     <style>
         /* Your CSS styles here */
         @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
@@ -26,7 +30,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 70px 0;
         }
 
         th, td {
@@ -59,6 +63,54 @@
             grid-gap: 1rem;
         }
 
+        .btn1 {
+            position: absolute;
+            --primary-color: #645bff;
+            --secondary-color: #fff;
+            --hover-color: #111;
+            --arrow-width: 10px;
+            --arrow-stroke: 2px;
+            box-sizing: border-box;
+            border: 0;
+            border-radius: 20px;
+            color: var(--secondary-color);
+            padding: 1em 1.8em;
+            background: var(--blue);
+            display: flex;
+            transition: 0.2s background;
+            align-items: center;
+            gap: 0.6em;
+            font-size: 16px;
+            font-weight: bold;
+            top: 1%;
+            right: 80%;
+            cursor: pointer;
+        }
+
+        .btn2 {
+            position: absolute;
+            --primary-color: #645bff;
+            --secondary-color: #fff;
+            --hover-color: #111;
+            --arrow-width: 10px;
+            --arrow-stroke: 2px;
+            box-sizing: border-box;
+            border: 0;
+            border-radius: 20px;
+            color: var(--secondary-color);
+            padding: 1em 1.8em;
+            background: var(--blue);
+            display: flex;
+            transition: 0.2s background;
+            align-items: center;
+            gap: 0.6em;
+            font-size: 16px;
+            font-weight: bold;
+            top: 7%;
+            right: 80%;
+            cursor: pointer;
+        }
+
         .button1 {
             background-color: #f44336;
             border: none;
@@ -84,25 +136,402 @@
             max-width: 100%;
             height: auto;
         }
+
+                /* CSS để tạo kiểu cho bảng */
+                table {
+            width: 100%; /* Chiều rộng của bảng chiếm 100% */
+            border-collapse: collapse; /* Xóa khoảng cách giữa các ô */
+        }
+        th, td {
+            border: 1px solid #ddd; /* Đường viền cho các ô */
+            padding: 8px; /* Khoảng cách bên trong ô */
+            text-align: center; /* Căn giữa văn bản */
+        }
+        th {
+            background-color: #f2f2f2; /* Màu nền cho hàng tiêu đề */
+        }
+        img {
+            width: 150px; /* Kích thước ảnh hiển thị */
+            height: auto;
+        }
+        /* Đặt kích thước tối thiểu cho ảnh trong cột hình ảnh toàn cảnh */
+        .full-image img {
+            min-width: 200px; /* Đặt kích thước tối thiểu là 200px */
+            width: auto; /* Đảm bảo hình ảnh tự động điều chỉnh chiều rộng */
+            height: auto; /* Tự động điều chỉnh chiều cao */
+        }
+        #pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .page-link {
+            margin: 0 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .page-link.active {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
+
 <body>
-    <div class="device__body" id="content1">
-        <div class="Title">
-            <div class="header__navbar-title">ESP32-CAM LIVE STREAM</div>
-        </div>
-        <ul class="device-list">
-            <div class="cards">
-                <div class="card">
-                    <iframe src="http://127.0.0.1:5000/video_feed" width="640" height="480" frameborder="0" allowfullscreen></iframe>
-                    <h2>
-                        <b>ESP32-CAM Live 
-                            <span class="dot" id="webcam_red_dot" style="visibility: hidden;"></span>
-                        </b>
-                    </h2>
+    <div class="grid" id="content1">
+        <div class="grid__row">
+            <div class="grid__column-2">
+                <div class="app__container">
+                    <div class="navigation">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span class="icon"><img src="./static/img/UTE.jpg"></span>
+                                    <span class="title" style="font-size: 1.5em;font-weight: 500;">ĐH SPKT</span>
+                                </a>
+                            </li>
+                            <li class="hovered">
+                                <a href="./Home.html">
+                                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                                    <span class="title">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./Device.html">
+                                    <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
+                                    <span class="title">Device</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./Chart.html">
+                                    <span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
+                                    <span class="title">Chart</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./cam.html">
+                                    <span class="icon"><ion-icon name="camera-outline"></ion-icon></span>
+                                    <span class="title">Camera Fire</span>
+                                </a>
+                            </li>
+                            <li class="category-item--active">
+                                <a href="./face/face.html"  class="category-item__link">
+                                    <span class="icon"><ion-icon name="camera-outline"></ion-icon></span>
+                                    <span class="title">Camera Face</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./reset-pass.html">
+                                    <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                                    <span class="title">Password</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./login.html">
+                                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                                    <span class="title">Sign Out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </ul>
+
+            <!-- main -->
+            <div class="main">
+                <div class="grid__column-10">
+                    <div class="topbar">
+                        <div class="toggle">
+                            <ion-icon name="menu-outline"></ion-icon>
+                        </div>
+
+                        <!-- userImg -->
+                        <div class="user">
+                            <img src="./static/img/nhan.jpg">
+                        </div>
+                    </div>
+        
+                    <!-- DEVICE__SENSOR -->
+                    <!-- CONTENT 1 -->
+                    <div class="device__body">
+                        <div class="Title">
+                            <div class="header__navbar-title">ESP32-CAM LIVE STREAM</div>
+                        </div>
+                        <ul class="device-list">
+                            <div class="cards">
+                                <div class="card">
+                                    <!-- Đặt src ban đầu của iframe là rỗng để tắt camera -->
+                                    <iframe src="http://127.0.0.1:5000/video_feed" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+                                    <h2>
+                                        <b>ESP32-CAM Live 
+                                            <span class="dot" id="webcam_red_dot" style="visibility: hidden;"></span>
+                                        </b>
+                                    </h2>
+                                    <!-- Nút "Play" mặc định để bật camera -->
+                                    <!-- <button class="button1" id="webcam_enabler" onclick="toggleVideo()">Play</button> -->
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+
+        <button class ="btn2" onclick="toggleContent()">
+            List Images
+            <div class="arrow-wrapper">
+                <div class="arrow"></div>
+            </div>
+        </button>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="device__body" id="content2" style="display: none;">
+        <h1>Face Detection Results</h1>
+        <table id="results">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Timestamp</th>
+                    <th>Detected Face</th>
+                    <th class="full-image">Full Image</th> <!-- Thêm lớp để áp dụng CSS -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dữ liệu sẽ được thêm vào đây -->
+            </tbody>
+        </table>
+
+<div id="pagination"></div> <!-- Chỗ cho phân trang -->
+<button class ="btn1" onclick="toggleContent()">
+    Camera
+    <div class="arrow-wrapper">
+        <div class="arrow"></div>
+    </div>
+</button>
+</div>
+    <script>
+        const rowsPerPage = 5; // Số hàng mỗi trang
+        let currentPage = 1; // Trang hiện tại
+        let resultsData = []; // Mảng để lưu trữ dữ liệu kết quả
+
+        // Function to read the CSV file
+        function loadCSVFile() {
+            fetch('detection_info.csv')
+                .then(response => response.text()) // Get the CSV file as text
+                .then(csvText => {
+                    const rows = csvText.split('\n'); // Split by newlines to get rows
+
+                    // Iterate through the rows (skipping the header)
+                    rows.slice(1).forEach(row => {
+                        const columns = row.split(','); // Split by commas to get columns
+                        if (columns.length < 4) return; // Skip rows that don't have đủ cột
+                        resultsData.push(columns); // Thêm hàng vào mảng dữ liệu
+                    });
+
+                    // Hiển thị trang đầu tiên
+                    displayPage(currentPage);
+                })
+                .catch(error => console.error('Error loading CSV file:', error));
+        }
+
+        // Function to display a specific page
+        function displayPage(page) {
+            const tbody = document.querySelector('#results tbody');
+            tbody.innerHTML = ''; // Xóa dữ liệu cũ
+
+            // Tính chỉ số bắt đầu và kết thúc của hàng
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = resultsData.slice(start, end); // Lấy dữ liệu cho trang hiện tại
+
+            // Tạo hàng cho bảng
+            pageData.forEach(columns => {
+                const tableRow = document.createElement('tr');
+
+                // Name column
+                const nameCell = document.createElement('td');
+                nameCell.textContent = columns[1]; // Tên người
+                tableRow.appendChild(nameCell);
+
+                // Timestamp column
+                const timestampCell = document.createElement('td');
+                timestampCell.textContent = columns[2]; // Dấu thời gian
+                tableRow.appendChild(timestampCell);
+
+                // Detected Face column
+                const imgCell = document.createElement('td');
+                const img = document.createElement('img');
+                img.src = `static/images/${columns[0]}`;  // Tên file ảnh khuôn mặt
+                img.alt = `Detected face of ${columns[1]}`;
+                imgCell.appendChild(img);
+                tableRow.appendChild(imgCell);
+
+                // Full Image column
+                const fullImgCell = document.createElement('td');
+                fullImgCell.className = "full-image"; // Add the class for styling
+                const fullImg = document.createElement('img');
+                fullImg.src = `static/images/${columns[3]}`; // Tên file ảnh toàn cảnh
+                fullImg.alt = `Full image of ${columns[1]}`;
+                fullImgCell.appendChild(fullImg);
+                tableRow.appendChild(fullImgCell);
+
+                // Append the row to the table body
+                tbody.appendChild(tableRow);
+            });
+
+            // Cập nhật phân trang
+            updatePagination();
+        }
+
+        function updatePagination() {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = ''; // Xóa phân trang cũ
+
+    const totalPages = Math.ceil(resultsData.length / rowsPerPage); // Tổng số trang
+    const maxPagesToShow = 5; // Số trang hiển thị xung quanh trang hiện tại
+    const pageLinks = [];
+
+    if (currentPage > 1) {
+        const prevLink = document.createElement('span');
+        prevLink.textContent = '←';
+        prevLink.className = 'page-link';
+        prevLink.onclick = () => {
+            currentPage--;
+            displayPage(currentPage);
+        };
+        pageLinks.push(prevLink);
+    }
+
+    if (currentPage > 3) {
+        const firstPage = document.createElement('span');
+        firstPage.textContent = '1';
+        firstPage.className = 'page-link';
+        firstPage.onclick = () => {
+            currentPage = 1;
+            displayPage(currentPage);
+        };
+        pageLinks.push(firstPage);
+
+        if (currentPage > 4) {
+            const dots = document.createElement('span');
+            dots.textContent = '..';
+            dots.className = 'page-link';
+            pageLinks.push(dots);
+        }
+    }
+
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageLink = document.createElement('span');
+        pageLink.textContent = i;
+        pageLink.className = 'page-link' + (i === currentPage ? ' active' : '');
+        pageLink.onclick = () => {
+            currentPage = i;
+            displayPage(currentPage);
+        };
+        pageLinks.push(pageLink);
+    }
+
+    if (currentPage < totalPages - 2) {
+        if (currentPage < totalPages - 3) {
+            const dots = document.createElement('span');
+            dots.textContent = '..';
+            dots.className = 'page-link';
+            pageLinks.push(dots);
+        }
+
+        const lastPage = document.createElement('span');
+        lastPage.textContent = totalPages;
+        lastPage.className = 'page-link';
+        lastPage.onclick = () => {
+            currentPage = totalPages;
+            displayPage(currentPage);
+        };
+        pageLinks.push(lastPage);
+    }
+
+    if (currentPage < totalPages) {
+        const nextLink = document.createElement('span');
+        nextLink.textContent = '→';
+        nextLink.className = 'page-link';
+        nextLink.onclick = () => {
+            currentPage++;
+            displayPage(currentPage);
+        };
+        pageLinks.push(nextLink);
+    }
+
+    // Append tất cả các phần tử phân trang vào `pagination`
+    pageLinks.forEach(link => pagination.appendChild(link));
+}
+
+
+        // Load the CSV file when the page loads
+        window.onload = loadCSVFile;
+    </script>
+
+    <!-- MENU TOOGLE -->
+    <script>
+        // MenuToggle
+        let toggle = document.querySelector('.toggle');
+        let navigation = document.querySelector('.navigation');
+        let main = document.querySelector('.main');
+
+        toggle.onclick = function(){
+            navigation.classList.toggle('active');
+            main.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        // add hovered class in selected list item
+        let list = document.querySelectorAll('.navigation li');
+        function activeLink(){
+            list.forEach((item) =>
+            item.classList.remove('hovered'));
+            this.classList.add('hovered');
+        }
+        list.forEach((item) => 
+        item.addEventListener('mouseover',activeLink));
+    </script>
+
+    <!-- <script>
+        const videoElement = document.querySelector('iframe');
+        let videoPaused = true;
+
+        function toggleVideo() {
+            const button1 = document.getElementById('webcam_enabler');
+            const dot = document.getElementById('webcam_red_dot');
+            if (videoPaused) {
+                videoElement.src = "http://127.0.0.1:5000/video_feed";
+                button1.innerHTML = "Pause";
+                dot.style.visibility = 'visible';
+            } else {
+                videoElement.src = "";
+                button1.innerHTML = "Play";
+                dot.style.visibility = 'hidden';
+            }
+            videoPaused = !videoPaused;
+        }
+    </script> -->
+
+<script>
+    function toggleContent() {
+        var content1 = document.getElementById('content1');
+        var content2 = document.getElementById('content2');
+        if (content1.style.display === 'none') {
+            content1.style.display = 'block';
+            content2.style.display = 'none';
+        } else {
+            content1.style.display = 'none';
+            content2.style.display = 'block';
+        }
+    }
+</script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
