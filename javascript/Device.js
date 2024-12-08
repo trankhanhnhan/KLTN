@@ -7,367 +7,149 @@ const firebaseConfig = {
     messagingSenderId: "1054276103106",
     appId: "1:1054276103106:web:428ec651a347fa0b39045b",
     measurementId: "G-27TGW7MZDB"
-  };
-    firebase.initializeApp(firebaseConfig);
+};
+firebase.initializeApp(firebaseConfig);
 
- //-----------------TOAST MESSAGE----------------------
- const toastContainer = document.getElementById('toast2');
- const overlay = document.getElementById('overlay');
- let okClickCount = 0;
- 
- function toast({ title = "", message = "", type = "warning", onConfirm, onConfirm2 }) {
-     const main = toastContainer;
-     if (main) {
-         const toast = document.createElement("div");
-         toast.style.animation = `slideInDown ease .3s`;
- 
-         const icons = {
-             success: "fas fa-check-circle",
-             warning: "fas fa-exclamation-circle",
-             info: "fas fa-info-circle",
-         };
-         const icon = icons[type] || icons.warning;
- 
-         toast.innerHTML = `
-             <div class="toast2 toast2--${type}">
-                 <div class="toast2__icon">
-                     <i class="${icon}"></i>
-                 </div>
-                 <div class="toast2__body">
-                     <h3 class="toast2__title">${title}</h3>
-                     <p class="toast2__msg">${message}</p>
-                 </div>
-             </div>
-             <div class="toast2 toast2--btn">
-                 <div class="toast2--btn btn--close">Cancel</div>
-                 <div class="toast2--btn btn--next">Ok</div>
-             </div>
-         `;
+// Tạo một biến để lưu trữ trạng thái báo động
+let fireAlarmStatus = "OFF"; 
+let fireStatus = "OFF";
+let smokeStatus = "OFF";
+let temperatureStatus = "OFF";
+let temperatureTimer = null;
 
-     toast.querySelector('.btn--next').onclick = () => {
-         okClickCount += 1;
+// Lắng nghe thay đổi nhiệt độ trong phòng từ Firebase
+firebase.database().ref("/LivingRoom1/nhietdo").on("value", function(snapshot) {
+    const temperature = snapshot.val();
+    document.getElementById("nhietdo").innerHTML = temperature;
+    console.log("Nhiệt độ: " + temperature);
 
-         if (okClickCount === 1) {
-             main.removeChild(toast);
-                 onConfirm();
-         } else if (okClickCount === 2) {
-             main.removeChild(toast);
-                 onConfirm2();
-  
-         } else if (okClickCount === 3) {
-             main.removeChild(toast);
-             overlay.classList.remove('show');
-             okClickCount = 0;
-             onConfirm2();
-         }
-     };
-
-     toast.querySelector('.btn--close').onclick = () => {
-         main.removeChild(toast);
-         okClickCount = 0;
-         overlay.classList.remove('show');
-     };
-
-     main.appendChild(toast);
-     overlay.classList.add('show');
- }
-}
-
-let shouldToggleFireAlarm = false;
-
-function closeToast() {
- toast({
-     title: "Warning",
-     message: "If you enable this rule, you will trigger a fire alarm!",
-     type: "warning",
-     onConfirm: () => {
-         toast({
-             title: "Confirmation",
-             message: "Are you sure you want to enable warnings?",
-             type: "info",
-             onConfirm2: () => {
-                 toast({
-                     title: "Success",
-                     message: "Click OK to enable alerts!",
-                     type: "success",
-                     onConfirm2: () => {
-                         console.log("Fire alarm activated!");
-                         shouldToggleFireAlarm = true;
-                         document.getElementById("fireAlarm").checked = true;
-                         firebase.database().ref("/LivingRoom1/fireAlarm").set("ON");
-                         overlay.classList.remove('show');
-                     }
-                 });
-             }
-         });
-     }
- });
-}
-
-document.getElementById("fireAlarm").addEventListener("change", function(event) {
- const fireAlarmInput = document.getElementById("fireAlarm");
- 
- if (shouldToggleFireAlarm) {
-     shouldToggleFireAlarm = false;
-     firebase.database().ref("/LivingRoom1/fireAlarm").set(fireAlarmInput.checked ? "ON" : "OFF");
- } else if (fireAlarmInput.checked) {
-     event.preventDefault();
-     fireAlarmInput.checked = false;
-     closeToast();
- } else {
-     firebase.database().ref("/LivingRoom1/fireAlarm").set("OFF");
- }
+    // Kiểm tra xem nhiệt độ có lớn hơn 60°C không
+    if (temperature > 60 && fireAlarmStatus !== "ON") {
+        console.log("Cảnh báo: Nhiệt độ quá cao!");
+        temperatureStatus = "ON";
+        triggerFireAlarm();  // Gọi hàm kích hoạt báo động
+    } else if (temperature <= 60 && temperatureStatus === "ON") {
+        console.log("Nhiệt độ xuống dưới 60°C, tắt báo động!");
+        temperatureStatus = "OFF";
+        // Dừng báo động sau 5 giây nếu nhiệt độ đã xuống dưới 60°C
+        clearTimeout(temperatureTimer);
+        temperatureTimer = setTimeout(() => {
+            checkAndStopFireAlarm();
+        }, 5000);  // 5 giây
+    }
 });
 
-var fireStatus = "OFF";
-var smokeStatus = "OFF";
-var fireAlarmStatus = "OFF";
-
+// Lắng nghe trạng thái báo động từ Firebase
 firebase.database().ref("/LivingRoom1/fireAlarm").on("value", function(snapshot) {
- if (snapshot.exists()) {
-     fireAlarmStatus = snapshot.val();
-     var fireAlarmInput = document.getElementById("fireAlarm");
-     var textfireAlarm = document.getElementById("textfireAlarm");
-     var fireAlarm = document.getElementById("firealarm");
+    if (snapshot.exists()) {
+        fireAlarmStatus = snapshot.val();
+        const fireAlarmInput = document.getElementById("fireAlarm");
+        const textfireAlarm = document.getElementById("textfireAlarm");
+        const fireAlarm = document.getElementById("firealarm");
 
-     if (fireAlarmInput && textfireAlarm) {
-         fireAlarmInput.checked = (fireAlarmStatus === "ON");
-         textfireAlarm.textContent = fireAlarmStatus;
-         textfireAlarm.style.color = (fireAlarmStatus === "ON") ? "red" : "black";
-         fireAlarm.style.color = (fireAlarmStatus === "ON") ? "red" : "#6a7076";
-     }
-
-     checkFireAndSmokeStatus();
- } else {
-     console.log("Không có dữ liệu về fireAlarm!");
- }
-});
- 
-window.addEventListener('load', function() {
-firebase.database().ref("/LivingRoom1/fireAlarm").once('value').then(function(snapshot) {
-if (snapshot.exists()) {
-   fireAlarmStatus = snapshot.val();
-   checkFireAndSmokeStatus();
-}
-}).catch(error => console.error('Error fetching fireAlarm status:', error));
+        // Cập nhật trạng thái báo động trên giao diện người dùng
+        if (fireAlarmInput && textfireAlarm) {
+            fireAlarmInput.checked = (fireAlarmStatus === "ON");
+            textfireAlarm.textContent = fireAlarmStatus;
+            textfireAlarm.style.color = (fireAlarmStatus === "ON") ? "red" : "black";
+            fireAlarm.style.color = (fireAlarmStatus === "ON") ? "red" : "#6a7076";
+        }
+    } else {
+        console.log("Không có dữ liệu về fireAlarm!");
+    }
 });
 
-function checkFireAndSmokeStatus() {
- const alarmSound = document.getElementById('alarmSound');
+// Hàm kích hoạt báo động cháy
+function triggerFireAlarm() {
+    if (fireAlarmStatus !== "ON") {
+        fireAlarmStatus = "ON";  // Đánh dấu báo động đã bật
+        console.log("Kích hoạt báo động cháy!");
 
- if (fireAlarmStatus === "ON" && (fireStatus === "ON" || smokeStatus === "ON")) {
-     if (alarmSound.paused) {
-     alarmSound.play().catch(error => console.error('Error playing sound:', error));
- }
-} else {
- alarmSound.pause();
- alarmSound.currentTime = 0;
-}
-}
-firebase.database().ref("/LivingRoom1/smoke").on("value", function(snapshot) {
- smokeStatus = snapshot.val();
- var smokeStatusElem = document.getElementById("smoke_node1");
- var smokeNode1 = document.getElementById("smoke_node1_id");
+        // Cập nhật trạng thái báo động trong Firebase
+        firebase.database().ref("/LivingRoom1/fireAlarm").set("ON");
 
- if (smokeStatus === "ON") {
- smokeStatusElem.innerHTML = "DETECTED";
- smokeStatusElem.style.color = "red";
- smokeNode1.classList.add("zooming2");
-} else {
- smokeStatusElem.innerHTML = "NOT DETECTED";
- smokeStatusElem.style.color = "black";
- smokeNode1.classList.remove("zooming2");
+        // Phát âm thanh báo động nếu nó không đang phát
+        const alarmSound = document.getElementById('alarmSound');
+        if (alarmSound && alarmSound.paused) {
+            alarmSound.play().catch(error => console.error('Lỗi khi phát âm thanh:', error));
+        }
+    }
 }
 
-console.log("khói: " + smokeStatus);
-checkFireAndSmokeStatus();
-});
+// Hàm tắt báo động cháy khi cần thiết
+function stopFireAlarm() {
+    if (fireAlarmStatus === "ON") {
+        fireAlarmStatus = "OFF";
+        console.log("Tắt báo động cháy!");
+        firebase.database().ref("/LivingRoom1/fireAlarm").set("OFF");
 
+        // Dừng âm thanh báo động
+        const alarmSound = document.getElementById('alarmSound');
+        if (alarmSound && !alarmSound.paused) {
+            alarmSound.pause();
+            alarmSound.currentTime = 0;  // Reset lại âm thanh
+        }
+    }
+}
+
+// Lắng nghe trạng thái của cảm biến lửa từ Firebase
 firebase.database().ref("/LivingRoom1/fire").on("value", function(snapshot) {
-fireStatus = snapshot.val();
-var fireStatusElem = document.getElementById("fire_node1");
-var fireNode1 = document.getElementById("firesensor_node1_id");
+    fireStatus = snapshot.val();
+    const fireStatusElem = document.getElementById("fire_node1");
+    const fireNode1 = document.getElementById("firesensor_node1_id");
 
-if (fireStatus === "ON") {
- fireStatusElem.innerHTML = "DETECTED";
- fireStatusElem.style.color = "red";
- fireNode1.classList.add("zooming1");
-} else {
- fireStatusElem.innerHTML = "NOT DETECTED";
- fireStatusElem.style.color = "black";
- fireNode1.classList.remove("zooming1");
-}
-
-console.log("lửa: " + fireStatus);
-checkFireAndSmokeStatus();
-});
-    
-//------------------------AUTO LOAD SENSOR GARDEN-------------------------
-firebase.database().ref("/Garden/nhietdokk").on("value",function(snapshot){
-  var nd = snapshot.val();  
-  document.getElementById("nhietdokk").innerHTML = nd;
-  console.log("nhiệt độ: " + nd);
-});
-
-firebase.database().ref("/Garden/doamdat").on("value",function(snapshot){
-  var da = snapshot.val();  
-  document.getElementById("doamdat").innerHTML = da;
-  console.log("độ ẩm: " + da);
-});
-
-firebase.database().ref("/Garden/khigas").on("value",function(snapshot){
-  var gas = snapshot.val();  
-  document.getElementById("khigas").innerHTML = gas;
-  console.log("khí gas: " + gas);
-});
-
-
-  //-------------------AUTO LOAD SENSOR LIVING ROOM-------------------------
-    firebase.database().ref("/LivingRoom1/nhietdo").on("value",function(snapshot){
-      var nd = snapshot.val();  
-      document.getElementById("nhietdo").innerHTML = nd;
-      console.log("nhiệt độ: " + nd);
-    });
-    
-    firebase.database().ref("/LivingRoom1/doamkk").on("value",function(snapshot){
-      var da = snapshot.val();  
-      document.getElementById("doamkk").innerHTML = da;
-      console.log("độ ẩm: " + da);
-    });
-  
-    firebase.database().ref("/LivingRoom1/khigas").on("value",function(snapshot){
-      var gas = snapshot.val();  
-      document.getElementById("khigas").innerHTML = gas;
-      console.log("khí gas: " + gas);
-    });
-    
- //----------------CONNECT LIGHT TO FIREBASE-----------------
-firebase.database().ref("/LivingRoom1/light").on("value", function(snapshot) {
-  if (snapshot.exists()) {
-      console.log(snapshot.val());
-      var lightStatus = snapshot.val();
-      var lightInput = document.getElementById("light");
-      var textLight = document.getElementById("textlight");
-      var theLight = document.getElementById("thelight");
-
-      if (lightInput && textLight) {
-          lightInput.checked = (lightStatus === "ON");
-          textLight.textContent = lightStatus;
-          textLight.style.color = (lightStatus === "ON") ? "red" : "black";
-          theLight.style.color = (lightStatus === "ON") ? "#dbdb0bed" : "#6a7076";
-      }
-  } else {
-      console.log("No data available for light!");
-  }
-});
-
-//-----------------CONTROL LIGHT FROM THE WEB----------------------
-var lightInput = document.getElementById('light');
-if (lightInput) {
-  lightInput.addEventListener('change', function() {
-      var lightState = this.checked ? "ON" : "OFF";
-      firebase.database().ref("/LivingRoom1").update({
-          "light": lightState
-      });
-      var textLight = document.getElementById("textlight");
-      if (textLight) {
-          textLight.textContent = lightState;
-      }
-  });
-}
-
-//----------------CONNECT FAN TO FIREBASE-----------------
-firebase.database().ref("/LivingRoom1/fan").on("value", function(snapshot) {
-  if (snapshot.exists()) {
-      console.log(snapshot.val());
-      var fanStatus = snapshot.val();
-      var fanInput = document.getElementById("fan");
-      var textFan = document.getElementById("textfan");
-
-      if (fanInput && textFan) {
-          fanInput.checked = (fanStatus === "ON");
-          textFan.textContent = fanStatus;
-      }
-  } else {
-      console.log("No data available for fan!");
-  }
-});
-
-//-----------------CONTROL FAN FROM THE WEB----------------------
-var fanInput = document.getElementById('fan');
-if (fanInput) {
-  fanInput.addEventListener('change', function() {
-      var fanState = this.checked ? "ON" : "OFF";
-      firebase.database().ref("/LivingRoom1").update({
-          "fan": fanState
-      });
-      var textFan = document.getElementById("textfan");
-      if (textFan) {
-          textFan.textContent = fanState;
-      }
-  });
-}
-
-  //----------------CONNECT LIGHT TO FIREBASE-----------------
-  firebase.database().ref("/Garden/light").on("value", function(snapshot) {
-    if (snapshot.exists()) {
-        console.log(snapshot.val());
-        var lightStatus = snapshot.val();
-        var lightInput = document.getElementById("gardenlight");
-        var textGLight = document.getElementById("textGlight");
-  
-        if (lightInput && textGLight) {
-            lightInput.checked = (lightStatus === "ON");
-            textGLight.textContent = lightStatus;
+    if (fireStatus === "ON") {
+        fireStatusElem.innerHTML = "DETECTED";
+        fireStatusElem.style.color = "red";
+        fireNode1.classList.add("zooming1");
+        if (fireAlarmStatus !== "ON") {
+            triggerFireAlarm();  // Kích hoạt báo động nếu phát hiện lửa
         }
     } else {
-        console.log("No data available for light!");
+        fireStatusElem.innerHTML = "NOT DETECTED";
+        fireStatusElem.style.color = "black";
+        fireNode1.classList.remove("zooming1");
     }
-  });
-  
-  //-----------------CONTROL LIGHT FROM THE WEB----------------------
-  var lightInput = document.getElementById('gardenlight');
-  if (lightInput) {
-    lightInput.addEventListener('change', function() {
-        var lightState = this.checked ? "ON" : "OFF";
-        firebase.database().ref("/Garden").update({
-            "light": lightState
-        });
-        var textGLight = document.getElementById("textGlight");
-        if (textGLight) {
-            textGLight.textContent = lightState;
-        }
-    });
-  }
-  
-  //----------------CONNECT FAN TO FIREBASE-----------------
-  firebase.database().ref("/Garden/fan").on("value", function(snapshot) {
-    if (snapshot.exists()) {
-        console.log(snapshot.val());
-        var fanStatus = snapshot.val();
-        var fanInput = document.getElementById("gardenfan");
-        var textGFan = document.getElementById("textGfan");
-  
-        if (fanInput && textGFan) {
-            fanInput.checked = (fanStatus === "ON");
-            textGFan.textContent = fanStatus;
+
+    console.log("Lửa: " + fireStatus);
+    checkAndStopFireAlarm();
+});
+
+// Lắng nghe trạng thái của cảm biến khói từ Firebase
+firebase.database().ref("/LivingRoom1/smoke").on("value", function(snapshot) {
+    smokeStatus = snapshot.val();
+    const smokeStatusElem = document.getElementById("smoke_node1");
+    const smokeNode1 = document.getElementById("smoke_node1_id");
+
+    if (smokeStatus === "ON") {
+        smokeStatusElem.innerHTML = "DETECTED";
+        smokeStatusElem.style.color = "red";
+        smokeNode1.classList.add("zooming2");
+        if (fireAlarmStatus !== "ON") {
+            triggerFireAlarm();  // Kích hoạt báo động nếu phát hiện khói
         }
     } else {
-        console.log("No data available for fan!");
+        smokeStatusElem.innerHTML = "NOT DETECTED";
+        smokeStatusElem.style.color = "black";
+        smokeNode1.classList.remove("zooming2");
     }
-  });
-  
-  //-----------------CONTROL FAN FROM THE WEB----------------------
-  var fanInput = document.getElementById('gardenfan');
-  if (fanInput) {
-    fanInput.addEventListener('change', function() {
-        var fanState = this.checked ? "ON" : "OFF";
-        firebase.database().ref("/Garden").update({
-            "fan": fanState
-        });
-        var textGFan = document.getElementById("textGfan");
-        if (textGFan) {
-            textGFan.textContent = fanState;
+
+    console.log("Khói: " + smokeStatus);
+    checkAndStopFireAlarm();
+});
+
+// Hàm kiểm tra và tắt báo động khi không còn tác nhân gây cháy
+function checkAndStopFireAlarm() {
+    const alarmSound = document.getElementById('alarmSound');
+
+    // Kiểm tra xem báo động có bật khi có lửa hoặc khói không
+    if (fireAlarmStatus === "ON" || fireStatus === "ON" || smokeStatus === "ON" || temperatureStatus === "ON") {
+        if (alarmSound.paused) {
+            alarmSound.play().catch(error => console.error('Lỗi khi phát âm thanh:', error));
         }
-    });
-  }
+    } else {
+        alarmSound.pause();
+        alarmSound.currentTime = 0;
+        stopFireAlarm();  // Tắt báo động khi không còn tác nhân gây cháy
+    }
+}
