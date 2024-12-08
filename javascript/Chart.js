@@ -11,10 +11,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var nhietdo = [];
-var doamkk = [];
+var doam = [];
 var khigas = [];
-var nhietdokk = [];
-var doamdat = [];
+var nhietdo2 = [];
+var doam2 = [];
 var khigas2 = [];
 var updateInterval = null;
 
@@ -61,7 +61,7 @@ const humichart = new Chart(humidityChartCanvas, {
     labels: initialLabels,
     datasets: [{
       label: 'Humidity',
-      data: doamkk,
+      data: doam,
       borderColor: 'blue',
       backgroundColor: 'rgba(185, 249, 244, 0.8)',
       fill: true
@@ -131,7 +131,7 @@ const tempchart2 = new Chart(temperatureChartCanvas2, {
     labels: initialLabels,
     datasets: [{
       label: 'Temperature',
-      data: nhietdokk,
+      data: nhietdo2,
       borderColor: 'rgba(255, 99, 132, 1)',
       backgroundColor: 'rgba(255, 99, 132, 0.2)',
       fill: true
@@ -166,7 +166,7 @@ const humichart2 = new Chart(humidityChartCanvas2, {
     labels: initialLabels,
     datasets: [{
       label: 'Humidity',
-      data: doamdat,
+      data: doam2,
       borderColor: 'blue',
       backgroundColor: 'rgba(185, 249, 244, 0.8)',
       fill: true
@@ -232,19 +232,19 @@ const gaschart2 = new Chart(gasChartCanvas2, {
 
 function saveDataToLocalStorage() {
   localStorage.setItem('nhietdo_history', JSON.stringify(nhietdo));
-  localStorage.setItem('doamkk_history', JSON.stringify(doamkk));
+  localStorage.setItem('doam_history', JSON.stringify(doam));
   localStorage.setItem('khigas_history', JSON.stringify(khigas));
-  localStorage.setItem('nhietdokk_history', JSON.stringify(nhietdokk));
-  localStorage.setItem('doamdat_history', JSON.stringify(doamdat));
+  localStorage.setItem('nhietdo2_history', JSON.stringify(nhietdo2));
+  localStorage.setItem('doam2_history', JSON.stringify(doam2));
   localStorage.setItem('khigas2_history', JSON.stringify(khigas2));
 }
 
 function getDataFromLocalStorage() {
   nhietdo = JSON.parse(localStorage.getItem('nhietdo_history')) || [];
-  doamkk = JSON.parse(localStorage.getItem('doamkk_history')) || [];
+  doam = JSON.parse(localStorage.getItem('doam_history')) || [];
   khigas = JSON.parse(localStorage.getItem('khigas_history')) || [];
-  nhietdokk = JSON.parse(localStorage.getItem('nhietdokk_history')) || [];
-  doamdat = JSON.parse(localStorage.getItem('doamdat_history')) || [];
+  nhietdo2 = JSON.parse(localStorage.getItem('nhietdo2_history')) || [];
+  doam2 = JSON.parse(localStorage.getItem('doam2_history')) || [];
   khigas2 = JSON.parse(localStorage.getItem('khigas2_history')) || [];
 }
 
@@ -255,7 +255,7 @@ function updateDataAndSaveToLocalStorage() {
 getDataFromLocalStorage();
 
 function initializeData() {
-  firebase.database().ref("/LivingRoom/nhietdo").once("value", function(snapshot) {
+  firebase.database().ref("/KLTN/Device/WareHouse1/nhietdo").once("value", function(snapshot) {
       var nd = snapshot.val();
       if (nd !== null) {
           nhietdo.push({ value: nd, timestamp: new Date().getTime() });
@@ -268,20 +268,20 @@ function initializeData() {
       }
   });
   
-  firebase.database().ref("/LivingRoom/doamkk").once("value", function(snapshot) {
+  firebase.database().ref("/KLTN/Device/WareHouse1/doam").once("value", function(snapshot) {
       var damkk = snapshot.val();
       if (damkk !== null) {
-          doamkk.push({ value: damkk, timestamp: new Date().getTime() });
-          document.getElementById("doamkk").innerHTML = damkk;
-          console.log("Initial doamkk: " + damkk);
-          humichart.data.datasets[0].data = doamkk.slice(-8).map(item => item.value);
-          humichart.data.labels = generateLabels(doamkk.slice(-8));
+          doam.push({ value: damkk, timestamp: new Date().getTime() });
+          document.getElementById("doam").innerHTML = damkk;
+          console.log("Initial doam: " + damkk);
+          humichart.data.datasets[0].data = doam.slice(-8).map(item => item.value);
+          humichart.data.labels = generateLabels(doam.slice(-8));
           humichart.update();
           updateDataAndSaveToLocalStorage();
       }
   });
   
-  firebase.database().ref("/LivingRoom/khigas").once("value", function(snapshot) {
+  firebase.database().ref("/KLTN/Device/WareHouse1/khigas").once("value", function(snapshot) {
       var kgas = snapshot.val();
       if (kgas !== null) {
           khigas.push({ value: kgas, timestamp: new Date().getTime() });
@@ -294,33 +294,33 @@ function initializeData() {
       }
   });
 
-  firebase.database().ref("/Garden/nhietdokk").once("value", function(snapshot) {
+  firebase.database().ref("/KLTN/Device/WareHouse2/nhietdo").once("value", function(snapshot) {
       var ndkk = snapshot.val();
       if (ndkk !== null) {
-          nhietdokk.push({ value: ndkk, timestamp: new Date().getTime() });
-          document.getElementById("nhietdokk").innerHTML = ndkk;
-          console.log("Initial nhietdokk: " + ndkk);
-          tempchart2.data.datasets[0].data = nhietdokk.slice(-8).map(item => item.value);
-          tempchart2.data.labels = generateLabels(nhietdokk.slice(-8));
+          nhietdo2.push({ value: ndkk, timestamp: new Date().getTime() });
+          document.getElementById("nhietdo2").innerHTML = ndkk;
+          console.log("Initial nhietdo2: " + ndkk);
+          tempchart2.data.datasets[0].data = nhietdo2.slice(-8).map(item => item.value);
+          tempchart2.data.labels = generateLabels(nhietdo2.slice(-8));
           tempchart2.update();
           updateDataAndSaveToLocalStorage();
       }
   });
 
-  firebase.database().ref("/Garden/doamdat").once("value", function(snapshot) {
+  firebase.database().ref("/KLTN/Device/WareHouse2/doam2").once("value", function(snapshot) {
       var damdat = snapshot.val();
       if (damdat !== null) {
-          doamdat.push({ value: damdat, timestamp: new Date().getTime() });
-          document.getElementById("doamdat").innerHTML = damdat;
-          console.log("Initial doamdat: " + damdat);
-          humichart2.data.datasets[0].data = doamdat.slice(-8).map(item => item.value);
-          humichart2.data.labels = generateLabels(doamdat.slice(-8));
+          doam2.push({ value: damdat, timestamp: new Date().getTime() });
+          document.getElementById("doam2").innerHTML = damdat;
+          console.log("Initial doam2: " + damdat);
+          humichart2.data.datasets[0].data = doam2.slice(-8).map(item => item.value);
+          humichart2.data.labels = generateLabels(doam2.slice(-8));
           humichart2.update();
           updateDataAndSaveToLocalStorage();
       }
   });
 
-  firebase.database().ref("/Garden/khigas2").once("value", function(snapshot) {
+  firebase.database().ref("/KLTN/Device/WareHouse2/khigas2").once("value", function(snapshot) {
       var kgas2 = snapshot.val();
       if (kgas2 !== null) {
           khigas2.push({ value: kgas2, timestamp: new Date().getTime() });
@@ -338,7 +338,7 @@ function generateLabels(data) {
   return data.map(item => new Date(item.timestamp).toLocaleTimeString());
 }
 
-firebase.database().ref("/LivingRoom/nhietdo").on("value", function(snapshot) {
+firebase.database().ref("/KLTN/Device/WareHouse1/nhietdo").on("value", function(snapshot) {
   var nd = snapshot.val();
   nhietdo.push({ value: nd, timestamp: new Date().getTime() });
   document.getElementById("nhietdo").innerHTML = nd;
@@ -349,18 +349,18 @@ firebase.database().ref("/LivingRoom/nhietdo").on("value", function(snapshot) {
   updateDataAndSaveToLocalStorage();
 });
 
-firebase.database().ref("/LivingRoom/doamkk").on("value", function(snapshot) {
+firebase.database().ref("/KLTN/Device/WareHouse1/doam").on("value", function(snapshot) {
   var damkk = snapshot.val();
-  doamkk.push({ value: damkk, timestamp: new Date().getTime() });
-  document.getElementById("doamkk").innerHTML = damkk;
-  console.log("Updated doamkk: " + damkk);
-  humichart.data.datasets[0].data = doamkk.slice(-8).map(item => item.value);
-  humichart.data.labels = generateLabels(doamkk.slice(-8));
+  doam.push({ value: damkk, timestamp: new Date().getTime() });
+  document.getElementById("doam").innerHTML = damkk;
+  console.log("Updated doam: " + damkk);
+  humichart.data.datasets[0].data = doam.slice(-8).map(item => item.value);
+  humichart.data.labels = generateLabels(doam.slice(-8));
   humichart.update();
   updateDataAndSaveToLocalStorage();
 });
 
-firebase.database().ref("/LivingRoom/khigas").on("value", function(snapshot) {
+firebase.database().ref("/KLTN/Device/WareHouse1/khigas").on("value", function(snapshot) {
   var kgas = snapshot.val();
   khigas.push({ value: kgas, timestamp: new Date().getTime() });
   document.getElementById("khigas").innerHTML = kgas;
@@ -371,29 +371,29 @@ firebase.database().ref("/LivingRoom/khigas").on("value", function(snapshot) {
   updateDataAndSaveToLocalStorage();
 });
 
-firebase.database().ref("/Garden/nhietdokk").on("value", function(snapshot) {
+firebase.database().ref("/KLTN/Device/WareHouse2/nhietdo").on("value", function(snapshot) {
   var ndkk = snapshot.val();
-  nhietdokk.push({ value: ndkk, timestamp: new Date().getTime() });
-  document.getElementById("nhietdokk").innerHTML = ndkk;
-  console.log("Updated nhietdokk: " + ndkk);
-  tempchart2.data.datasets[0].data = nhietdokk.slice(-8).map(item => item.value);
-  tempchart2.data.labels = generateLabels(nhietdokk.slice(-8));
+  nhietdo2.push({ value: ndkk, timestamp: new Date().getTime() });
+  document.getElementById("nhietdo2").innerHTML = ndkk;
+  console.log("Updated nhietdo2: " + ndkk);
+  tempchart2.data.datasets[0].data = nhietdo2.slice(-8).map(item => item.value);
+  tempchart2.data.labels = generateLabels(nhietdo2.slice(-8));
   tempchart2.update();
   updateDataAndSaveToLocalStorage();
 });
 
-firebase.database().ref("/Garden/doamdat").on("value", function(snapshot) {
+firebase.database().ref("/KLTN/Device/WareHouse2/doam").on("value", function(snapshot) {
   var damdat = snapshot.val();
-  doamdat.push({ value: damdat, timestamp: new Date().getTime() });
-  document.getElementById("doamdat").innerHTML = damdat;
-  console.log("Updated doamdat: " + damdat);
-  humichart2.data.datasets[0].data = doamdat.slice(-8).map(item => item.value);
-  humichart2.data.labels = generateLabels(doamdat.slice(-8));
+  doam2.push({ value: damdat, timestamp: new Date().getTime() });
+  document.getElementById("doam2").innerHTML = damdat;
+  console.log("Updated doam2: " + damdat);
+  humichart2.data.datasets[0].data = doam2.slice(-8).map(item => item.value);
+  humichart2.data.labels = generateLabels(doam2.slice(-8));
   humichart2.update();
   updateDataAndSaveToLocalStorage();
 });
 
-firebase.database().ref("/Garden/khigas2").on("value", function(snapshot) {
+firebase.database().ref("/KLTN/Device/WareHouse2/khigas2").on("value", function(snapshot) {
   var kgas2 = snapshot.val();
   khigas2.push({ value: kgas2, timestamp: new Date().getTime() });
   document.getElementById("khigas2").innerHTML = kgas2;
@@ -402,6 +402,92 @@ firebase.database().ref("/Garden/khigas2").on("value", function(snapshot) {
   gaschart2.data.labels = generateLabels(khigas2.slice(-8));
   gaschart2.update();
   updateDataAndSaveToLocalStorage();
+});
+
+
+firebase.database().ref("/KLTN/Device/WareHouse1/smoke").on("value", function(snapshot) {
+  var smk = snapshot.val();
+  var smokeStatusElem = document.getElementById("smoke_node1");
+  var smokeNode1 = document.getElementById("smoke_node1_id");
+
+  if (smk === "ON") {
+      smokeStatusElem.innerHTML = "DETECTED";
+      smokeStatusElem.style.color = "red";
+      smokeNode1.classList.add("zooming2");
+      smokeStatus = "ON";
+  } else {
+      smokeStatusElem.innerHTML = "NOT DETECTED";
+      smokeStatusElem.style.color = "black";
+      smokeNode1.classList.remove("zooming2");
+      smokeStatus = "OFF";
+  }
+
+  console.log("khói: " + smk);
+  checkFireAndSmokeStatus();
+});
+
+firebase.database().ref("/KLTN/Device/WareHouse1/fire").on("value", function(snapshot) {
+  var fire = snapshot.val();
+  var fireStatusElem = document.getElementById("fire_node1");
+  var fireNode1 = document.getElementById("firesensor_node1_id");
+
+  if (fire === "ON") {
+      fireStatusElem.innerHTML = "DETECTED";
+      fireStatusElem.style.color = "red";
+      fireNode1.classList.add("zooming1");
+      fireStatus = "ON";  
+  } else {
+      fireStatusElem.innerHTML = "NOT DETECTED";
+      fireStatusElem.style.color = "black";
+      fireNode1.classList.remove("zooming1");
+      fireStatus = "OFF";
+
+  console.log("lửa: " + fire);
+  checkFireAndSmokeStatus();
+}
+});
+
+
+firebase.database().ref("/KLTN/Device/WareHouse2/smoke").on("value", function(snapshot) {
+  var smk2 = snapshot.val();
+  var smokeStatusElem2 = document.getElementById("smoke_node2");
+  var smokeNode2 = document.getElementById("smoke_node2_id");
+
+  if (smk2 === "ON") {
+      smokeStatusElem2.innerHTML = "DETECTED";
+      smokeStatusElem2.style.color = "red";
+      smokeNode2.classList.add("zooming2");
+      smokeStatus2 = "ON";
+  } else {
+      smokeStatusElem2.innerHTML = "NOT DETECTED";
+      smokeStatusElem2.style.color = "black";
+      smokeNode2.classList.remove("zooming2");
+      smokeStatus2 = "OFF";
+  }
+
+  console.log("khói: " + smk2);
+  checkFireAndSmokeStatus();
+});
+
+firebase.database().ref("/KLTN/Device/WareHouse2/fire").on("value", function(snapshot) {
+  var fire2 = snapshot.val();
+  var fireStatusElem2 = document.getElementById("fire_node2");
+  var fireNode2 = document.getElementById("firesensor_node2_id");
+
+  if (fire2 === "ON") {
+      fireStatusElem2.innerHTML = "DETECTED";
+      fireStatusElem2.style.color = "red";
+      fireNode2.classList.add("zooming1");
+      fireStatus2 = "ON";  
+  } else {
+      fireStatusElem2.innerHTML = "NOT DETECTED";
+      fireStatusElem2.style.color = "black";
+      fireNode2.classList.remove("zooming1");
+      fireStatus2 = "OFF";
+
+  console.log("lửa: " + fire);
+  checkFireAndSmokeStatus();
+}
 });
 
 initializeData();

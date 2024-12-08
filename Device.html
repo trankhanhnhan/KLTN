@@ -26,12 +26,6 @@
                         <span class="title" style="font-size: 1.5em;font-weight: 500;">ĐH SPKT</span>
                     </a>
                 </li>
-                <li class="hovered">
-                    <a href="./Home.html">
-                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title">Home</span>
-                    </a>
-                </li>
                 <li class="category-item--active">
                     <a href="./Device.html" class="category-item__link">
                         <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
@@ -63,7 +57,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="./login.html">
+                    <a href="./index.html">
                         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                         <span class="title">Sign Out</span>
                     </a>
@@ -83,7 +77,6 @@
 
 				<!-- userImg -->
 				<div class="user">
-					<img src="./img/nhan.jpg">
 				</div>
 			</div>
         
@@ -91,7 +84,7 @@
     <!----------------- CONTENT 1 -------------->
                     <div class="device__body" id="content1">
                         <div class="Title">
-                            <div class="header__navbar-title">Living Room</div>
+                            <div class="header__navbar-title">WareHouse</div>
                         </div>
                         <ul class="device-list">
                             <ul class="status">
@@ -105,7 +98,7 @@
                                 <li class="status__list">
                                     <span class="Sensor">
                                         <img id="smoke_node1_id" src="./static/img/smoke.png" alt="img" class="data_img">
-                                       <p>Gas:  <span class="data" id="smoke_node1">None</span></p>
+                                       <p>Smoke:  <span class="data" id="smoke_node1">None</span></p>
                                     </span>
                                 </li>
                             </ul>
@@ -115,7 +108,7 @@
                                     <i class="fa-regular fa-droplet" style="color: blue;"></i>
                                     <span class="device_name">Humidity</span>
                                         <span class="device_status">
-                                            Value<span style="color: blue;" id="doamkk">None</span>
+                                            Value<span style="color: blue;" id="doam">None</span>
                                         </span>
                                 </span>
                             </li>
@@ -133,7 +126,7 @@
                             <li>
                                 <span class="text-center">
                                     <i id="thelight" class="fa fa-lightbulb"></i>
-                                    <span class="device_name">Main Light</span>
+                                    <span class="device_name">Light</span>
                                     <span class="device_status">Status: 
                                         <span id="textlight">None</span>
                                     </span>
@@ -159,17 +152,18 @@
 
                             <li>
                                 <span class="text-center">
-                                    <i id="firealarm" class="fa-regular fa-house-fire"></i>
-                                    <span class="device_name">Fire Alarm</span>
-                                    <span class="device_status">Status:
-                                        <span id="textfireAlarm">None</span>
+                                    <i id="thefan" class="fa fa-fan"></i>
+                                    <span class="device_name">Fan</span>
+                                    <span class="device_status">Status: 
+                                        <span id="textfan">None</span>
                                     </span>
                                     <div id="wrapper">
                                         <div class="switch">
-                                            <input type="checkbox" name="toggle" id="fireAlarm" checked>
+                                            <input type="checkbox" name="toggle" id="fan" checked>
                                             <label for="toggle">
                                               <div class="bulb">
                                                 <span class="bulb-center"></span>
+                                                
                                                 <span class="sparks">
                                                   <i class="spark1"></i>
                                                   <i class="spark2"></i>
@@ -185,25 +179,26 @@
                         </section>
                         </ul>
                     </div>
+                    
                 
                     
-    <!--------------------- CONTENT 2 ----------------->
-                    <!-- <nav class="device__body" id="content2" style="display: none;">
+    <!-- ------------------- CONTENT 2 ----------------->
+                    <nav class="device__body" id="content2" style="display: none;">
                         <div class="Title">
-                            <div class="header__navbar-title">Garden</div>
+                            <div class="header__navbar-title">WareHouse Workers</div>
                         </div>
                         <ul class="device-list">
                             <ul class="status">
                                 <li class="status__list">
                                     <span class="Sensor">
-                                        <img id="firesensor_node1_id" src="./img/fire.png" alt="img" class="data_img">
-                                        <p>Fire:  <span class="data" id="fire_node1">None</span></p>
+                                        <img id="firesensor_node2_id" src="./static/img/fire.png" alt="img" class="data_img">
+                                        <p>Fire:  <span class="data" id="fire_node2">None</span></p>
                                     </span>
                                 </li>
                                 <li class="status__list">
                                     <span class="Sensor">
-                                        <img id="smoke_node1_id" src="./img/smoke.png" alt="img" class="data_img">
-                                       <p>Gas:  <span class="data" id="smoke_node1">None</span></p>
+                                        <img id="smoke_node2_id" src="./static/img/smoke.png" alt="img" class="data_img">
+                                       <p>Smoke:  <span class="data" id="smoke_node2">None</span></p>
                                     </span>
                                 </li>
                             </ul>
@@ -213,7 +208,7 @@
                                     <i class="fa-regular fa-droplet" style="color: blue;"></i>
                                     <span class="device_name">Humidity</span>
                                     <span class="device_status">
-                                        Value<span style="color: blue;" id="doamdat">None</span>
+                                        Value<span style="color: blue;" id="doam2">None</span>
                                     </span>
                                 </span>
                             </li>
@@ -223,71 +218,74 @@
                                     <i class="fa-regular fa-temperature-three-quarters" style="color: red;"></i>
                                     <span class="device_name">Temperature</span>
                                     <span class="device_status">
-                                        Value<span style="color: red;" id="nhietdokk">None</span>
+                                        Value<span style="color: red;" id="nhietdo2">None</span>
                                     </span>
                                 </span>
                             </li>
 
                             <li>
                                 <span class="text-center">
-                                    <i class="fa fa-lightbulb"></i>
-                                    <span class="device_name">Garden Light</span>
+                                    <i id="thelight2" class="fa fa-lightbulb"></i>
+                                    <span class="device_name">Light</span>
                                     <span class="device_status">Status: 
-                                        <span id="textGlight">None</span>
+                                        <span id="textlight2">None</span>
                                     </span>
                                     <div id="wrapper">
                                         <div class="switch">
-                                            <input type="checkbox" name="toggle" id="gardenlight" checked>
-                                            <label for="gardenlight">
-                                            <div class="bulb">
+                                            <input type="checkbox" name="toggle" id="light2" checked>
+                                            <label for="toggle">
+                                              <div class="bulb">
                                                 <span class="bulb-center"></span>
+                                                
                                                 <span class="sparks">
-                                                    <i class="spark1"></i>
-                                                    <i class="spark2"></i>
-                                                    <i class="spark3"></i>
-                                                    <i class="spark4"></i>
-                                                  </span>
+                                                  <i class="spark1"></i>
+                                                  <i class="spark2"></i>
+                                                  <i class="spark3"></i>
+                                                  <i class="spark4"></i>
+                                                </span>
                                             </div>
                                             </label>
-                                        </div>
+                                          </div>
                                     </div>
                                 </span>
                             </li>
+
                             <li>
                                 <span class="text-center">
-                                    <i class="fa fa-archive"></i>
-                                    <span class="device_name">Garden Fan</span>
-                                    <span class="device_status">Status:
-                                        <span id="textGfan">None</span>
+                                    <i id="thefan2" class="fa fa-fan"></i>
+                                    <span class="device_name">Fan</span>
+                                    <span class="device_status">Status: 
+                                        <span id="textfan2">None</span>
                                     </span>
                                     <div id="wrapper">
                                         <div class="switch">
-                                            <input type="checkbox" name="toggle" id="gardenfan" checked>
-                                            <label for="gardenfan">
-                                            <div class="bulb">
+                                            <input type="checkbox" name="toggle" id="fan2" checked>
+                                            <label for="toggle">
+                                              <div class="bulb">
                                                 <span class="bulb-center"></span>
+                                                
                                                 <span class="sparks">
-                                                    <i class="spark1"></i>
-                                                    <i class="spark2"></i>
-                                                    <i class="spark3"></i>
-                                                    <i class="spark4"></i>
-                                                  </span>
-                                              </div>
-                                              </label>
+                                                  <i class="spark1"></i>
+                                                  <i class="spark2"></i>
+                                                  <i class="spark3"></i>
+                                                  <i class="spark4"></i>
+                                                </span>
                                             </div>
-                                      </div>
-                                  </span>
-                              </li>
+                                            </label>
+                                          </div>
+                                    </div>
+                                </span>
+                            </li>
                           </section>
                           </ul>
-                      </nav> -->
+                      </nav>
 
-                <!-- <button onclick="toggleContent()">
+                 <button onclick="toggleContent()">
                     Next
                     <div class="arrow-wrapper">
                         <div class="arrow"></div>
                     </div>
-                </button> -->
+                </button>
             </div>
         </div>
     </div>
@@ -307,7 +305,7 @@
             }
         }
     </script>
-    <!---------------------------------MENU TOOGLE------------------------------------>
+    <!-----------------------------------MENU TOOGLE------------------------------------>
     <script>
 		// MenuToggle
 		let toggle = document.querySelector('.toggle');
@@ -339,6 +337,5 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
     <script src="./javascript/Device.js"></script>
-    <script src="./javascript/Cam.js"></script>
 </body>
 </html>

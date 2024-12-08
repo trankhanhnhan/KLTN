@@ -97,7 +97,7 @@ section{
 	color: red;
 }
 
-#textfireAlarm {
+#textfan {
 	position: absolute;
     bottom: 72.5%;
     left: 57%;
@@ -105,63 +105,6 @@ section{
 }
 
 #nhietdo {
-	position: relative;
-	left: 30%;
-	top: 5px;
-	font-size: 30px;
-	list-style: none;
-    padding-left: 0;
-	width: 40%;
-	line-height: 50px;
-	text-align: center;
-	background: var(--primary-background-item-color);
-	color: rgba(0,0,0,0.5);
-	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
-				inset -4px -4px 6px -1px rgb(226, 232, 237),
-				-0.5px -0.5px 0 rgb(226, 232, 237),
-				1px 1px 0 rgba(0,0,0,0.05),
-				0px 12px 10px -10px rgba(0,0,0,0.05);
-	border: 1px solid rgba(0,0,0,0.01);
-	border-radius: 10px;
-}
-
-#doamkk {
-	position: relative;
-	left: 30%;
-	top: 5px;
-	font-size: 30px;
-	list-style: none;
-    padding-left: 0;
-	width: 40%;
-	line-height: 50px;
-	text-align: center;
-	background: var(--primary-background-item-color);
-	color: rgba(0,0,0,0.5);
-	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
-				inset -4px -4px 6px -1px rgb(226, 232, 237),
-				-0.5px -0.5px 0 rgb(226, 232, 237),
-				1px 1px 0 rgba(0,0,0,0.05),
-				0px 12px 10px -10px rgba(0,0,0,0.05);
-	border: 1px solid rgba(0,0,0,0.01);
-	border-radius: 10px;
-}
-
-/*---------------DEVICE__SENSOR ID------------------------*/
-#textGlight {
-	position: absolute;
-    bottom:72.5%;
-    left: 57%;
-	color: red;
-}
-
-#textGfan {
-	position: absolute;
-    bottom: 72.5%;
-    left: 57%;
-	color: red;
-}
-
-#nhietdokk {
 	position: relative;
 	left: 30%;
 	top: 5px;
@@ -182,7 +125,64 @@ section{
 	border-radius: 10px;
 }
 
-#doamdat {
+#doam {
+	position: relative;
+	left: 30%;
+	top: 5px;
+	font-size: 30px;
+	list-style: none;
+    padding-left: 0;
+	width: 40%;
+	line-height: 50px;
+	text-align: center;
+	background: var(--primary-background-item-color);
+	color: rgba(0,0,0,0.5);
+	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+				inset -4px -4px 6px -1px rgba(255,255,255,1),
+				-0.5px -0.5px 0 rgba(255,255,255,1),
+				1px 1px 0 rgba(0,0,0,0.05),
+				0px 12px 10px -10px rgba(0,0,0,0.05);
+	border: 1px solid rgba(0,0,0,0.01);
+	border-radius: 10px;
+}
+
+/*---------------DEVICE__SENSOR ID------------------------*/
+#textlight2 {
+	position: absolute;
+    bottom: 72.5%;
+    left: 57%;
+	color: red;
+}
+
+#textfan2 {
+	position: absolute;
+    bottom: 72.5%;
+    left: 57%;
+	color: red;
+}
+
+#nhietdo2 {
+	position: relative;
+	left: 30%;
+	top: 5px;
+	font-size: 30px;
+	list-style: none;
+    padding-left: 0;
+	width: 40%;
+	line-height: 50px;
+	text-align: center;
+	background: var(--primary-background-item-color);
+	color: rgba(0,0,0,0.5);
+	box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.15),
+				inset -4px -4px 6px -1px rgba(255,255,255,1),
+				-0.5px -0.5px 0 rgba(255,255,255,1),
+				1px 1px 0 rgba(0,0,0,0.05),
+				0px 12px 10px -10px rgba(0,0,0,0.05);
+	border: 1px solid rgba(0,0,0,0.01);
+	border-radius: 10px;
+}
+
+#doam2 {
 	position: relative;
 	left: 30%;
 	top: 5px;

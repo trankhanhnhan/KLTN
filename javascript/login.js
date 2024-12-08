@@ -84,7 +84,7 @@ loginForm.addEventListener('submit', function (event) {
           }).then(() => {
               showSuccessToast();
               setTimeout(() => {
-                window.location.href = './Home.html';
+                window.location.href = './Device.html';
             }, 3000);
           });
       })

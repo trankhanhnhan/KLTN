@@ -26,12 +26,6 @@
                         <span class="title" style="font-size: 1.5em;font-weight: 500;">ĐH SPKT</span>
                     </a>
                 </li>
-                <li class="hovered">
-                    <a href="./Home.html">
-                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title">Home</span>
-                    </a>
-                </li>
                 <li>
                     <a href="./Device.html" class="category-item__link">
                         <span class="icon"><ion-icon name="laptop-outline"></ion-icon></span>
@@ -63,7 +57,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="./login.html">
+                    <a href="./index.html">
                         <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                         <span class="title">Sign Out</span>
                     </a>
@@ -83,30 +77,29 @@
 
 				<!-- userImg -->
 				<div class="user">
-					<img src="./img/nhan.jpg">
 				</div>
 			</div>
         
             <!---------------------------------DEVICE__SENSOR------------------------------------>
-            <!----------------- Chart Living Room ------->
-            <div class="device__body" id="content1">
-                <div class="Title">
-                    <div class="header__navbar-title">WareHouse</div>
-                </div>
-                    <ul class="device-list">
-                        <ul class="status">
-                            <li class="status__list">
-                                <span class="Sensor">
-                                    <img id="firesensor_node1_id" src="./static/img/fire.png" alt="img"
-                                        class="data_img">
-                                    <p>Fire: <span class="data" id="fire_node1">None</span></p>
-                                </span>
-                            </li>
-                            <li class="status__list">
-                                <span class="Sensor">
-                                    <img id="smoke_node1_id" src="./static/img/smoke.png" alt="img" class="data_img">
-                                    <p>Gas: <span class="data" id="smoke_node1">None</span></p>
-                                </span>
+           <!----------------- CONTENT 1 -------------->
+           <div class="device__body" id="content1">
+            <div class="Title">
+                <div class="header__navbar-title">WareHouse</div>
+            </div>
+            <ul class="device-list">
+                <ul class="status">
+                    <li class="status__list">
+                        <span class="Sensor">
+                            <img id="firesensor_node1_id" src="./static/img/fire.png" alt="img" 
+                            class="data_img">
+                            <p>Fire:  <span class="data" id="fire_node1">None</span></p>
+                        </span>
+                    </li>
+                    <li class="status__list">
+                        <span class="Sensor">
+                            <img id="smoke_node1_id" src="./static/img/smoke.png" alt="img" class="data_img">
+                           <p>Smoke:  <span class="data" id="smoke_node1">None</span></p>
+                        </span>
                             </li>
                         </ul>
             <div class="grid-container">
@@ -118,7 +111,7 @@
                 </div>
                 <div class="grid-item">
                     <div class="boxdata">
-                        <p class="sensor">Humidity: <span class="data" id="doamkk">None</span></p>
+                        <p class="sensor">Humidity: <span class="data" id="doam">None</span></p>
                         <canvas id="doamkk_Chart" class="chart"></canvas>
                     </div>
                 </div>
@@ -132,37 +125,36 @@
                 </ul>
             </div>
 
-            <!---------------------- Chart Garden ----------------->
-            <div class="device__body" id="content2" style="display: none;">
+            <!-- ------------------- CONTENT 2 ----------------->
+            <nav class="device__body" id="content2" style="display: none;">
                 <div class="Title">
-                    <div class="header__navbar-title"> Warehouse Worker</div>
+                    <div class="header__navbar-title">WareHouse Workers</div>
                 </div>
                 <ul class="device-list">
                     <ul class="status">
                         <li class="status__list">
                             <span class="Sensor">
-                                <img id="firesensor_node1_id" src="./static/img/fire.png" alt="img"
-                                    class="data_img">
-                                <p>Fire: <span class="data" id="fire_node1">None</span></p>
+                                <img id="firesensor_node2_id" src="./static/img/fire.png" alt="img" class="data_img">
+                                <p>Fire:  <span class="data" id="fire_node2">None</span></p>
                             </span>
                         </li>
                         <li class="status__list">
                             <span class="Sensor">
-                                <img id="smoke_node1_id" src="./static/img/smoke.png" alt="img" class="data_img">
-                                <p>Gas: <span class="data" id="smoke_node1">None</span></p>
+                                <img id="smoke_node2_id" src="./static/img/smoke.png" alt="img" class="data_img">
+                               <p>Smoke:  <span class="data" id="smoke_node2">None</span></p>
                             </span>
                         </li>
                     </ul>
                 <div class="grid-container">
                 <div class="grid-item">
                     <div class="boxdata">
-                        <p class="sensor">Temperature: <span class="data" id="nhietdokk">None</span></p>
+                        <p class="sensor">Temperature: <span class="data" id="nhietdo2">None</span></p>
                         <canvas id="nhietdokk_Chart" class="chart"></canvas>
                     </div>
                 </div>
                 <div class="grid-item">
                     <div class="boxdata">
-                        <p class="sensor">Humidity: <span class="data" id="doamdat">None</span></p>
+                        <p class="sensor">Humidity: <span class="data" id="doam2">None</span></p>
                         <canvas id="doamdat_Chart" class="chart"></canvas>
                     </div>
                 </div>
@@ -276,7 +268,7 @@
             labels: timeLabels,
             datasets: [{
                 label: 'Humidity',
-                data: doamkk,
+                data: doam,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 fill: true
@@ -344,7 +336,7 @@ new Chart(temperatureChartCanvas2, {
                 labels: timeLabels,
                 datasets: [{
                     label: 'Temperature',
-                    data: nhietdokk,
+                    data: nhietdo2,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     fill: true
@@ -376,7 +368,7 @@ new Chart(temperatureChartCanvas2, {
                 labels: timeLabels,
                 datasets: [{
                     label: 'Humidity',
-                    data: doamdat,
+                    data: doam2,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     fill: true
