@@ -1,7 +1,0 @@
-arguments: align_dataset_mtcnn.py Dataset/FaceData/raw Dataset/FaceData/processed --image_size 160 --margin 32 --random_order --gpu_memory_fraction 0.25
---------------------
-tensorflow version: 2.18.0
---------------------
-git hash: b'eca42f069266b2b07b8cf7c8edef7a8cf26d8a7c'
---------------------
-b"diff --git a/face/Dataset/FaceData/processed/revision_info.txt b/face/Dataset/FaceData/processed/revision_info.txt\nindex 23e4147..d8cd375 100644\n--- a/face/Dataset/FaceData/processed/revision_info.txt\n+++ b/face/Dataset/FaceData/processed/revision_info.txt\n@@ -1,7 +1,7 @@\n-arguments: src/align_dataset_mtcnn.py Dataset/FaceData/raw Dataset/FaceData/processed --image_size 160 --margin 32 --random_order --gpu_memory_fraction 0.25\n+arguments: align_dataset_mtcnn.py Dataset/FaceData/raw Dataset/FaceData/processed --image_size 160 --margin 32 --random_order --gpu_memory_fraction 0.25\n --------------------\n-tensorflow version: 2.17.0\n+tensorflow version: 2.18.0\n --------------------\n-git hash: b'69ff1e149c0d84a123d6516ddd82970e65392608'\n+git hash: b'eca42f069266b2b07b8cf7c8edef7a8cf26d8a7c'\n --------------------\n b''\n\\ No newline at end of file"

@@ -3,92 +3,101 @@ from flask_socketio import SocketIO, emit
 import cv2
 import numpy as np
 import torch
-import os
-import requests
 from ultralytics import YOLO
 import time
 import firebase_admin
 from firebase_admin import credentials, db
 
-# Khởi tạo ứng dụng Flask và SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 # Load mô hình YOLO
-model = YOLO('best.pt')  # Chuyển mô hình về CPU (hoặc GPU nếu có)
+model = YOLO('best.pt')
 model.to('cpu')
 
-# Địa chỉ IP của ESP32-CAM
-ESP32_IP = "192.168.1.15"  # Địa chỉ IP của ESP32-CAM
-
-# Biến toàn cục theo dõi thời gian phát hiện lửa
 fire_detected = False
-fire_timer = 0  # Thời gian phát hiện lửa liên tục
-FIRE_THRESHOLD = 5  # 5 giây liên tục phát hiện lửa
+fire_start_time = None
+fire_end_time = None 
+FIRE_THRESHOLD = 5 
+FIRE_OFF_DELAY = 5 
+
+# cred = credentials.Certificate("/KLTN-master/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-198b82c637.json")
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://nhan-3660d-default-rtdb.firebaseio.com/'
+})
+fire_ref = db.reference('/KLTN/Device/WareHouse1/fire')  # Tham chiếu đến node trong Firebase
 
 def generate_frames():
-    global fire_detected, fire_timer
+    global fire_detected, fire_start_time, fire_end_time
+    phone_camera_url = "http://192.168.100.224:8080/video"
+    cap = cv2.VideoCapture(phone_camera_url)
+
+    if not cap.isOpened():
+        print("Không thể kết nối với camera điện thoại.")
+        return
+
     while True:
-        try:
-            # Fetch the image from the ESP32 camera (lấy ảnh từ camera ESP32)
-            img_resp = requests.get(f'http://{ESP32_IP}/capture')  # Địa chỉ lấy ảnh từ ESP32
-            img_resp.raise_for_status()  # Kiểm tra trạng thái yêu cầu
+        ret, frame = cap.read()
+        if not ret:
+            print("Không thể lấy được khung hình từ camera.")
+            break
 
-            # Decode the image into OpenCV format
-            frame = cv2.imdecode(np.frombuffer(img_resp.content, np.uint8), cv2.IMREAD_COLOR)
+        width = 500
+        height = int((frame.shape[0] / frame.shape[1]) * width)
+        resized_frame = cv2.resize(frame, (width, height))
 
-            # Apply object detection on the frame using YOLO
-            results = model(frame)
+        results = model(resized_frame)
 
-            # Draw bounding boxes if any
-            if results:
-                fire_detected = False  # Reset fire detected flag
+        if results:
+            fire_detected = False
 
-                for result in results:
-                    # Ensure the boxes exist
-                    if hasattr(result, 'boxes') and result.boxes is not None:
-                        boxes = result.boxes.xyxy.cpu().numpy()  # Convert to numpy array
-                        confidences = result.boxes.conf.cpu().numpy()  # Get confidences
-                        class_ids = result.boxes.cls.cpu().numpy()  # Get class IDs
+            for result in results:
+                if hasattr(result, 'boxes') and result.boxes is not None:
+                    boxes = result.boxes.xyxy.cpu().numpy()
+                    confidences = result.boxes.conf.cpu().numpy()
+                    class_ids = result.boxes.cls.cpu().numpy()
 
-                        for box, conf, cls in zip(boxes, confidences, class_ids):
-                            x1, y1, x2, y2 = box.astype(int)
+                    for box, conf, cls in zip(boxes, confidences, class_ids):
+                        x1, y1, x2, y2 = box.astype(int)
 
-                            # Draw bounding box
-                            if cls == 0:  # Class for fire
-                                label = f"Fire: {conf:.2f}"
-                                color = (0, 255, 0)  # Green for fire
-                                fire_detected = True
-                            elif cls == 1:  # Class for smoke
-                                label = f"Smoke: {conf:.2f}"
-                                color = (0, 0, 255)  # Red for smoke
-                            else:
-                                continue  # Skip other classes
+                        if cls == 0:
+                            label = f"Fire: {conf:.2f}"
+                            color = (0, 255, 0)
+                            fire_detected = True
+                        elif cls == 1:
+                            label = f"Smoke: {conf:.2f}"
+                            color = (0, 0, 255)
+                        else:
+                            continue
 
-                            # Draw rectangle and label on the frame
-                            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                        cv2.rectangle(resized_frame, (x1, y1), (x2, y2), color, 2)
+                        cv2.putText(resized_frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-                # Nếu phát hiện lửa, tăng bộ đếm thời gian
-                if fire_detected:
-                    fire_timer += 1
-                    if fire_timer >= FIRE_THRESHOLD:  # Nếu phát hiện lửa liên tục trong 5 giây
-                        fire_alarm_ref.set("ON")  # Bật báo động lửa
-                        fire_detection_ref.set("ON")
+            if fire_detected:
+                if fire_start_time is None:
+                    fire_start_time = time.time() 
+                    fire_end_time = None
                 else:
-                    fire_timer = 0  # Reset bộ đếm khi không phát hiện lửa
+                    elapsed_time = time.time() - fire_start_time
+                    if elapsed_time >= FIRE_THRESHOLD:
+                        print("Lửa đã được phát hiện! Kích hoạt cảnh báo!")
+                        fire_ref.set("ON")
+            else:
+                if fire_end_time is None:
+                    fire_end_time = time.time()
+                else:
+                    elapsed_time = time.time() - fire_end_time
+                    if elapsed_time >= FIRE_OFF_DELAY:
+                        print("Lửa đã tắt. Tắt cảnh báo.")
+                        fire_ref.set("OFF")
 
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching image from ESP32-CAM: {e}")
-            continue  # Skip this frame and continue to the next one if there was an error
-
-        # Encode the frame to JPEG
-        _, buffer = cv2.imencode('.jpg', frame)
+        _, buffer = cv2.imencode('.jpg', resized_frame)
         frame = buffer.tobytes()
 
-        # Yield the frame as part of the multipart response
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+    cap.release()
 
 @app.route('/video_feed')
 def video_feed():
