@@ -58,7 +58,12 @@ def show_detection_info():
     try:
         with open('detection_info.csv', mode='r') as file:
             reader = csv.DictReader(file)
-            for row in reader:
+            rows = list(reader)  # Read all rows at once to sort them
+            
+            # Sort rows by timestamp in descending order
+            rows.sort(key=lambda row: datetime.strptime(row['timestamp'], "%Y-%m-%d %H:%M:%S"), reverse=True)
+            
+            for row in rows:
                 image_path = f"static/images/{row['image_name']}"
                 try:
                     image = cv2.imread(image_path)
@@ -75,6 +80,7 @@ def show_detection_info():
         print(f"Error reading CSV file: {e}")
 
     return jsonify({'detection_info': detection_info_base64})
+
 
 
 def save_detection_info(image, name, timestamp, full_frame=None):
