@@ -21,7 +21,7 @@ fire_end_time = None
 FIRE_THRESHOLD = 5 
 FIRE_OFF_DELAY = 5 
 
-# cred = credentials.Certificate("/KLTN-master/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-198b82c637.json")
+cred = credentials.Certificate("/KLTN-master/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-198b82c637.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://nhan-3660d-default-rtdb.firebaseio.com/'
 })
