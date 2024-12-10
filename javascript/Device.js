@@ -204,7 +204,7 @@ firebase.database().ref("/Control/Warehouse1/light").on("value", function(snapsh
         var theLight = document.getElementById("thelight");
 
         if (lightInput && textLight && theLight) {
-            var isLightOn = (lightStatus === "1"); // Trạng thái ON nếu lightStatus là "1"
+            var isLightOn = (lightStatus === 1); // Trạng thái ON nếu lightStatus là "1"
             lightInput.checked = isLightOn;
             textLight.textContent = isLightOn ? "ON" : "OFF"; // Hiển thị ON/OFF
             textLight.style.color = isLightOn ? "red" : "black";
@@ -219,10 +219,10 @@ firebase.database().ref("/Control/Warehouse1/light").on("value", function(snapsh
 var lightInput = document.getElementById('light');
 if (lightInput) {
     lightInput.addEventListener('change', function() {
-        var lightState = this.checked ? "1" : "0"; // Lưu trạng thái dưới dạng 1 hoặc 0
+        var lightState = this.checked ? 1 : 0; // Lưu trạng thái dưới dạng 1 hoặc 0
         firebase.database().ref("/Control/Warehouse1/").update({
             "light": lightState,
-            "WEBcontrol": "1"
+            "WEBcontrol": 1
         }).then(function() {
             console.log("Light state updated and WEBcontrol set to 1");
         }).catch(function(error) {
@@ -247,7 +247,7 @@ firebase.database().ref("/Control/Warehouse1/fan").on("value", function(snapshot
         var thefan = document.getElementById("thefan");
 
         if (fanInput && textfan && thefan) {
-            var isFanOn = (fanStatus === "1");
+            var isFanOn = (fanStatus === 1);
             fanInput.checked = isFanOn;
             textfan.textContent = isFanOn ? "ON" : "OFF";
             textfan.style.color = isFanOn ? "red" : "black";
@@ -262,10 +262,10 @@ firebase.database().ref("/Control/Warehouse1/fan").on("value", function(snapshot
 var fanInput = document.getElementById('fan');
 if (fanInput) {
     fanInput.addEventListener('change', function() {
-        var fanState = this.checked ? "1" : "0";
+        var fanState = this.checked ? 1 : 0;
         firebase.database().ref("/Control/Warehouse1/").update({
             "fan": fanState,
-            "WEBcontrol": "1"
+            "WEBcontrol": 1
         }).then(function() {
             console.log("Fan state updated and WEBcontrol set to 1");
         }).catch(function(error) {
@@ -439,7 +439,7 @@ firebase.database().ref("/Control/Warehouse2/light").on("value", function(snapsh
         var theLight2 = document.getElementById("thelight2");
 
         if (lightInput2 && textLight2 && theLight2) {
-            var isLightOn2 = (lightStatus2 === "1");
+            var isLightOn2 = (lightStatus2 === 1);
             lightInput2.checked = isLightOn2;
             textLight2.textContent = isLightOn2 ? "ON" : "OFF";
             textLight2.style.color = isLightOn2 ? "red" : "black";
@@ -454,10 +454,10 @@ firebase.database().ref("/Control/Warehouse2/light").on("value", function(snapsh
 var lightInput2 = document.getElementById('light2');
 if (lightInput2) {
     lightInput2.addEventListener('change', function() {
-        var lightState2 = this.checked ? "1" : "0";
+        var lightState2 = this.checked ? 1 : 0;
         firebase.database().ref("/Control/Warehouse2/").update({
             "light": lightState2,
-            "WEBcontrol": "1"
+            "WEBcontrol": 1
         }).then(function() {
             console.log("Light state updated and WEBcontrol set to 1");
         }).catch(function(error) {
@@ -482,7 +482,7 @@ firebase.database().ref("/Control/Warehouse2/fan").on("value", function(snapshot
         var thefan2 = document.getElementById("thefan2");
 
         if (fanInput2 && textfan2 && thefan2) {
-            var isFanOn2 = (fanStatus2 === "1");
+            var isFanOn2 = (fanStatus2 === 1);
             fanInput2.checked = isFanOn2;
             textfan2.textContent = isFanOn2 ? "ON" : "OFF";
             textfan2.style.color = isFanOn2 ? "red" : "black";
@@ -497,10 +497,10 @@ firebase.database().ref("/Control/Warehouse2/fan").on("value", function(snapshot
 var fanInput2 = document.getElementById('fan2');
 if (fanInput2) {
     fanInput2.addEventListener('change', function() {
-        var fanState2 = this.checked ? "1" : "0";
+        var fanState2 = this.checked ? 1 : 0;
         firebase.database().ref("/Control/Warehouse2/").update({
             "fan": fanState2,
-            "WEBcontrol": "1"
+            "WEBcontrol": 1
         }).then(function() {
             console.log("Fan state updated and WEBcontrol set to 1");
         }).catch(function(error) {
