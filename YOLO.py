@@ -25,8 +25,7 @@ cred = credentials.Certificate("/KLTN-master/KLTN/nhan-3660d-firebase-adminsdk-n
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://nhan-3660d-default-rtdb.firebaseio.com/'
 })
-fire_ref = db.reference('/KLTN/Device/WareHouse1/fire')  # Tham chiếu đến node trong Firebase
-
+fire_ref = db.reference('/SensorData/WareHouse1/fire')
 def generate_frames():
     global fire_detected, fire_start_time, fire_end_time
     phone_camera_url = "http://192.168.100.224:8080/video"
