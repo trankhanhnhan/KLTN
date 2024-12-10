@@ -4,83 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face Detection Results</title>
+    <link rel="stylesheet" href="./static/css/device.css"> 
+    <link rel="stylesheet" href="./static/css/base.css"> 
+    <link rel="stylesheet" href="./static/css/detection_info.css"> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-      
-
-        .back-button {
-            position: absolute;
-            --primary-color: #645bff;
-            --secondary-color: #fff;
-            --hover-color: #111;
-            --arrow-width: 10px;
-            --arrow-stroke: 2px;
-            box-sizing: border-box;
-            border: 0;
-            border-radius: 20px;
-            color: var(--secondary-color);
-            padding: 1em 1.8em;
-            background: var(--blue);
-            display: flex;
-            transition: 0.2s background;
-            align-items: center;
-            gap: 0.6em;
-            font-size: 16px;
-            font-weight: bold;
-            top: 7%;
-            right: 80%;
-            cursor: pointer;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        img {
-            width: 150px;
-            height: auto;
-        }
-        .full-image img {
-            min-width: 200px;
-            width: auto;
-            height: auto;
-        }
-        #pagination {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .page-link {
-            margin: 0 5px;
-            cursor: pointer;
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .page-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
 </head>
 <body>
     <h1>Face Detection Results</h1>
+    <button id="back-button" onclick="goBack()">Go back Camera Face</button>
     <table id="results">
         <thead>
             <tr>
@@ -93,9 +24,6 @@
         <tbody>
         </tbody>
     </table>
-
-    <button id="back-button" onclick="goBack()">Trở về trang face.html</button>
-
 
     <div id="pagination"></div>
 

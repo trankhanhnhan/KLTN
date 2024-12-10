@@ -46,7 +46,7 @@ with sess.as_default():
 
 detection_info = []
 previous_faces = {}
-active_faces = set()  # Track currently visible faces
+active_faces = set()
 lock = threading.Lock()
 
 @app.route('/')
@@ -59,8 +59,8 @@ def show_detection_info():
 
     try:
         with open('detection_info.csv', mode='r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
+            reader = list(csv.DictReader(file))
+            for row in reversed(reader):
                 image_path = f"static/images/{row['image_name']}"
                 try:
                     image = cv2.imread(image_path)
