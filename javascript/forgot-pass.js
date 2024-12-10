@@ -70,8 +70,8 @@ document.getElementById('forgot-password-form').addEventListener('submit', funct
     firebase.auth().sendPasswordResetEmail(email)
         .then(() => {
             toast({
-                title: "Thành công!",
-                message: "Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+                title: "Success!",
+                message: "A password reset email has been sent. Please check your mailbox.",
                 type: "success",
                 duration: 5000
             });
@@ -79,7 +79,7 @@ document.getElementById('forgot-password-form').addEventListener('submit', funct
         .catch((error) => {
             console.error("Lỗi gửi email đặt lại mật khẩu:", error);
             toast({
-                title: "Lỗi!",
+                title: "Error!",
                 message: error.message,
                 type: "error",
                 duration: 5000
