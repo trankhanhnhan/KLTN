@@ -20,7 +20,7 @@ html {
   position: relative;
   top: 80px;
   width: 330px;
-  height: 350px;
+  height: 450px;
   padding: 40px 30px;
   background: #dde1e7;
   border-radius: 10px;
@@ -150,7 +150,7 @@ html {
     box-shadow: 2px 2px 5px #BABECC,
                -5px -5px 10px #ffffff73;
      position: absolute;
-     bottom: 25%;
+     bottom: 8%;
   }
   
   .form-container .form-submit-btn:hover {
