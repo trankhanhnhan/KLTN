@@ -1,19 +1,18 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyD5pqDw2o4AyjiARrFEP8nBwG4g2kmRStQ",
-    authDomain: "nhan-3660d.firebaseapp.com",
-    databaseURL: "https://nhan-3660d-default-rtdb.firebaseio.com",
-    projectId: "nhan-3660d",
-    storageBucket: "nhan-3660d.firebasestorage.app",
-    messagingSenderId: "1054276103106",
-    appId: "1:1054276103106:web:428ec651a347fa0b39045b",
-    measurementId: "G-27TGW7MZDB"
+    apiKey: "AIzaSyD-33ZdWNZC2mYqLkbYnWvd7pEhM_JXd7M",
+    authDomain: "dht11-517c9.firebaseapp.com",
+    databaseURL: "https://dht11-517c9-default-rtdb.firebaseio.com",
+    projectId: "dht11-517c9",
+    storageBucket: "dht11-517c9.firebasestorage.app",
+    messagingSenderId: "1015008081044",
+    appId: "1:1015008081044:web:634a039c72961e8f6b7081"
   };
 firebase.initializeApp(firebaseConfig);
 
 let fireDetectedTimer = null; // Bộ đếm thời gian để kiểm tra trạng thái lửa
 let fireWarningSent = false; // Biến kiểm tra đã gửi cảnh báo hay chưa
 
-firebase.database().ref("/SensorData/WareHouse1/fire").on("value", function(snapshot) {
+firebase.database().ref("/Warning/camdetect").on("value", function(snapshot) {
     fireStatus = snapshot.val();
     const fireStatusElem = document.getElementById("fire_node1");
     const fireNode1 = document.getElementById("firesensor_node1_id");

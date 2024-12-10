@@ -179,7 +179,7 @@ def detect_and_save_faces(frame, bounding_boxes):
 def generate_frames():
     global previous_faces
 
-    phone_camera_url = "http://192.168.100.224:8080/video"
+    phone_camera_url = "http://172.20.10.5:81/stream"
     cap = cv2.VideoCapture(phone_camera_url)
 
     if not cap.isOpened():

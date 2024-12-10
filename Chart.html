@@ -84,7 +84,7 @@
            <!----------------- CONTENT 1 -------------->
            <div class="device__body" id="content1">
             <div class="Title">
-                <div class="header__navbar-title">WareHouse</div>
+                <div class="header__navbar-title">WareHouse1</div>
             </div>
             <ul class="device-list">
                 <ul class="status">
@@ -115,12 +115,12 @@
                         <canvas id="doamkk_Chart" class="chart"></canvas>
                     </div>
                 </div>
-                <div class="grid-item">
+                <!-- <div class="grid-item">
                     <div class="boxdata">
                         <p class="sensor">Gas: <span class="data" id="khigas">None</span></p>
                         <canvas id="gas_Chart" class="chart"></canvas>
                     </div>
-                </div>
+                </div> -->
             </div>
                 </ul>
             </div>
@@ -128,7 +128,7 @@
             <!-- ------------------- CONTENT 2 ----------------->
             <nav class="device__body" id="content2" style="display: none;">
                 <div class="Title">
-                    <div class="header__navbar-title">WareHouse Workers</div>
+                    <div class="header__navbar-title">WareHouse2</div>
                 </div>
                 <ul class="device-list">
                     <ul class="status">
@@ -158,12 +158,12 @@
                         <canvas id="doamdat_Chart" class="chart"></canvas>
                     </div>
                 </div>
-                <div class="grid-item">
+                <!-- <div class="grid-item">
                     <div class="boxdata">
                         <p class="sensor">Gas: <span class="data" id="khigas2">None</span></p>
                         <canvas id="gas2_Chart" class="chart"></canvas>
                     </div>
-                </div>
+                </div> -->
             </div>
         </ul>
     </div>
@@ -218,10 +218,10 @@
 <script>
     const temperatureChartCanvas = document.getElementById('nhietdo_Chart').getContext('2d');
     const humidityChartCanvas = document.getElementById('doamkk_Chart').getContext('2d');
-    const gasChartCanvas = document.getElementById('gas_Chart').getContext('2d');
+   // const gasChartCanvas = document.getElementById('gas_Chart').getContext('2d');
     const temperatureChartCanvas2 = document.getElementById('nhietdokk_Chart').getContext('2d');
     const humidityChartCanvas2 = document.getElementById('doamdat_Chart').getContext('2d');
-    const gasChartCanvas2 = document.getElementById('gas2_Chart').getContext('2d');
+   // const gasChartCanvas2 = document.getElementById('gas2_Chart').getContext('2d');
     // --------------------------TIME LABLES-----------------------------------------------
     const timeLabels = [];
     for (let i = 0; i < 10; i++) {
@@ -295,38 +295,38 @@
         }
     });
 
-    new Chart(gasChartCanvas, {
-        type: 'line',
-        data: {
-            labels: timeLabels,
-            datasets: [{
-                label: 'Gas',
-                data: khigas,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    ticks: {
-                        font: {
-                            size: 10
-                        }
-                    }
-                },
-                y: {
-                    ticks: {
-                        font: {
-                            size: 10
-                        }
-                    }
-                }
-            }
-        }
-    });
+    // new Chart(gasChartCanvas, {
+    //     type: 'line',
+    //     data: {
+    //         labels: timeLabels,
+    //         datasets: [{
+    //             label: 'Gas',
+    //             data: khigas,
+    //             borderColor: 'rgba(255, 99, 132, 1)',
+    //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    //             fill: true
+    //         }]
+    //     },
+    //     options: {
+    //         responsive: true,
+    //         scales: {
+    //             x: {
+    //                 ticks: {
+    //                     font: {
+    //                         size: 10
+    //                     }
+    //                 }
+    //             },
+    //             y: {
+    //                 ticks: {
+    //                     font: {
+    //                         size: 10
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
 
 
 // --------------------------CREAT A LINE CHART GARDEN-----------------------------------------------
@@ -395,38 +395,38 @@ new Chart(temperatureChartCanvas2, {
             }
         });
 
-        new Chart(gasChartCanvas2, {
-            type: 'line',
-            data: {
-                labels: timeLabels,
-                datasets: [{
-                    label: 'Gas',
-                    data: khigas2,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        // new Chart(gasChartCanvas2, {
+        //     type: 'line',
+        //     data: {
+        //         labels: timeLabels,
+        //         datasets: [{
+        //             label: 'Gas',
+        //             data: khigas2,
+        //             borderColor: 'rgba(255, 99, 132, 1)',
+        //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        //             fill: true
+        //         }]
+        //     },
+        //     options: {
+        //         responsive: true,
+        //         scales: {
+        //             x: {
+        //                 ticks: {
+        //                     font: {
+        //                         size: 10
+        //                     }
+        //                 }
+        //             },
+        //             y: {
+        //                 ticks: {
+        //                     font: {
+        //                         size: 10
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
 </script>
 
     </script>

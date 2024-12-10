@@ -21,14 +21,14 @@ fire_end_time = None
 FIRE_THRESHOLD = 5 
 FIRE_OFF_DELAY = 5 
 
-cred = credentials.Certificate("/KLTN-master/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-198b82c637.json")
+cred = credentials.Certificate("/Github/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-198b82c637.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://nhan-3660d-default-rtdb.firebaseio.com/'
 })
-fire_ref = db.reference('/SensorData/WareHouse1/fire')
+fire_ref = db.reference('/Warning/camdetect')
 def generate_frames():
     global fire_detected, fire_start_time, fire_end_time
-    phone_camera_url = "http://192.168.100.224:8080/video"
+    phone_camera_url = "http://172.20.10.5:81/stream"
     cap = cv2.VideoCapture(phone_camera_url)
 
     if not cap.isOpened():

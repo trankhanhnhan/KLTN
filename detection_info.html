@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face Detection Results nè</title>
+    <title>Face Detection Results</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+      
+
+        .back-button {
+            position: absolute;
+            --primary-color: #645bff;
+            --secondary-color: #fff;
+            --hover-color: #111;
+            --arrow-width: 10px;
+            --arrow-stroke: 2px;
+            box-sizing: border-box;
+            border: 0;
+            border-radius: 20px;
+            color: var(--secondary-color);
+            padding: 1em 1.8em;
+            background: var(--blue);
+            display: flex;
+            transition: 0.2s background;
+            align-items: center;
+            gap: 0.6em;
+            font-size: 16px;
+            font-weight: bold;
+            top: 7%;
+            right: 80%;
+            cursor: pointer;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -59,6 +93,9 @@
         <tbody>
         </tbody>
     </table>
+
+    <button id="back-button" onclick="goBack()">Trở về trang face.html</button>
+
 
     <div id="pagination"></div>
 
@@ -208,5 +245,11 @@
 }
         window.onload = loadCSVFile;
     </script>
+
+<script>
+    function goBack() {
+        window.location.href = "face.html";
+    }
+</script>
 </body>
 </html>

@@ -1,12 +1,11 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyD5pqDw2o4AyjiARrFEP8nBwG4g2kmRStQ",
-    authDomain: "nhan-3660d.firebaseapp.com",
-    databaseURL: "https://nhan-3660d-default-rtdb.firebaseio.com",
-    projectId: "nhan-3660d",
-    storageBucket: "nhan-3660d.firebasestorage.app",
-    messagingSenderId: "1054276103106",
-    appId: "1:1054276103106:web:428ec651a347fa0b39045b",
-    measurementId: "G-27TGW7MZDB"
+    apiKey: "AIzaSyD-33ZdWNZC2mYqLkbYnWvd7pEhM_JXd7M",
+    authDomain: "dht11-517c9.firebaseapp.com",
+    databaseURL: "https://dht11-517c9-default-rtdb.firebaseio.com",
+    projectId: "dht11-517c9",
+    storageBucket: "dht11-517c9.firebasestorage.app",
+    messagingSenderId: "1015008081044",
+    appId: "1:1015008081044:web:634a039c72961e8f6b7081"
   };
 firebase.initializeApp(firebaseConfig);
 
@@ -28,7 +27,7 @@ let shouldToggleFireAlarm = false;
 let alarmTimeout = null; // Biến để quản lý timeout
 
 // Lắng nghe giá trị cảm biến flame từ Firebase
-firebase.database().ref("/SensorData/WareHouse1/flame").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse1/flame").on("value", function(snapshot) {
     const flameValue = snapshot.val(); // Lấy giá trị flame từ Firebase
     const fireStatusElem = document.getElementById("fire_node1");
     const fireNode1 = document.getElementById("firesensor_node1_id");
@@ -45,9 +44,9 @@ firebase.database().ref("/SensorData/WareHouse1/flame").on("value", function(sna
             }
 
             // Cập nhật trạng thái fire trên Firebase
-            firebase.database().ref("/SensorData/WareHouse1/").update({
-                "fire": "DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse1/").update({
+            //     "fire": "DETECTED"
+            // });
 
             // Cập nhật giao diện
             fireStatusElem.innerHTML = "DETECTED";
@@ -60,9 +59,9 @@ firebase.database().ref("/SensorData/WareHouse1/flame").on("value", function(sna
             }
         } else {
             // Cập nhật trạng thái fire thành NOT DETECTED nếu flame <= 500
-            firebase.database().ref("/SensorData/WareHouse1/").update({
-                "fire": "NOT DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse1/").update({
+            //     "fire": "NOT DETECTED"
+            // });
 
             // Trì hoãn việc tắt báo động thêm 5 giây
             if (!alarmTimeout) {
@@ -90,7 +89,7 @@ firebase.database().ref("/SensorData/WareHouse1/flame").on("value", function(sna
 let smokeAlarmTimeout = null; // Biến để quản lý timeout
 
 // Lắng nghe giá trị cảm biến smoke từ Firebase
-firebase.database().ref("/SensorData/WareHouse1/smoke").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse1/smoke").on("value", function(snapshot) {
     const smokeValue = snapshot.val(); // Lấy giá trị smoke từ Firebase
     const smokeStatusElem = document.getElementById("smoke_node1");
     const smokeNode1 = document.getElementById("smoke_node1_id");
@@ -107,9 +106,9 @@ firebase.database().ref("/SensorData/WareHouse1/smoke").on("value", function(sna
             }
 
             // Cập nhật trạng thái Smoke trên Firebase
-            firebase.database().ref("/SensorData/WareHouse1/").update({
-                "Smoke": "DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse1/").update({
+            //     "Smoke": "DETECTED"
+            // });
 
             // Cập nhật giao diện
             smokeStatusElem.innerHTML = "DETECTED";
@@ -122,9 +121,9 @@ firebase.database().ref("/SensorData/WareHouse1/smoke").on("value", function(sna
             }
         } else {
             // Cập nhật trạng thái Smoke thành NOT DETECTED nếu smoke <= 500
-            firebase.database().ref("/SensorData/WareHouse1/").update({
-                "Smoke": "NOT DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse1/").update({
+            //     "Smoke": "NOT DETECTED"
+            // });
 
             // Trì hoãn việc tắt báo động thêm 5 giây
             if (!smokeAlarmTimeout) {
@@ -167,7 +166,7 @@ function checkAndStopFireAlarm() {
 
 
 // Lắng nghe thay đổi nhiệt độ trong phòng từ Firebase
-firebase.database().ref("/SensorData/WareHouse1/nhietdo").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse1/temperature").on("value", function(snapshot) {
     const temperature = snapshot.val();
     document.getElementById("nhietdo").innerHTML = temperature;
     console.log("Nhiệt độ: " + temperature);
@@ -188,7 +187,7 @@ firebase.database().ref("/SensorData/WareHouse1/nhietdo").on("value", function(s
     }
 });
 
-firebase.database().ref("/SensorData/WareHouse1/doam").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse1/humidity").on("value", function(snapshot) {
     const humidity = snapshot.val();
     document.getElementById("doam").innerHTML = humidity;
     console.log("Độ ẩm: " + humidity);
@@ -196,7 +195,7 @@ firebase.database().ref("/SensorData/WareHouse1/doam").on("value", function(snap
 
 //----------------CONNECT LIGHT TO FIREBASE-----------------
 // Lắng nghe trạng thái đèn từ Firebase
-firebase.database().ref("/Control/WareHouse1/light").on("value", function(snapshot) {
+firebase.database().ref("/Control/Warehouse1/light").on("value", function(snapshot) {
     if (snapshot.exists()) {
         console.log(snapshot.val());
         var lightStatus = snapshot.val();
@@ -221,7 +220,7 @@ var lightInput = document.getElementById('light');
 if (lightInput) {
     lightInput.addEventListener('change', function() {
         var lightState = this.checked ? "1" : "0"; // Lưu trạng thái dưới dạng 1 hoặc 0
-        firebase.database().ref("/Control/WareHouse1/").update({
+        firebase.database().ref("/Control/Warehouse1/").update({
             "light": lightState,
             "WEBcontrol": "1"
         }).then(function() {
@@ -239,7 +238,7 @@ if (lightInput) {
 }
 
 // Lắng nghe trạng thái quạt từ Firebase
-firebase.database().ref("/Control/WareHouse1/fan").on("value", function(snapshot) {
+firebase.database().ref("/Control/Warehouse1/fan").on("value", function(snapshot) {
     if (snapshot.exists()) {
         console.log(snapshot.val());
         var fanStatus = snapshot.val();
@@ -264,7 +263,7 @@ var fanInput = document.getElementById('fan');
 if (fanInput) {
     fanInput.addEventListener('change', function() {
         var fanState = this.checked ? "1" : "0";
-        firebase.database().ref("/Control/WareHouse1/").update({
+        firebase.database().ref("/Control/Warehouse1/").update({
             "fan": fanState,
             "WEBcontrol": "1"
         }).then(function() {
@@ -288,7 +287,7 @@ let fireAlarmTimeout2 = null;
 let smokeAlarmTimeout2 = null;
 
 // Lắng nghe giá trị cảm biến lửa từ Firebase (WareHouse2)
-firebase.database().ref("/SensorData/WareHouse2/flame").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse2/flame").on("value", function(snapshot) {
     const fireValue2 = snapshot.val();
     const fireStatusElem2 = document.getElementById("fire_node2");
     const fireNode2 = document.getElementById("firesensor_node2_id");
@@ -303,9 +302,9 @@ firebase.database().ref("/SensorData/WareHouse2/flame").on("value", function(sna
                 fireAlarmTimeout2 = null;
             }
 
-            firebase.database().ref("/SensorData/WareHouse2/").update({
-                "Fire": "DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse2/").update({
+            //     "Fire": "DETECTED"
+            // });
 
             fireStatusElem2.innerHTML = "DETECTED";
             fireStatusElem2.style.color = "red";
@@ -315,9 +314,9 @@ firebase.database().ref("/SensorData/WareHouse2/flame").on("value", function(sna
                 triggerFireAlarm();
             }
         } else {
-            firebase.database().ref("/SensorData/WareHouse2/").update({
-                "Fire": "NOT DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse2/").update({
+            //     "Fire": "NOT DETECTED"
+            // });
 
             if (!fireAlarmTimeout2) {
                 fireAlarmTimeout2 = setTimeout(() => {
@@ -339,7 +338,7 @@ firebase.database().ref("/SensorData/WareHouse2/flame").on("value", function(sna
 });
 
 // Lắng nghe giá trị cảm biến khói từ Firebase (WareHouse2)
-firebase.database().ref("/SensorData/WareHouse2/smoke").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse2/smoke").on("value", function(snapshot) {
     const smokeValue2 = snapshot.val();
     const smokeStatusElem2 = document.getElementById("smoke_node2");
     const smokeNode2 = document.getElementById("smoke_node2_id");
@@ -353,9 +352,9 @@ firebase.database().ref("/SensorData/WareHouse2/smoke").on("value", function(sna
                 smokeAlarmTimeout2 = null;
             }
 
-            firebase.database().ref("/SensorData/WareHouse2/").update({
-                "Smoke": "DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse2/").update({
+            //     "Smoke": "DETECTED"
+            // });
 
             smokeStatusElem2.innerHTML = "DETECTED";
             smokeStatusElem2.style.color = "red";
@@ -365,9 +364,9 @@ firebase.database().ref("/SensorData/WareHouse2/smoke").on("value", function(sna
                 triggerFireAlarm();
             }
         } else {
-            firebase.database().ref("/SensorData/WareHouse2/").update({
-                "Smoke": "NOT DETECTED"
-            });
+            // firebase.database().ref("/SensorData/Warehouse2/").update({
+            //     "Smoke": "NOT DETECTED"
+            // });
 
             if (!smokeAlarmTimeout2) {
                 smokeAlarmTimeout2 = setTimeout(() => {
@@ -405,7 +404,7 @@ function checkAndStopFireAlarm() {
 }
 
   // Lắng nghe thay đổi nhiệt độ trong phòng từ Firebase
-firebase.database().ref("/SensorData/WareHouse2/nhietdo").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse2/temperature").on("value", function(snapshot) {
     const temperature = snapshot.val();
     document.getElementById("nhietdo2").innerHTML = temperature;
     console.log("Nhiệt độ: " + temperature);
@@ -424,14 +423,14 @@ firebase.database().ref("/SensorData/WareHouse2/nhietdo").on("value", function(s
     }
 });
 
-firebase.database().ref("/SensorData/WareHouse2/doam").on("value", function(snapshot) {
+firebase.database().ref("/SensorData/Warehouse2/humidity").on("value", function(snapshot) {
     const humidity = snapshot.val();
     document.getElementById("doam2").innerHTML = humidity;
     console.log("Độ ẩm: " + humidity);
 });
 
 // Kết nối và lắng nghe trạng thái đèn từ Firebase (WareHouse2)
-firebase.database().ref("/Control/WareHouse2/light").on("value", function(snapshot) {
+firebase.database().ref("/Control/Warehouse2/light").on("value", function(snapshot) {
     if (snapshot.exists()) {
         console.log(snapshot.val());
         var lightStatus2 = snapshot.val();
@@ -456,7 +455,7 @@ var lightInput2 = document.getElementById('light2');
 if (lightInput2) {
     lightInput2.addEventListener('change', function() {
         var lightState2 = this.checked ? "1" : "0";
-        firebase.database().ref("/Control/WareHouse2/").update({
+        firebase.database().ref("/Control/Warehouse2/").update({
             "light": lightState2,
             "WEBcontrol": "1"
         }).then(function() {
@@ -474,7 +473,7 @@ if (lightInput2) {
 }
 
 // Kết nối và lắng nghe trạng thái quạt từ Firebase (WareHouse2)
-firebase.database().ref("/Control/WareHouse2/fan").on("value", function(snapshot) {
+firebase.database().ref("/Control/Warehouse2/fan").on("value", function(snapshot) {
     if (snapshot.exists()) {
         console.log(snapshot.val());
         var fanStatus2 = snapshot.val();
@@ -499,7 +498,7 @@ var fanInput2 = document.getElementById('fan2');
 if (fanInput2) {
     fanInput2.addEventListener('change', function() {
         var fanState2 = this.checked ? "1" : "0";
-        firebase.database().ref("/Control/WareHouse2/").update({
+        firebase.database().ref("/Control/Warehouse2/").update({
             "fan": fanState2,
             "WEBcontrol": "1"
         }).then(function() {
@@ -515,3 +514,48 @@ if (fanInput2) {
         }
     });
 }
+
+
+let lastUpdateWarehouse1 = 0;
+let lastUpdateWarehouse2 = 0;
+
+function updateWarehouseStatus() {
+    const now = Date.now() / 1000; // Chuyển đổi timestamp hiện tại sang giây
+
+    // Kiểm tra trạng thái của Warehouse 1
+    if (now - lastUpdateWarehouse1 > 300) { // 120 giây = 2 phút
+        document.getElementById("warehouse-status").innerHTML = "(INACTIVE)";
+        document.getElementById("warehouse-status").style.color = "red";
+    } else {
+        document.getElementById("warehouse-status").innerHTML = "(ACTIVE)";
+        document.getElementById("warehouse-status").style.color = "green";
+    }
+
+    // Kiểm tra trạng thái của Warehouse 2
+    if (now - lastUpdateWarehouse2 > 300) {
+        document.getElementById("warehouse2-status").innerHTML = "(INACTIVE)";
+        document.getElementById("warehouse2-status").style.color = "red";
+    } else {
+        document.getElementById("warehouse2-status").innerHTML = "(ACTIVE)";
+        document.getElementById("warehouse2-status").style.color = "green";
+    }
+}
+
+// Lắng nghe dữ liệu từ Firebase cho Warehouse 1
+firebase.database().ref("/SensorData/Warehouse1/timestamp").on("value", function(snapshot) {
+    if (snapshot.exists()) {
+        lastUpdateWarehouse1 = snapshot.val(); 
+        updateWarehouseStatus(); 
+    }
+});
+
+// Lắng nghe dữ liệu từ Firebase cho Warehouse 2
+firebase.database().ref("/SensorData/Warehouse2/timestamp").on("value", function(snapshot) {
+    if (snapshot.exists()) {
+        lastUpdateWarehouse2 = snapshot.val(); 
+        updateWarehouseStatus(); 
+    }
+});
+
+
+setInterval(updateWarehouseStatus, 5000);
