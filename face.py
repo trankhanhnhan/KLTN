@@ -182,7 +182,7 @@ def generate_frames():
     global previous_faces
 
     global fire_detected, fire_start_time, fire_end_time
-    phone_camera_url = "http://192.168.100.224:8080/video"
+    phone_camera_url = "http://172.20.10.7:81/stream"
     cap = cv2.VideoCapture(phone_camera_url)
 
     if not cap.isOpened():
@@ -231,4 +231,4 @@ def handle_disconnect():
 
 if __name__ == "__main__":
     socketio.start_background_task(generate_frames)
-    socketio.run(app, host='0.0.0.0', port=5500)
+    socketio.run(app, host='0.0.0.0', port=5400)

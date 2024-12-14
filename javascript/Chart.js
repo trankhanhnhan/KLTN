@@ -357,7 +357,7 @@ firebase.database().ref("/SensorData/Warehouse1/smoke").on("value", function(sna
       console.log("Giá trị smoke: " + smokeValue);
 
       // Kiểm tra nếu smoke > 500, cập nhật trạng thái Smoke thành DETECTED
-      if (parseInt(smokeValue) > 500) {
+      if (parseInt(smokeValue) == 1) {
           // Xóa timeout nếu có (không tắt báo động khi smoke lại vượt 500)
           if (smokeAlarmTimeout) {
               clearTimeout(smokeAlarmTimeout);
@@ -418,7 +418,7 @@ firebase.database().ref("/SensorData/Warehouse1/flame").on("value", function(sna
         console.log("Giá trị flame: " + flameValue);
 
         // Kiểm tra nếu flame > 500, cập nhật trạng thái fire thành DETECTED
-        if (parseInt(flameValue) > 500) {
+        if (parseInt(flameValue)  == 1) {
             // Xóa timeout nếu có (không tắt báo động khi flame lại vượt 500)
             if (alarmTimeout) {
                 clearTimeout(alarmTimeout);
@@ -503,7 +503,7 @@ firebase.database().ref("/SensorData/Warehouse2/flame").on("value", function(sna
         console.log("Giá trị lửa (WareHouse2): " + fireValue2);
 
         // Nếu giá trị lửa vượt ngưỡng 500
-        if (parseInt(fireValue2) > 500) {
+        if (parseInt(fireValue2)  == 1) {
             if (fireAlarmTimeout2) {
                 clearTimeout(fireAlarmTimeout2); // Hủy bỏ timeout nếu đang chạy
                 fireAlarmTimeout2 = null;
@@ -553,7 +553,7 @@ firebase.database().ref("/SensorData/Warehouse2/smoke").on("value", function(sna
     if (smokeValue2 !== null) {
         console.log("Giá trị khói (WareHouse2): " + smokeValue2);
 
-        if (parseInt(smokeValue2) > 500) {
+        if (parseInt(smokeValue2)  == 1) {
             if (smokeAlarmTimeout2) {
                 clearTimeout(smokeAlarmTimeout2);
                 smokeAlarmTimeout2 = null;

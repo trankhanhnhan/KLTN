@@ -21,9 +21,9 @@ fire_end_time = None
 FIRE_THRESHOLD = 5 
 FIRE_OFF_DELAY = 5 
 
-cred = credentials.Certificate("/Github/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-198b82c637.json")
+cred = credentials.Certificate("/Github/KLTN/dht11-517c9-firebase-adminsdk-p4tuk-7bdd749ef2.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://nhan-3660d-default-rtdb.firebaseio.com/'
+    'databaseURL': 'https://dht11-517c9-default-rtdb.firebaseio.com/'
 })
 fire_ref = db.reference('/Warning/camdetect')
 def generate_frames():
