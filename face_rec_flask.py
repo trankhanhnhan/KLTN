@@ -231,4 +231,4 @@ def handle_disconnect():
 
 if __name__ == "__main__":
     socketio.start_background_task(generate_frames)
-    socketio.run(app, host='0.0.0.0', port=5500)
+    socketio.run(app, host='0.0.0.0', port=5300)

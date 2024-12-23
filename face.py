@@ -1,23 +1,17 @@
-from flask import Flask, Response, send_file, jsonify
-from flask_cors import CORS
-from flask_socketio import SocketIO, emit
 import cv2
+import threading
 import imutils
 import numpy as np
-from imutils.video import VideoStream
-import align.detect_face
-import tensorflow as tf
+from datetime import datetime
+import os
 import pickle
 import base64
 import csv
-from datetime import datetime
-import os
-import threading
+import time
+import tensorflow as tf
+import align.detect_face
 
-app = Flask(__name__, static_folder='static')
-socketio = SocketIO(app)
-CORS(app)
-
+# Các giá trị cấu hình
 MINSIZE = 20
 THRESHOLD = [0.6, 0.7, 0.7]
 FACTOR = 0.709
@@ -25,17 +19,26 @@ INPUT_IMAGE_SIZE = 160
 CLASSIFIER_PATH = 'Models/facemodel.pkl'
 FACENET_MODEL_PATH = 'Models/20180402-114759.pb'
 
-# Load model
+# Khởi tạo Flask app
+from flask import Flask, Response, send_file, jsonify
+from flask_socketio import SocketIO, emit
+from flask_cors import CORS
+
+app = Flask(__name__, static_folder='static')
+socketio = SocketIO(app)
+CORS(app)
+
+# Tải mô hình phân loại
 with open(CLASSIFIER_PATH, 'rb') as file:
     model, class_names = pickle.load(file)
 print("Custom Classifier successfully loaded")
 
+# Khởi tạo TensorFlow session và MTCNN
 tf.compat.v1.disable_eager_execution()
-gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.6)
+gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=1.0)
 sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
 
 import facenet
-
 with sess.as_default():
     print('Loading feature extraction model...')
     facenet.load_model(FACENET_MODEL_PATH)
@@ -43,55 +46,24 @@ with sess.as_default():
     images_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("input:0")
     embeddings = tf.compat.v1.get_default_graph().get_tensor_by_name("embeddings:0")
     phase_train_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("phase_train:0")
-
     pnet, rnet, onet = align.detect_face.create_mtcnn(sess, "align")
 
-detection_info = []
-previous_faces = {}
-active_faces = set()
+# Dữ liệu theo dõi mặt và thời gian lưu ảnh
+face_positions = {}
+capture_interval = 5  # Chỉ chụp ảnh người lạ mỗi 5 giây
+
+
+# Khóa để đảm bảo tính thread-safe khi lưu ảnh
 lock = threading.Lock()
-
-@app.route('/')
-def index():
-    return send_file('face.html')
-
-@app.route('/detection_info')
-def show_detection_info():
-    detection_info_base64 = []
-
-    try:
-        with open('detection_info.csv', mode='r') as file:
-            reader = list(csv.DictReader(file))
-            for row in reversed(reader):
-                image_path = f"static/images/{row['image_name']}"
-                try:
-                    image = cv2.imread(image_path)
-                    _, buffer = cv2.imencode('.jpg', image)
-                    image_base64 = base64.b64encode(buffer).decode('utf-8')
-                    detection_info_base64.append({
-                        "image": image_base64,
-                        "name": row['name'],
-                        "timestamp": row['timestamp']
-                    })
-                except Exception as e:
-                    print(f"Error loading image {image_path}: {e}")
-    except Exception as e:
-        print(f"Error reading CSV file: {e}")
-
-    return jsonify({'detection_info': detection_info_base64})
-
 
 def save_detection_info(image, name, timestamp, full_frame=None):
     image_name = f"{name}_{timestamp.strftime('%Y%m%d_%H%M%S')}.jpg"
-    
     image_dir = os.path.join("static", "images")
     os.makedirs(image_dir, exist_ok=True)
     image_path = os.path.join(image_dir, image_name)
-
     cv2.imwrite(image_path, image)
 
     full_frame_name = None
-
     if full_frame is not None:
         full_frame_name = f"full_{name}_{timestamp.strftime('%Y%m%d_%H%M%S')}.jpg"
         full_frame_path = os.path.join(image_dir, full_frame_name)
@@ -118,7 +90,7 @@ def save_detection_info(image, name, timestamp, full_frame=None):
     except Exception as e:
         print(f"Error saving detection info to CSV: {e}")
 
-
+# Hàm gọi lưu ảnh async
 def save_detection_info_async(image, name, timestamp, full_frame=None):
     def save_image():
         save_detection_info(image, name, timestamp, full_frame)
@@ -126,23 +98,22 @@ def save_detection_info_async(image, name, timestamp, full_frame=None):
     thread = threading.Thread(target=save_image)
     thread.start()
 
-
 def detect_and_save_faces(frame, bounding_boxes):
     faces_found = bounding_boxes.shape[0]
-    global previous_faces, active_faces
+    global face_positions
 
     det = bounding_boxes[:, 0:4]
     timestamp = datetime.now()
 
     current_faces = set()
+    current_time = time.time()
 
     for i in range(faces_found):
         bb = det[i].astype(np.int32)
-
         cropped = frame[bb[1]:bb[3], bb[0]:bb[2], :]
+
         if isinstance(cropped, np.ndarray) and cropped.size > 0:
-            scaled = cv2.resize(cropped, (INPUT_IMAGE_SIZE, INPUT_IMAGE_SIZE),
-                                interpolation=cv2.INTER_CUBIC)
+            scaled = cv2.resize(cropped, (INPUT_IMAGE_SIZE, INPUT_IMAGE_SIZE), interpolation=cv2.INTER_CUBIC)
             scaled = facenet.prewhiten(scaled)
             scaled_reshape = scaled.reshape(-1, INPUT_IMAGE_SIZE, INPUT_IMAGE_SIZE, 3)
             feed_dict = {images_placeholder: scaled_reshape, phase_train_placeholder: False}
@@ -153,35 +124,66 @@ def detect_and_save_faces(frame, bounding_boxes):
             best_class_probabilities = predictions[np.arange(len(best_class_indices)), best_class_indices]
             confidence = best_class_probabilities[0]
 
-            # Update name and color based on confidence
-            if confidence > 0.8:
+            best_name = ""
+            color = (0, 0, 255)  # Màu đỏ mặc định cho "Unknown"
+            label = f"Unknown: {confidence:.2f}"
+
+            # Điều kiện cho người nhận diện với độ tin cậy cao (> 0.82) - Người quen
+            if confidence > 0.82:
                 best_name = class_names[best_class_indices[0]]
-                color = (0, 255, 0)  # Green for high confidence
-            else:
+                color = (0, 255, 255)  # Màu vàng cho người quen
+                label = f"{best_name}: {confidence:.2f}"
+
+                # Chỉ lưu người quen vào face_positions
+                if best_name not in face_positions:
+                    face_positions[best_name] = {"captured": False, "position": bb, "last_capture_time": 0}
+
+            # Điều kiện cho người nhận diện với độ tin cậy thấp (Unknown) - Người lạ
+            elif 0.5 <= confidence <= 0.6:
                 best_name = "Unknown"
-                color = (0, 0, 255)  # Red for "Unknown"
+                color = (0, 0, 255)  # Màu đỏ cho "Unknown"
+                label = f"Unknown: {confidence:.2f}"
 
-            label = f"{best_name}: {confidence:.2f}"
+                # Đánh dấu thời gian để chụp ảnh người lạ mỗi 5 giây
+                if best_name not in face_positions:
+                    face_positions[best_name] = {"captured": False, "position": bb, "last_capture_time": 0}
+                
+                # Kiểm tra nếu người lạ chưa được chụp ảnh và đủ thời gian chờ (5 giây)
+                if current_time - face_positions[best_name]["last_capture_time"] >= 10:
+                    with lock:
+                        save_detection_info_async(cropped, best_name, timestamp, frame)
+                        face_positions[best_name]["captured"] = True  # Đánh dấu là đã chụp
+                        face_positions[best_name]["last_capture_time"] = current_time  # Cập nhật thời gian chụp
 
-            # Draw bounding box and label on the frame
-            cv2.rectangle(frame, (bb[0], bb[1]), (bb[2], bb[3]), color, 2)
-            cv2.putText(frame, label, (bb[0], bb[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            # Kiểm tra nếu best_name không phải là chuỗi rỗng và nếu chưa chụp ảnh
+            if best_name and not face_positions.get(best_name, {}).get("captured", False):
+                # Kiểm tra thời gian chụp trước đó
+                if current_time - face_positions[best_name]["last_capture_time"] >= capture_interval:
+                    # Chỉ chụp ảnh nếu người đó chưa được chụp và đủ thời gian chờ
+                    with lock:
+                        save_detection_info_async(cropped, best_name, timestamp, frame)
+                        face_positions[best_name]["captured"] = True  # Đánh dấu là đã chụp
+                        face_positions[best_name]["last_capture_time"] = current_time  # Cập nhật thời gian chụp
 
-            with lock:
-                if best_name not in active_faces:
-                    save_detection_info_async(cropped, best_name, timestamp, frame)
-                    active_faces.add(best_name)
+            # Vẽ hộp bao quanh và nhãn lên khung hình
+            if best_name:
+                cv2.rectangle(frame, (bb[0], bb[1]), (bb[2], bb[3]), color, 2)
+                cv2.putText(frame, label, (bb[0], bb[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
+            # Thêm người vào danh sách các khuôn mặt hiện tại
             current_faces.add(best_name)
 
-    # Remove faces no longer in frame
-    active_faces.intersection_update(current_faces)
+    # Xóa các người không còn trong khung hình (nếu không còn nhận diện được nữa)
+    for name in list(face_positions.keys()):
+        if name not in current_faces:
+            # Nếu người đó không còn trong khung hình, đánh dấu họ là chưa được chụp và loại bỏ khỏi danh sách
+            face_positions[name]["captured"] = False
+            del face_positions[name]
 
 
+
+# Hàm sinh các khung hình video
 def generate_frames():
-    global previous_faces
-
-    global fire_detected, fire_start_time, fire_end_time
     phone_camera_url = "http://172.20.10.7:81/stream"
     cap = cv2.VideoCapture(phone_camera_url)
 
@@ -190,11 +192,10 @@ def generate_frames():
         return
 
     try:
-        frame_count = 0
         while True:
             ret, frame = cap.read()
             if not ret:
-                print("Failed to grab frame from phone camera")
+                print("Failed to grab frame from phone camera.")
                 break
 
             frame = imutils.resize(frame, width=600)
@@ -203,9 +204,6 @@ def generate_frames():
 
             if faces_found > 0:
                 detect_and_save_faces(frame, bounding_boxes)
-            else:
-                print("No faces found.")
-
 
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
@@ -215,11 +213,12 @@ def generate_frames():
     finally:
         cap.release()
 
-
+# Route Flask để phát video
 @app.route('/video_feed')
 def video_feed():
     return Response(generate_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 @socketio.on('connect')
 def handle_connect():

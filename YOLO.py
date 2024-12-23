@@ -13,7 +13,8 @@ socketio = SocketIO(app)
 
 # Load mô hình YOLO
 model = YOLO('best.pt')
-model.to('cpu')
+model.to('cuda') # Sử dụng GPU
+
 
 fire_detected = False
 fire_start_time = None
@@ -41,7 +42,7 @@ def generate_frames():
             print("Không thể lấy được khung hình từ camera.")
             break
 
-        width = 500
+        width = 640
         height = int((frame.shape[0] / frame.shape[1]) * width)
         resized_frame = cv2.resize(frame, (width, height))
 
