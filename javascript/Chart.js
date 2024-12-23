@@ -9,6 +9,27 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+//------------------------CHECK LOGIN STAGESTAGE--------------------------------------------
+firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+      window.location.href = './index.html';
+  }
+});
+
+//-----------------------GO TO LOGOUT STAGE--------------------------------------
+const logoutButton = document.getElementById('logout-button');
+
+logoutButton.addEventListener('click', () => {
+  firebase.auth().signOut()
+      .then(() => {
+          console.log('User signed out successfully.');
+          window.location.href = './index.html'; // Chuyển về trang login
+      })
+      .catch((error) => {
+          console.error('Error signing out:', error);
+      });
+});
+
 var nhietdo = [];
 var doam = [];
 var khigas = [];

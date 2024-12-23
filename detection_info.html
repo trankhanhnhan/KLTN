@@ -33,61 +33,67 @@
         let resultsData = [];
 
         function loadCSVFile() {
-            fetch('detection_info.csv')
-                .then(response => response.text())
-                .then(csvText => {
-                    const rows = csvText.split('\n');
+    fetch('detection_info.csv')
+        .then(response => response.text())
+        .then(csvText => {
+            const rows = csvText.split('\n');
 
-                    rows.slice(1).forEach(row => {
-                        const columns = row.split(',');
-                        if (columns.length < 4) return;
-                        resultsData.push(columns);
-                    });
-
-                    displayPage(currentPage);
-                })
-                .catch(error => console.error('Error loading CSV file:', error));
-        }
-
-        function displayPage(page) {
-            const tbody = document.querySelector('#results tbody');
-            tbody.innerHTML = '';
-
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const pageData = resultsData.slice(start, end);
-
-            pageData.forEach(columns => {
-                const tableRow = document.createElement('tr');
-
-                const nameCell = document.createElement('td');
-                nameCell.textContent = columns[1]; 
-                tableRow.appendChild(nameCell);
-
-                const timestampCell = document.createElement('td');
-                timestampCell.textContent = columns[2];
-                tableRow.appendChild(timestampCell);
-
-                const imgCell = document.createElement('td');
-                const img = document.createElement('img');
-                img.src = `static/images/${columns[0]}`;
-                img.alt = `Detected face of ${columns[1]}`;
-                imgCell.appendChild(img);
-                tableRow.appendChild(imgCell);
-
-                const fullImgCell = document.createElement('td');
-                fullImgCell.className = "full-image";
-                const fullImg = document.createElement('img');
-                fullImg.src = `static/images/${columns[3]}`;
-                fullImg.alt = `Full image of ${columns[1]}`;
-                fullImgCell.appendChild(fullImg);
-                tableRow.appendChild(fullImgCell);
-
-                tbody.appendChild(tableRow);
+            // Đọc dữ liệu từ file CSV
+            rows.slice(1).forEach(row => {
+                const columns = row.split(',');
+                if (columns.length < 4) return;
+                resultsData.push(columns);
             });
 
-            updatePagination();
-        }
+            // Đảo ngược mảng để hiển thị từ dưới lên trên
+            resultsData.reverse(); 
+
+            // Hiển thị trang đầu tiên
+            displayPage(currentPage);
+        })
+        .catch(error => console.error('Error loading CSV file:', error));
+}
+
+function displayPage(page) {
+    const tbody = document.querySelector('#results tbody');
+    tbody.innerHTML = '';
+
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const pageData = resultsData.slice(start, end);
+
+    pageData.forEach(columns => {
+        const tableRow = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = columns[1]; 
+        tableRow.appendChild(nameCell);
+
+        const timestampCell = document.createElement('td');
+        timestampCell.textContent = columns[2];
+        tableRow.appendChild(timestampCell);
+
+        const imgCell = document.createElement('td');
+        const img = document.createElement('img');
+        img.src = `static/images/${columns[0]}`;
+        img.alt = `Detected face of ${columns[1]}`;
+        imgCell.appendChild(img);
+        tableRow.appendChild(imgCell);
+
+        const fullImgCell = document.createElement('td');
+        fullImgCell.className = "full-image";
+        const fullImg = document.createElement('img');
+        fullImg.src = `static/images/${columns[3]}`;
+        fullImg.alt = `Full image of ${columns[1]}`;
+        fullImgCell.appendChild(fullImg);
+        tableRow.appendChild(fullImgCell);
+
+        tbody.appendChild(tableRow);
+    });
+
+    updatePagination();
+}
+
 
         function updatePagination() {
     const pagination = document.getElementById('pagination');
