@@ -97,11 +97,7 @@ def save_detection_info_async(image, name, timestamp, full_frame=None):
 face_positions = {}
 
 def detect_and_save_faces(frame, bounding_boxes):
-<<<<<<< Updated upstream
     global face_positions
-=======
-    global face_positions  # Declare use of global variable
->>>>>>> Stashed changes
     faces_found = bounding_boxes.shape[0]
     det = bounding_boxes[:, 0:4]
     timestamp = datetime.now()
@@ -132,11 +128,7 @@ def detect_and_save_faces(frame, bounding_boxes):
                 color = (0, 255, 0)  # Green for known faces
                 label = f"{best_name}: {confidence:.2f}"
 
-<<<<<<< Updated upstream
             # Update or initialize face_positions
-=======
-            # Initialize or update face_positions
->>>>>>> Stashed changes
             with lock:
                 if best_name not in face_positions:
                     face_positions[best_name] = {
@@ -149,7 +141,6 @@ def detect_and_save_faces(frame, bounding_boxes):
                     face_positions[best_name]["position"] = bb
                     face_positions[best_name]["last_capture_time"] = current_time
 
-<<<<<<< Updated upstream
             # Add the detected face to the current_faces set
             current_faces.add(best_name)
 
@@ -185,47 +176,11 @@ def detect_and_save_faces(frame, bounding_boxes):
             if name not in current_faces:
                 face_positions[name]["first_seen_time"] = current_time
 
-=======
-            # Safeguard: Fetch elapsed_time
-            first_seen_time = face_positions[best_name].get("first_seen_time", current_time)
-            elapsed_time = current_time - first_seen_time
-            print(f"Elapsed time for {best_name}: {elapsed_time:.2f} seconds")
-
-
-            # Capture the image and reset the timer
-            if elapsed_time >= 5:
-                with lock:
-                    save_detection_info_async(cropped, best_name, timestamp, frame)
-                    # Reset the first_seen_time after capturing the image to restart the timer
-                    face_positions[best_name]["first_seen_time"] = time.time()  # Reset to the current time
-
-
-
-            # Draw bounding box and label
-            corner_size = 10  # Size of corner lines
-            cv2.line(frame, (bb[0], bb[1]), (bb[0] + corner_size, bb[1]), color, 2)
-            cv2.line(frame, (bb[0], bb[1]), (bb[0], bb[1] + corner_size), color, 2)
-            cv2.line(frame, (bb[2], bb[1]), (bb[2] - corner_size, bb[1]), color, 2)
-            cv2.line(frame, (bb[2], bb[1]), (bb[2], bb[1] + corner_size), color, 2)
-            cv2.line(frame, (bb[0], bb[3]), (bb[0] + corner_size, bb[3]), color, 2)
-            cv2.line(frame, (bb[0], bb[3]), (bb[0], bb[3] - corner_size), color, 2)
-            cv2.line(frame, (bb[2], bb[3]), (bb[2] - corner_size, bb[3]), color, 2)
-            cv2.line(frame, (bb[2], bb[3]), (bb[2], bb[3] - corner_size), color, 2)
-
-            # Add label
-            cv2.putText(frame, label, (bb[0], bb[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-
-            current_faces.add(best_name)
-
->>>>>>> Stashed changes
 
 
 # Hàm sinh các khung hình video
 def generate_frames():
-<<<<<<< Updated upstream
     phone_camera_url = "http://172.20.10.7:81/stream"
-=======
->>>>>>> Stashed changes
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
