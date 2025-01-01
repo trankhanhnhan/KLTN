@@ -30,6 +30,37 @@ logoutButton.addEventListener('click', () => {
         });
 });
 
+function checkAndStopFireAlarm() {
+    const alarmSound = document.getElementById('alarmSound');
+    const isAlarmOn =
+        fireStatus1 === "ON" ||
+        smokeStatus1 === "ON" ||
+        temperatureStatus === "ON" ||
+        fireStatus2 === "ON" ||
+        smokeStatus2 === "ON" ||
+        temperatureStatus2 === "ON";
+
+    if (isAlarmOn) {
+        // Bật chuông nếu bất kỳ cảm biến nào đang ở trạng thái "ON"
+        if (alarmSound.paused) {
+            alarmSound.play().catch(error => console.error('Error playing sound:', error));
+        }
+        if (alarmDelayTimeout) {
+            clearTimeout(alarmDelayTimeout);
+            alarmDelayTimeout = null;
+        }
+    } else {
+        // Tắt chuông sau 5 giây nếu không còn cảm biến nào ở trạng thái "ON"
+        if (!alarmDelayTimeout) {
+            alarmDelayTimeout = setTimeout(() => {
+                alarmSound.pause();
+                alarmSound.currentTime = 0;
+                alarmDelayTimeout = null;
+            }, 1000);
+        }
+    }
+}
+
 let fireDetectedTimer = null; // Bộ đếm thời gian để kiểm tra trạng thái lửa
 let fireWarningSent = false; // Biến kiểm tra đã gửi cảnh báo hay chưa
 

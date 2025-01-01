@@ -81,52 +81,67 @@ let alarmDelayTimeout = null;
 
 function checkAndStopFireAlarm() {
     const alarmSound = document.getElementById('alarmSound');
-    if (fireStatus === "ON" || fireStatus1 === "ON" || smokeStatus1 === "ON" || temperatureStatus === "ON") {
+    const isAlarmOn =
+        fireStatus1 === "ON" ||
+        smokeStatus1 === "ON" ||
+        temperatureStatus === "ON" ||
+        fireStatus2 === "ON" ||
+        smokeStatus2 === "ON" ||
+        temperatureStatus2 === "ON";
+
+    if (isAlarmOn) {
+        // Bật chuông nếu bất kỳ cảm biến nào đang ở trạng thái "ON"
+        if (alarmSound.paused) {
+            alarmSound.play().catch(error => console.error('Error playing sound:', error));
+        }
         if (alarmDelayTimeout) {
             clearTimeout(alarmDelayTimeout);
             alarmDelayTimeout = null;
         }
-        if (alarmSound.paused) {
-            alarmSound.play().catch(error => console.error('Error playing sound:', error));
-        }
     } else {
+        // Tắt chuông sau 5 giây nếu không còn cảm biến nào ở trạng thái "ON"
         if (!alarmDelayTimeout) {
             alarmDelayTimeout = setTimeout(() => {
                 alarmSound.pause();
                 alarmSound.currentTime = 0;
                 alarmDelayTimeout = null;
-            }, 5000);
+            }, 1000);
         }
     }
 }
 
-let alarmTimeout = null;
-firebase.database().ref("/SensorData/Warehouse1/flame").on("value", function (snapshot) {
+
+let firealarmTimeout = null;
+firebase.database().ref("/SensorData/Warehouse1/flame").on("value", function(snapshot) {
     const flameValue1 = snapshot.val();
     const fireStatusElem = document.getElementById("fire_node1");
-    const fireNode1 = document.getElementById("firesensor_node1_id");
+    const fireNode = document.getElementById("firesensor_node1_id");
 
     if (flameValue1 !== null) {
-        console.log("Giá trị flame: " + flameValue1);
+        console.log("Giá trị lửa (WareHouse1): " + flameValue1);
 
-        if (parseInt(flameValue1) === 1) {
+        if (parseInt(flameValue1) == 1) {
+            if (firealarmTimeout) {
+                clearTimeout(firealarmTimeout); // Hủy bỏ timeout nếu đang chạy
+                firealarmTimeout = null;
+            }
             fireStatusElem.innerHTML = "DETECTED";
             fireStatusElem.style.color = "red";
-            fireNode1.classList.add("zooming1");
-            fireStatus1 = "ON"; 
+            fireNode.classList.add("zooming1");
+            fireStatus1 = "ON";
         } else {
-            if (!alarmTimeout) {
-                alarmTimeout = setTimeout(() => {
+            if (!firealarmTimeout) {
+                firealarmTimeout = setTimeout(() => {
                     fireStatusElem.innerHTML = "NOT DETECTED";
                     fireStatusElem.style.color = "black";
-                    fireNode1.classList.remove("zooming1");
-                    alarmTimeout = null;
+                    fireNode.classList.remove("zooming1");
+                    firealarmTimeout = null;
                 }, 5000);
             }
             fireStatus1 = "OFF";
         }
     } else {
-        console.log("No data available for flame sensor!");
+        console.log("No data available for fire sensor (WareHouse2)!");
     }
     checkAndStopFireAlarm();
 });
@@ -159,7 +174,6 @@ firebase.database().ref("/SensorData/Warehouse1/smoke").on("value", function (sn
     } else {
         console.log("No data available for smoke sensor!");
     }
-
     checkAndStopFireAlarm();
 });
 
@@ -281,27 +295,7 @@ let fireAlarmTimeout2 = null;
 let smokeAlarmTimeout2 = null;
 let alarmDelayTimeout2 = null;
 
-function checkAndStopFireAlarm2() {
-    const alarmSound = document.getElementById('alarmSound');
 
-    if (fireStatus2 === "ON" || smokeStatus2 === "ON" || temperatureStatus2 === "ON") {
-        if (alarmDelayTimeout2) {
-            clearTimeout(alarmDelayTimeout2);
-            alarmDelayTimeout2 = null;
-        }
-        if (alarmSound.paused) {
-            alarmSound.play().catch(error => console.error('Error playing sound:', error));
-        }
-    } else {
-        if (!alarmDelayTimeout2) {
-            alarmDelayTimeout2 = setTimeout(() => {
-                alarmSound.pause();
-                alarmSound.currentTime = 0;
-                alarmDelayTimeout2 = null;
-            }, 5000);
-        }
-    }
-}
 
 // Lắng nghe giá trị cảm biến lửa từ Firebase (WareHouse2)
 firebase.database().ref("/SensorData/Warehouse2/flame").on("value", function(snapshot) {
@@ -335,7 +329,7 @@ firebase.database().ref("/SensorData/Warehouse2/flame").on("value", function(sna
     } else {
         console.log("No data available for fire sensor (WareHouse2)!");
     }
-    checkAndStopFireAlarm2();
+    checkAndStopFireAlarm();
 });
 
 // Lắng nghe giá trị cảm biến khói từ Firebase (WareHouse2)
@@ -370,7 +364,7 @@ firebase.database().ref("/SensorData/Warehouse2/smoke").on("value", function(sna
     } else {
         console.log("No data available for smoke sensor (WareHouse2)!");
     }
-    checkAndStopFireAlarm2();
+    checkAndStopFireAlarm();
 });
 
   // Lắng nghe thay đổi nhiệt độ trong phòng từ Firebase
@@ -389,7 +383,7 @@ firebase.database().ref("/SensorData/Warehouse2/temperature").on("value", functi
         temperatureTimer2 = setTimeout(() => {
         }, 5000);
     }
-    checkAndStopFireAlarm2();
+    checkAndStopFireAlarm();
 });
 
 firebase.database().ref("/SensorData/Warehouse2/humidity").on("value", function(snapshot) {
@@ -530,21 +524,22 @@ setInterval(updateWarehouseStatus, 5000);
 
 let fireDetectedTimer = null; // Bộ đếm thời gian để kiểm tra trạng thái lửa
 let fireWarningSent = false; // Biến kiểm tra đã gửi cảnh báo hay chưa
-let fireStatus = "OFF";
+let fireCamera = "OFF";
 
 firebase.database().ref("/Warning/camdetect").on("value", function(snapshot) {
-    fireStatus = snapshot.val();
+    fireCamera = snapshot.val();
     const fireStatusElem = document.getElementById("fire_node1");
     const fireNode1 = document.getElementById("firesensor_node1_id");
 
-    if (fireStatus === "ON") {
+    if (fireCamera === "ON") {
         fireStatusElem.innerHTML = "DETECTED";
         fireStatusElem.style.color = "red";
         fireNode1.classList.add("zooming1");
+        fireStatus1 = "ON";
 
         if (!fireDetectedTimer) {
             fireDetectedTimer = setTimeout(() => {
-                if (fireStatus === "ON" && !fireWarningSent) {
+                if (fireCamera === "ON" && !fireWarningSent) {
                     firebase.database().ref("/Camera/Alerts").set({
                         status: "Fire Detected",
                         timestamp: new Date().toISOString()
@@ -552,12 +547,13 @@ firebase.database().ref("/Warning/camdetect").on("value", function(snapshot) {
                     fireWarningSent = true;
                     console.log("Cảnh báo cháy đã được gửi!");
                 }
-            }, 5000);
+            }, 4000);
         }
     } else {
         fireStatusElem.innerHTML = "NOT DETECTED";
         fireStatusElem.style.color = "black";
         fireNode1.classList.remove("zooming1");
+        fireStatus1 = "OFF";
 
         if (fireDetectedTimer) {
             clearTimeout(fireDetectedTimer);
@@ -566,6 +562,6 @@ firebase.database().ref("/Warning/camdetect").on("value", function(snapshot) {
         fireWarningSent = false;
     }
 
-    console.log("Lửa: " + fireStatus);
+    console.log("Lửa: " + fireCamera);
     checkAndStopFireAlarm();
 });
