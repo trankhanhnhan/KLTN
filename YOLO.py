@@ -22,9 +22,13 @@ fire_end_time = None
 FIRE_THRESHOLD = 5
 FIRE_OFF_DELAY = 5
 
+<<<<<<< Updated upstream
 cred = credentials.Certificate("C:/KLTN-master/KLTN/dht11-517c9-firebase-adminsdk-p4tuk-6e6f8068f7.json")
+=======
+cred = credentials.Certificate("C:/KLTN-master/KLTN/nhan-3660d-firebase-adminsdk-n5jx7-62c7c4ee83.json")
+>>>>>>> Stashed changes
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dht11-517c9-default-rtdb.firebaseio.com/'
+    'databaseURL': 'https://nhan-3660d-default-rtdb.firebaseio.com/'
 })
 fire_ref = db.reference('/Warning/camdetect')
 
@@ -35,7 +39,10 @@ lock = threading.Lock()
 
 def detect_fire():
     global fire_detected, fire_start_time, fire_end_time, output_frame
+<<<<<<< Updated upstream
     phone_camera_url = "http://172.20.10.5:81/stream"
+=======
+>>>>>>> Stashed changes
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
@@ -148,4 +155,8 @@ def handle_disconnect():
 
 if __name__ == "__main__":
     threading.Thread(target=detect_fire, daemon=True).start()
+<<<<<<< Updated upstream
     socketio.run(app, host='0.0.0.0', port=5000)
+=======
+    socketio.run(app, host='0.0.0.0', port=5000)
+>>>>>>> Stashed changes
